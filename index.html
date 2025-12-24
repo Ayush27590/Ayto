@@ -42,17 +42,18 @@
     }
 
     /* Header rechts oben */
-   header {
+ header {
   width: 100%;
   display: flex;
-  justify-content: flex-end; /* rechts ausrichten */
+  justify-content: flex-end; /* alles rechts */
   align-items: center;
   padding: 10px 20px;
   position: fixed;
-  top: 30px; /* unter Top-Bar */
+  top: 30px; /* unter Top-Leiste */
   right: 0;
   z-index: 1003;
 }
+
 
 
     header img {
@@ -203,10 +204,16 @@
 
   <!-- Header rechts oben -->
  <header>
-  <span style="margin-right:10px; font-weight:bold; color:#9b59b6; font-size:1.2em;">x</span>
+  <!-- Profilbild -->
   <img src="https://image2url.com/r2/bucket1/images/1766618106451-0c81d26c-b893-4839-bc66-6642677b99d6.jpg" 
-       alt="ACBuy Logo" 
-       style="height:40px;">
+       alt="Profilbild" style="height:40px; border-radius:50%; margin-right:10px;">
+       
+  <!-- x -->
+  <span style="color:#9b59b6; font-weight:bold; font-size:1.2em; margin-right:10px;">x</span>
+  
+  <!-- ACBuy Logo -->
+  <img src="https://image2url.com/r2/bucket1/images/1766618736532-eaf2466a-02d4-42f9-974e-09096fe25b67.jpg" 
+       alt="ACBuy Logo" style="height:40px;">
 </header>
 
 
