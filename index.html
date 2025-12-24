@@ -42,17 +42,18 @@
     }
 
     /* Header rechts oben */
-    header {
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      padding: 10px 20px;
-      position: fixed;
-      top: 30px;
-      right: 0;
-      z-index: 1003;
-    }
+   header {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end; /* rechts ausrichten */
+  align-items: center;
+  padding: 10px 20px;
+  position: fixed;
+  top: 30px; /* unter Top-Bar */
+  right: 0;
+  z-index: 1003;
+}
+
 
     header img {
       height: 40px;
@@ -201,10 +202,13 @@
   </div>
 
   <!-- Header rechts oben -->
-  <header>
-    <img src="https://via.placeholder.com/40" alt="https://image2url.com/r2/bucket1/images/1766618106451-0c81d26c-b893-4839-bc66-6642677b99d6.jpg">
-    <span>x ACBuy</span>
-  </header>
+ <header>
+  <span style="margin-right:10px; font-weight:bold; color:#9b59b6; font-size:1.2em;">x</span>
+  <img src="https://image2url.com/r2/bucket1/images/1766618106451-0c81d26c-b893-4839-bc66-6642677b99d6.jpg" 
+       alt="ACBuy Logo" 
+       style="height:40px;">
+</header>
+
 
   <!-- Hamburger Button -->
   <div id="hamburger" onclick="toggleSidebar()">
