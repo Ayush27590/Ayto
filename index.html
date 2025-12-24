@@ -12,6 +12,7 @@
       background: #000;
       color: #fff;
       overflow-x: hidden;
+      position: relative;
     }
 
     /* Scrollende Top-Leiste */
@@ -40,7 +41,7 @@
       100% { transform: translateX(-100%); }
     }
 
-    /* Header */
+    /* Header rechts oben */
     header {
       width: 100%;
       display: flex;
@@ -48,9 +49,9 @@
       align-items: center;
       padding: 10px 20px;
       position: fixed;
-      top: 30px; /* unter Top-Leiste */
+      top: 30px;
       right: 0;
-      z-index: 1001;
+      z-index: 1003;
     }
 
     header img {
@@ -65,7 +66,7 @@
       font-weight: bold;
     }
 
-    /* Hamburger Sidebar */
+    /* Hamburger Button */
     #hamburger div {
       width: 30px;
       height: 4px;
@@ -75,12 +76,13 @@
 
     #hamburger {
       position: fixed;
-      top: 50px;
+      top: 60px;
       left: 20px;
       cursor: pointer;
-      z-index: 1000;
+      z-index: 1004; /* ganz oben */
     }
 
+    /* Sidebar */
     #sidebar {
       height: 100%;
       width: 0;
@@ -91,7 +93,7 @@
       overflow-x: hidden;
       transition: 0.3s;
       padding-top: 80px;
-      z-index: 999;
+      z-index: 1003;
     }
 
     #sidebar button {
@@ -135,13 +137,15 @@
       width: 220px;
       padding: 10px;
       text-align: center;
-      transition: transform 0.3s;
-      position: relative;
-      z-index: 1;
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .product-card:hover {
       transform: translateY(-10px);
+      box-shadow: 0 0 20px rgba(0,123,255,0.7);
     }
 
     .product-card img {
@@ -162,7 +166,7 @@
     }
 
     .buy-button {
-      margin-top: 10px;
+      margin-top: auto;
       padding: 10px 15px;
       background: #9b59b6;
       color: #fff;
@@ -175,25 +179,24 @@
       font-weight: bold;
     }
 
-    /* Blauer Licht-Effekt hinter Maus */
-    body::after {
-      content: '';
+    /* Blauer Schein hinter Maus */
+    #cursor-light {
       position: fixed;
-      width: 150px;
-      height: 150px;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(0,123,255,0.3) 0%, rgba(0,123,255,0) 70%);
       border-radius: 50%;
-      background: rgba(0, 123, 255, 0.2);
       pointer-events: none;
       transform: translate(-50%, -50%);
-      transition: transform 0.1s;
       z-index: 0;
+      transition: left 0.05s, top 0.05s;
     }
   </style>
 </head>
 <body>
 
-  <!-- Scrollende Top-Leiste -->
-  <div class="top-bar" onclick="window.location.href='https://acbuy.com/signup';">
+  <!-- Top-Leiste -->
+  <div class="top-bar" onclick="window.location.href='https://dein-link.com';">
     <span>Sign up to acbuy to get 510 dollar coupon → Click here!</span>
   </div>
 
@@ -221,7 +224,6 @@
 
   <!-- Produktbereich -->
   <div class="products" id="products">
-    <!-- Beispielprodukt -->
     <div class="product-card" data-category="Schuhe">
       <img src="https://via.placeholder.com/220" alt="Louis Vuitton Skates">
       <div class="product-name">Louis Vuitton Skates Black and White</div>
@@ -231,28 +233,16 @@
     <!-- Weitere Produkte hier einfügen -->
   </div>
 
+  <!-- Blauer Schein -->
+  <div id="cursor-light"></div>
+
   <!-- JavaScript -->
   <script>
-    // Maus-Effekt
+    // Maus-Licht Effekt
     document.addEventListener('mousemove', function(e){
-      const light = document.querySelector('body::after');
-      // funktioniert nicht direkt, wir setzen pseudo mit JS
-      let after = document.body.querySelector('div#cursor-light');
-      if(!after){
-        after = document.createElement('div');
-        after.id = 'cursor-light';
-        after.style.position = 'fixed';
-        after.style.width = '150px';
-        after.style.height = '150px';
-        after.style.borderRadius = '50%';
-        after.style.background = 'rgba(0,123,255,0.2)';
-        after.style.pointerEvents = 'none';
-        after.style.transform = 'translate(-50%, -50%)';
-        after.style.zIndex = '0';
-        document.body.appendChild(after);
-      }
-      after.style.left = e.clientX + 'px';
-      after.style.top = e.clientY + 'px';
+      const light = document.getElementById('cursor-light');
+      light.style.left = e.clientX + 'px';
+      light.style.top = e.clientY + 'px';
     });
 
     // Sidebar öffnen/schließen
@@ -265,11 +255,7 @@
     function filterCategory(category) {
       let cards = document.querySelectorAll('.product-card');
       cards.forEach(card => {
-        if(category === 'Alle' || card.getAttribute('data-category') === category) {
-          card.style.display = 'block';
-        } else {
-          card.style.display = 'none';
-        }
+        card.style.display = (category === 'Alle' || card.getAttribute('data-category') === category) ? 'flex' : 'none';
       });
     }
   </script>
