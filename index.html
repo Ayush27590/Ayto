@@ -2,67 +2,70 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>ACBuy Spreadsheet</title>
+  <title>ACBuy Startseite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
+    /* Grund-Styles */
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background: #000;
       color: #fff;
-      margin: 0;
-      padding: 20px;
+      overflow-x: hidden;
     }
 
-    h1 {
-      color: #9b59b6;
-      font-size: 2.5em;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    input[type=text] {
-      padding: 10px;
-      width: 50%;
-      margin: 20px auto;
-      display: block;
-      border-radius: 8px;
-      border: 2px solid #9b59b6;
-      background: #000;
+    /* Scrollende Top-Leiste */
+    .top-bar {
+      width: 100%;
+      background: #111;
       color: #fff;
       font-size: 1em;
+      white-space: nowrap;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+      position: fixed;
+      top: 0;
+      z-index: 1002;
+      cursor: pointer;
     }
 
-    table {
+    .top-bar span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 15s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* Header */
+    header {
       width: 100%;
-      border-collapse: collapse;
-      color: #fff;
-      margin-top: 20px;
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding: 10px 20px;
+      position: fixed;
+      top: 30px; /* unter Top-Leiste */
+      right: 0;
+      z-index: 1001;
     }
 
-    th, td {
-      border: 1px solid #9b59b6;
-      padding: 8px;
-      text-align: center;
+    header img {
+      height: 40px;
+      border-radius: 50%;
+      margin-right: 10px;
     }
 
-    th {
-      background: #111;
-    }
-
-    img {
-      height: 100px;
-    }
-
-    a {
+    header span {
+      font-size: 1.2em;
       color: #9b59b6;
-      text-decoration: none;
+      font-weight: bold;
     }
 
-    a:hover {
-      text-decoration: underline;
-    }
-
-    /* Hamburger Button */
+    /* Hamburger Sidebar */
     #hamburger div {
       width: 30px;
       height: 4px;
@@ -72,13 +75,12 @@
 
     #hamburger {
       position: fixed;
-      top: 20px;
+      top: 50px;
       left: 20px;
       cursor: pointer;
       z-index: 1000;
     }
 
-    /* Sidebar */
     #sidebar {
       height: 100%;
       width: 0;
@@ -88,20 +90,22 @@
       background: #111;
       overflow-x: hidden;
       transition: 0.3s;
-      padding-top: 60px;
+      padding-top: 80px;
       z-index: 999;
     }
 
     #sidebar button {
+      display: block;
+      width: 80%;
       margin: 10px 20px;
-      padding: 8px 12px;
+      padding: 10px;
       border-radius: 6px;
       border: 2px solid #9b59b6;
       background: #000;
       color: #fff;
       cursor: pointer;
-      width: 80%;
       text-align: left;
+      font-size: 1em;
     }
 
     #sidebar a.closebtn {
@@ -112,11 +116,92 @@
       color: #9b59b6;
       text-decoration: none;
     }
+
+    /* Produktbereich */
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 150px;
+      padding-bottom: 50px;
+      position: relative;
+    }
+
+    .product-card {
+      background: #111;
+      border: 2px solid #9b59b6;
+      border-radius: 10px;
+      margin: 15px;
+      width: 220px;
+      padding: 10px;
+      text-align: center;
+      transition: transform 0.3s;
+      position: relative;
+      z-index: 1;
+    }
+
+    .product-card:hover {
+      transform: translateY(-10px);
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .product-name {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 1em;
+    }
+
+    .product-price {
+      margin-top: 5px;
+      color: #fff;
+      font-size: 1em;
+    }
+
+    .buy-button {
+      margin-top: 10px;
+      padding: 10px 15px;
+      background: #9b59b6;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      width: 100%;
+      text-decoration: none;
+      display: inline-block;
+      font-weight: bold;
+    }
+
+    /* Blauer Licht-Effekt hinter Maus */
+    body::after {
+      content: '';
+      position: fixed;
+      width: 150px;
+      height: 150px;
+      border-radius: 50%;
+      background: rgba(0, 123, 255, 0.2);
+      pointer-events: none;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s;
+      z-index: 0;
+    }
   </style>
 </head>
 <body>
 
-  <h1>ACBuy Spreadsheet</h1>
+  <!-- Scrollende Top-Leiste -->
+  <div class="top-bar" onclick="window.location.href='https://acbuy.com/signup';">
+    <span>Sign up to acbuy to get 510 dollar coupon → Click here!</span>
+  </div>
+
+  <!-- Header rechts oben -->
+  <header>
+    <img src="https://via.placeholder.com/40" alt="Profilbild">
+    <span>x ACBuy</span>
+  </header>
 
   <!-- Hamburger Button -->
   <div id="hamburger" onclick="toggleSidebar()">
@@ -134,72 +219,58 @@
     <button onclick="filterCategory('Schuhe')">Schuhe</button>
   </div>
 
-  <!-- Suchleiste -->
-  <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Suche nach Kategorie oder Name...">
-
-  <!-- Tabelle mit Produkten -->
-  <table id="productTable">
-    <thead>
-      <tr>
-        <th>Bild</th>
-        <th>Kategorie</th>
-        <th>Name</th>
-        <th>Preis</th>
-        <th>Link</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td><img src="https://via.placeholder.com/100" alt="Louis Vuitton Skates"></td>
-        <td>Schuhe</td>
-        <td>Louis Vuitton Skates Black and White</td>
-        <td>62€</td>
-        <td><a href="https://link.acbuy.com/tU67omEL" target="_blank">Jetzt kaufen</a></td>
-      </tr>
-      <!-- Weitere Produkte hier einfügen -->
-    </tbody>
-  </table>
+  <!-- Produktbereich -->
+  <div class="products" id="products">
+    <!-- Beispielprodukt -->
+    <div class="product-card" data-category="Schuhe">
+      <img src="https://via.placeholder.com/220" alt="Louis Vuitton Skates">
+      <div class="product-name">Louis Vuitton Skates Black and White</div>
+      <div class="product-price">62€</div>
+      <a class="buy-button" href="https://link.acbuy.com/tU67omEL" target="_blank">Jetzt kaufen</a>
+    </div>
+    <!-- Weitere Produkte hier einfügen -->
+  </div>
 
   <!-- JavaScript -->
   <script>
-    // Suchleiste Funktion
-    function searchTable() {
-      let input = document.getElementById("searchInput").value.toLowerCase();
-      let table = document.getElementById("productTable");
-      let trs = table.getElementsByTagName("tr");
-
-      for (let i = 1; i < trs.length; i++) {
-        let tds = trs[i].getElementsByTagName("td");
-        let show = false;
-        for (let j = 1; j < tds.length - 1; j++) {
-          if (tds[j].innerText.toLowerCase().indexOf(input) > -1) {
-            show = true;
-            break;
-          }
-        }
-        trs[i].style.display = show ? "" : "none";
+    // Maus-Effekt
+    document.addEventListener('mousemove', function(e){
+      const light = document.querySelector('body::after');
+      // funktioniert nicht direkt, wir setzen pseudo mit JS
+      let after = document.body.querySelector('div#cursor-light');
+      if(!after){
+        after = document.createElement('div');
+        after.id = 'cursor-light';
+        after.style.position = 'fixed';
+        after.style.width = '150px';
+        after.style.height = '150px';
+        after.style.borderRadius = '50%';
+        after.style.background = 'rgba(0,123,255,0.2)';
+        after.style.pointerEvents = 'none';
+        after.style.transform = 'translate(-50%, -50%)';
+        after.style.zIndex = '0';
+        document.body.appendChild(after);
       }
-    }
+      after.style.left = e.clientX + 'px';
+      after.style.top = e.clientY + 'px';
+    });
 
-    // Kategorienfilter Funktion
-    function filterCategory(category) {
-      let table = document.getElementById("productTable");
-      let trs = table.getElementsByTagName("tr");
-
-      for (let i = 1; i < trs.length; i++) {
-        let cat = trs[i].getElementsByTagName("td")[1].innerText;
-        trs[i].style.display = (category === 'Alle' || cat === category) ? "" : "none";
-      }
-    }
-
-    // Hamburger Sidebar Funktion
+    // Sidebar öffnen/schließen
     function toggleSidebar() {
       let sidebar = document.getElementById("sidebar");
-      if (sidebar.style.width === "250px") {
-        sidebar.style.width = "0";
-      } else {
-        sidebar.style.width = "250px";
-      }
+      sidebar.style.width = (sidebar.style.width === "250px") ? "0" : "250px";
+    }
+
+    // Kategorienfilter
+    function filterCategory(category) {
+      let cards = document.querySelectorAll('.product-card');
+      cards.forEach(card => {
+        if(category === 'Alle' || card.getAttribute('data-category') === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
     }
   </script>
 
