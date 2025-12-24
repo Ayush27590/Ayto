@@ -65,13 +65,22 @@
 <body>
 
   <h1>ACBuy Spreadsheet</h1>
-<!-- Kategorienleiste -->
-<div id="categoryBar" style="margin-bottom:20px;">
-  <button onclick="filterCategory('Alle')" style="margin:5px; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Alle</button>
-  <button onclick="filterCategory('Jacke')" style="margin:5px; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Jacke</button>
-  <button onclick="filterCategory('Hose')" style="margin:5px; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Hose</button>
-  <button onclick="filterCategory('Schuhe')" style="margin:5px; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Schuhe</button>
+<!-- Hamburger Button -->
+<div id="hamburger" onclick="toggleSidebar()" style="position:fixed; top:20px; left:20px; cursor:pointer; z-index:1000;">
+  <div style="width:30px; height:4px; background:#9b59b6; margin:6px 0;"></div>
+  <div style="width:30px; height:4px; background:#9b59b6; margin:6px 0;"></div>
+  <div style="width:30px; height:4px; background:#9b59b6; margin:6px 0;"></div>
 </div>
+
+<!-- Sidebar -->
+<div id="sidebar" style="height:100%; width:0; position:fixed; top:0; left:0; background:#111; overflow-x:hidden; transition:0.3s; padding-top:60px; z-index:999;">
+  <a href="javascript:void(0)" onclick="toggleSidebar()" style="position:absolute; top:20px; right:25px; font-size:36px; color:#9b59b6; text-decoration:none;">&times;</a>
+  <button onclick="filterCategory('Alle')" style="margin:10px; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Alle</button>
+  <button onclick="filterCategory('Jacke')" style="margin:10px; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Jacke</button>
+  <button onclick="filterCategory('Hose')" style="margin:10px; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Hose</button>
+  <button onclick="filterCategory('Schuhe')" style="margin:10px; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Schuhe</button>
+</div>
+
 
   <!-- Suchleiste -->
   <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Suche nach Kategorie oder Name...">
@@ -120,17 +129,12 @@
     }
   </script>
 <script>
-function filterCategory(category) {
-  let table = document.getElementById("productTable");
-  let trs = table.getElementsByTagName("tr");
-
-  for (let i = 1; i < trs.length; i++) { // 1 = Header überspringen
-    let cat = trs[i].getElementsByTagName("td")[1].innerText; // Kategorie Spalte
-    if (category === 'Alle' || cat === category) {
-      trs[i].style.display = "";
-    } else {
-      trs[i].style.display = "none";
-    }
+function toggleSidebar() {
+  let sidebar = document.getElementById("sidebar");
+  if (sidebar.style.width === "250px") {
+    sidebar.style.width = "0";
+  } else {
+    sidebar.style.width = "250px";
   }
 }
 </script>
