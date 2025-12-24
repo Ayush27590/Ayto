@@ -131,55 +131,57 @@
       position: relative;
     }
 
-    .product-card {
-      background: #111;
-      border: 2px solid #9b59b6;
-      border-radius: 10px;
-      margin: 15px;
-      width: 220px;
-      padding: 10px;
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+   .product-card {
+  background: #111;
+  border: 2px solid #9b59b6;
+  border-radius: 10px;
+  margin: 15px;
+  width: 220px;
+  padding: 10px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* sorgt dafür, dass Button unten bleibt */
+  height: 380px; /* feste Höhe für Einheitlichkeit */
+}
 
-    .product-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 0 20px rgba(0,123,255,0.7);
-    }
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 20px rgba(0,123,255,0.7);
+}
 
-    .product-card img {
-      width: 100%;
-      border-radius: 10px;
-    }
+.product-card img {
+  width: 100%;
+  border-radius: 10px;
+}
 
-    .product-name {
-      margin-top: 10px;
-      font-weight: bold;
-      font-size: 1em;
-    }
+.product-name {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 1em;
+}
 
-    .product-price {
-      margin-top: 5px;
-      color: #fff;
-      font-size: 1em;
-    }
+.product-price {
+  margin-top: 5px;
+  color: #fff;
+  font-size: 1em;
+}
 
-    .buy-button {
-      margin-top: auto;
-      padding: 10px 15px;
-      background: #9b59b6;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      text-decoration: none;
-      display: inline-block;
-      font-weight: bold;
-    }
+.buy-button {
+  margin-top: auto; /* Button immer unten */
+  padding: 10px 15px;
+  background: #9b59b6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+}
+
 
     /* Blauer Schein hinter Maus */
     #cursor-light {
@@ -234,13 +236,13 @@
   </div>
 
   <!-- Produktbereich -->
-  <div class="products" id="products">
-    <div class="product-card" data-category="Schuhe">
-      <img src="https://via.placeholder.com/220" alt="Louis Vuitton Skates">
-      <div class="product-name">Louis Vuitton Skates Black and White</div>
-      <div class="product-price">62€</div>
-      <a class="buy-button" href="https://link.acbuy.com/tU67omEL" target="_blank">Jetzt kaufen</a>
-    </div>
+  <div class="product-card" data-category="Schuhe">
+  <img src="https://image2url.com/r2/bucket1/images/1766619319153-8ababce7-1501-45f8-b741-e08bf7f7692e.jpeg" 
+       alt="Louis Vuitton Skates">
+  <div class="product-name">Louis Vuitton Skates Black and White</div>
+  <div class="product-price">62€</div>
+  <a class="buy-button" href="https://link.acbuy.com/tU67omEL" target="_blank">Jetzt kaufen</a>
+</div>
     <!-- Weitere Produkte hier einfügen -->
   </div>
 
