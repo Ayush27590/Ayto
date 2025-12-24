@@ -7,23 +7,24 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #000;       
-      color: #fff;            
-      text-align: center;
+      background: #000;
+      color: #fff;
+      margin: 0;
       padding: 20px;
     }
 
     h1 {
-      color: #9b59b6;     
+      color: #9b59b6;
       font-size: 2.5em;
-      margin-bottom: 20px;
       text-align: center;
+      margin-bottom: 20px;
     }
 
     input[type=text] {
       padding: 10px;
       width: 50%;
-      margin-bottom: 20px;
+      margin: 20px auto;
+      display: block;
       border-radius: 8px;
       border: 2px solid #9b59b6;
       background: #000;
@@ -35,7 +36,7 @@
       width: 100%;
       border-collapse: collapse;
       color: #fff;
-      margin: 0 auto;
+      margin-top: 20px;
     }
 
     th, td {
@@ -60,33 +61,78 @@
     a:hover {
       text-decoration: underline;
     }
+
+    /* Hamburger Button */
+    #hamburger div {
+      width: 30px;
+      height: 4px;
+      background: #9b59b6;
+      margin: 6px 0;
+    }
+
+    #hamburger {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    /* Sidebar */
+    #sidebar {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #111;
+      overflow-x: hidden;
+      transition: 0.3s;
+      padding-top: 60px;
+      z-index: 999;
+    }
+
+    #sidebar button {
+      margin: 10px 20px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 2px solid #9b59b6;
+      background: #000;
+      color: #fff;
+      cursor: pointer;
+      width: 80%;
+      text-align: left;
+    }
+
+    #sidebar a.closebtn {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      font-size: 36px;
+      color: #9b59b6;
+      text-decoration: none;
+    }
   </style>
 </head>
 <body>
 
   <h1>ACBuy Spreadsheet</h1>
-<!-- Hamburger Button -->
-<div id="hamburger" onclick="toggleSidebar()" style="position:fixed; top:20px; left:20px; cursor:pointer; z-index:1000;">
-  <div style="width:30px; height:4px; background:#9b59b6; margin:6px 0;"></div>
-  <div style="width:30px; height:4px; background:#9b59b6; margin:6px 0;"></div>
-  <div style="width:30px; height:4px; background:#9b59b6; margin:6px 0;"></div>
-</div>
 
-<!-- Sidebar -->
-<div id="sidebar" style="height:100%; width:0; position:fixed; top:0; left:0; background:#111; overflow-x:hidden; transition:0.3s; padding-top:60px; z-index:999;">
-  <!-- Schließen-Kreuz -->
-  <a href="javascript:void(0)" onclick="toggleSidebar()" style="position:absolute; top:20px; right:25px; font-size:36px; color:#9b59b6; text-decoration:none;">&times;</a>
-
-  <!-- Vertikale Kategorien -->
-  <div style="display:flex; flex-direction:column; align-items:flex-start; padding-left:20px;">
-    <button onclick="filterCategory('Alle')" style="margin:10px 0; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Alle</button>
-    <button onclick="filterCategory('Jacke')" style="margin:10px 0; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Jacke</button>
-    <button onclick="filterCategory('Hose')" style="margin:10px 0; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Hose</button>
-    <button onclick="filterCategory('Schuhe')" style="margin:10px 0; padding:8px 12px; border-radius:6px; border:2px solid #9b59b6; background:#000; color:#fff; cursor:pointer;">Schuhe</button>
+  <!-- Hamburger Button -->
+  <div id="hamburger" onclick="toggleSidebar()">
+    <div></div>
+    <div></div>
+    <div></div>
   </div>
-</div>
 
-
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
+    <button onclick="filterCategory('Alle')">Alle</button>
+    <button onclick="filterCategory('Jacke')">Jacke</button>
+    <button onclick="filterCategory('Hose')">Hose</button>
+    <button onclick="filterCategory('Schuhe')">Schuhe</button>
+  </div>
 
   <!-- Suchleiste -->
   <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Suche nach Kategorie oder Name...">
@@ -114,17 +160,18 @@
     </tbody>
   </table>
 
-  <!-- JavaScript für die Suchfunktion -->
+  <!-- JavaScript -->
   <script>
+    // Suchleiste Funktion
     function searchTable() {
       let input = document.getElementById("searchInput").value.toLowerCase();
       let table = document.getElementById("productTable");
       let trs = table.getElementsByTagName("tr");
 
-      for (let i = 1; i < trs.length; i++) { // 1 = Header überspringen
+      for (let i = 1; i < trs.length; i++) {
         let tds = trs[i].getElementsByTagName("td");
         let show = false;
-        for (let j = 1; j < tds.length - 1; j++) { // Kategorie + Name durchsuchen (Spalten 1 & 2)
+        for (let j = 1; j < tds.length - 1; j++) {
           if (tds[j].innerText.toLowerCase().indexOf(input) > -1) {
             show = true;
             break;
@@ -133,17 +180,28 @@
         trs[i].style.display = show ? "" : "none";
       }
     }
+
+    // Kategorienfilter Funktion
+    function filterCategory(category) {
+      let table = document.getElementById("productTable");
+      let trs = table.getElementsByTagName("tr");
+
+      for (let i = 1; i < trs.length; i++) {
+        let cat = trs[i].getElementsByTagName("td")[1].innerText;
+        trs[i].style.display = (category === 'Alle' || cat === category) ? "" : "none";
+      }
+    }
+
+    // Hamburger Sidebar Funktion
+    function toggleSidebar() {
+      let sidebar = document.getElementById("sidebar");
+      if (sidebar.style.width === "250px") {
+        sidebar.style.width = "0";
+      } else {
+        sidebar.style.width = "250px";
+      }
+    }
   </script>
-<script>
-function toggleSidebar() {
-  let sidebar = document.getElementById("sidebar");
-  if (sidebar.style.width === "250px") {
-    sidebar.style.width = "0";
-  } else {
-    sidebar.style.width = "250px";
-  }
-}
-</script>
 
 </body>
 </html>
