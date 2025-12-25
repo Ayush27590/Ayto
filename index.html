@@ -55,21 +55,24 @@ h2{padding:0 20px 10px;}
 .products.grid{display:grid;gap:20px;}
 
 /* Responsive grid - Handy */
-@media(max-width:750px){
-  .products.grid{
+@media(max-width:768px){
+  .products.grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* 2 Karten pro Reihe */
-    gap:15px; /* kleiner Abstand */
-    padding:10px;
+    grid-template-columns: repeat(2, 1fr); /* genau 2 Karten pro Reihe */
+    gap:10px; /* kleiner Abstand */
+    padding:10px; 
   }
-  .product{
-    width:90%; /* volle Breite der Grid-Spalte */
-    max-width:none; /* vorherige feste Breite entfernen */
+  .product {
+    width:100%; /* volle Breite der Grid-Spalte */
+    max-width:100%; /* vorherige feste Breite entfernen */
   }
-  .product img{
-    height:150px; /* kleiner für Handy */
+  .product img {
+    height:150px; /* proportional kleiner */
+    object-fit:contain;
   }
 }
+
+
 
 /* Desktop grid (unchanged) */
 @media(min-width:769px){.products.grid{grid-template-columns:repeat(4,1fr);}}
