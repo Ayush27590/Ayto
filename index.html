@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
+* { box-sizing: border-box; }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
@@ -14,25 +16,44 @@ body {
   overflow-x: hidden;
 }
 
-/* Header */
+/* GLOW EFFECT */
+.glow {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 600px;
+  height: 600px;
+  pointer-events: none;
+  background: radial-gradient(circle at center,
+    rgba(120, 0, 255, 0.25),
+    rgba(120, 0, 255, 0.15),
+    rgba(120, 0, 255, 0.05),
+    transparent 70%);
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}
+
+/* HEADER */
 header {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 60px;
-  background: black;
-  z-index: 2500;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 3000;
+  border-bottom: 1px solid #222;
 }
-
 
 .menu-btn {
-  font-size: 28px;
+  font-size: 30px;
   cursor: pointer;
   color: white;
-  z-index: 3000;
 }
-
 
 .header-title {
   font-size: 20px;
@@ -46,10 +67,10 @@ header {
 }
 
 .header-right img {
-  height: 30px;
+  height: 28px;
 }
 
-/* Sidebar */
+/* SIDEBAR */
 .sidebar {
   position: fixed;
   top: 0;
@@ -59,12 +80,10 @@ header {
   background: #111;
   padding: 20px;
   transition: 0.3s;
-  z-index: 2000;
+  z-index: 4000;
 }
 
-.sidebar.open {
-  left: 0;
-}
+.sidebar.open { left: 0; }
 
 .sidebar .close {
   font-size: 24px;
@@ -74,12 +93,12 @@ header {
 
 .sidebar a {
   display: block;
-  color: #fff;
+  color: white;
   text-decoration: none;
   padding: 10px 0;
 }
 
-/* Moving banner */
+/* BANNER */
 .banner {
   margin-top: 60px;
   background: purple;
@@ -87,26 +106,27 @@ header {
   padding: 8px;
   white-space: nowrap;
   overflow: hidden;
+  cursor: pointer;
+  z-index: 2;
+  position: relative;
 }
 
 .banner span {
   display: inline-block;
-  animation: move 15s linear infinite;
+  animation: scroll 15s linear infinite;
 }
 
-@keyframes move {
+@keyframes scroll {
   from { transform: translateX(100%); }
   to { transform: translateX(-100%); }
 }
 
-/* Main */
+/* MAIN */
 main {
-  padding-top: 120px;
+  padding-top: 130px;
   text-align: center;
-}
-
-h1 {
-  margin-bottom: 10px;
+  position: relative;
+  z-index: 2;
 }
 
 .search {
@@ -120,7 +140,7 @@ h1 {
   color: #fff;
 }
 
-/* Products */
+/* PRODUCTS */
 .products {
   display: flex;
   gap: 20px;
@@ -133,13 +153,14 @@ h1 {
   background: #111;
   border-radius: 15px;
   width: 260px;
-  flex-shrink: 0;
   padding: 15px;
+  flex-shrink: 0;
   transition: 0.3s;
+  position: relative;
 }
 
 .product-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-10px);
 }
 
 .product-card img {
@@ -170,6 +191,8 @@ h1 {
 
 <body>
 
+<div class="glow" id="glow"></div>
+
 <header>
   <div class="menu-btn" onclick="openMenu()">☰</div>
   <div class="header-title">Biggest Spreadsheet</div>
@@ -192,28 +215,34 @@ h1 {
 
 <main>
   <h1>New Products</h1>
-
   <input class="search" id="search" placeholder="Live Suche...">
 
-  <div class="products" id="products">
+  <div class="products">
 
-    <div class="product-card" data-name="lv skates schuhe">
+    <div class="product-card" data-name="louis vuitton skates schuhe">
       <img src="https://image2url.com/r2/bucket1/images/1766619319153-8ababce7-1501-45f8-b741-e08bf7f7692e.jpeg">
-      <div class="product-name">LV Skates</div>
+      <div class="product-name">Louis Vuitton Skates Black & White</div>
       <div class="price">62€</div>
       <a class="buy-btn" href="https://link.acbuy.com/tU67omEL" target="_blank">Jetzt kaufen</a>
     </div>
 
     <div class="product-card" data-name="nike nocta jacke">
       <img src="https://image2url.com/r2/bucket1/images/1766620890903-96ca5795-aee1-4ac9-9fe2-3eaca19ca021.jpeg">
-      <div class="product-name">Nike Nocta Jacke</div>
+      <div class="product-name">Nike Nocta Jacke Schwarz</div>
       <div class="price">35€</div>
       <a class="buy-btn" href="https://link.acbuy.com/Dww561Km" target="_blank">Jetzt kaufen</a>
     </div>
 
-    <div class="product-card" data-name="travis scott jordan schuhe">
+    <div class="product-card" data-name="travis scott jordan black samurai schuhe">
+      <img src="https://image2url.com/r2/bucket1/images/1766622832679-b09b3371-3b41-4829-a473-65bfb3c5f3cc.jpeg">
+      <div class="product-name">Travis Scott x Jordan Air Jordan 1 Low Black Samurai</div>
+      <div class="price">31€</div>
+      <a class="buy-btn" href="https://link.acbuy.com/KSyILyb3" target="_blank">Jetzt kaufen</a>
+    </div>
+
+    <div class="product-card" data-name="travis scott jordan white blue schuhe">
       <img src="https://image2url.com/r2/bucket1/images/1766623370318-1910e143-8130-4dad-94e2-fab7217e8b88.jpeg">
-      <div class="product-name">Travis Scott Jordan 1 Low</div>
+      <div class="product-name">Travis Scott x Jordan Air Jordan 1 Low White & Blue Barb</div>
       <div class="price">31€</div>
       <a class="buy-btn" href="https://link.acbuy.com/gtM6lI9u" target="_blank">Jetzt kaufen</a>
     </div>
@@ -222,6 +251,7 @@ h1 {
 </main>
 
 <script>
+/* Sidebar */
 function openMenu() {
   document.getElementById("sidebar").classList.add("open");
 }
@@ -229,11 +259,19 @@ function closeMenu() {
   document.getElementById("sidebar").classList.remove("open");
 }
 
+/* Live Search */
 document.getElementById("search").addEventListener("input", function () {
   let value = this.value.toLowerCase();
   document.querySelectorAll(".product-card").forEach(card => {
     card.style.display = card.dataset.name.includes(value) ? "block" : "none";
   });
+});
+
+/* Glow Follow Mouse */
+const glow = document.getElementById("glow");
+document.addEventListener("mousemove", e => {
+  glow.style.left = e.clientX + "px";
+  glow.style.top = e.clientY + "px";
 });
 </script>
 
