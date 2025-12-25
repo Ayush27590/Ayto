@@ -2,132 +2,228 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<title>Biggest Spreadsheet</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Biggest Spreadsheet</title>
+
 <style>
-* { box-sizing: border-box; }
-body { margin: 0; font-family: Arial, sans-serif; background: #000; color: #fff; overflow-x: hidden; }
-
-/* Glow-Effekt um Maus */
-.glow {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 600px;
-  height: 600px;
-  pointer-events: none;
-  background: radial-gradient(circle at center,
-    rgba(0, 120, 255, 0.25),
-    rgba(0, 120, 255, 0.15),
-    rgba(0, 120, 255, 0.05),
-    transparent 70%);
-  transform: translate(-50%, -50%);
-  z-index: 1;
+:root {
+  --bg:#000;
+  --card:#111;
+  --white:#fff;
+  --purple:#a855f7;
+  --blue:#3b82f6;
 }
 
-/* HEADER */
-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 60px;
-  background: #000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 20px;
-  z-index: 3000;
-  border-bottom: 1px solid #222;
-}
-.menu-btn { font-size: 30px; cursor: pointer; color: white; }
-.header-title { font-size: 20px; font-weight: bold; }
-.header-right { display: flex; align-items: center; gap: 8px; }
-.header-right img { height: 28px; }
+* { box-sizing:border-box; }
 
-/* SIDEBAR */
-.sidebar {
-  position: fixed;
-  top: 0;
-  left: -260px;
-  width: 260px;
-  height: 100%;
-  background: #111;
-  padding: 20px;
-  transition: 0.3s;
-  z-index: 4000;
+body {
+  margin:0;
+  background:var(--bg);
+  color:var(--white);
+  font-family:Arial, sans-serif;
+  overflow-x:hidden;
 }
-.sidebar.open { left: 0; }
-.sidebar .close { font-size: 24px; cursor: pointer; margin-bottom: 20px; }
-.sidebar a { display: block; color: white; text-decoration: none; padding: 10px 0; }
 
-/* BANNER */
+/* 🔵 Maus Glow */
+#mouse-glow {
+  position:fixed;
+  width:300px;
+  height:300px;
+  background:radial-gradient(circle, rgba(59,130,246,.35), transparent 70%);
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  z-index:0;
+}
+
+/* 🔝 Banner */
 .banner {
-  margin-top: 60px;
-  background: purple;
-  color: white;
-  padding: 8px;
-  white-space: nowrap;
-  overflow: hidden;
-  cursor: pointer;
-  z-index: 2;
-  position: relative;
+  background:linear-gradient(90deg,#4f46e5,#9333ea);
+  color:white;
+  text-align:center;
+  padding:10px;
 }
-.banner span { display: inline-block; animation: scroll 15s linear infinite; }
-@keyframes scroll { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+.banner a { color:white; text-decoration:none; font-weight:bold; }
 
-/* MAIN */
-main {
-  padding-top: 130px;
-  text-align: center;
-  position: relative;
-  z-index: 2;
+/* 🔝 Header */
+header {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px 20px;
+  position:sticky;
+  top:0;
+  background:#000;
+  z-index:10;
 }
+
+.menu-btn {
+  font-size:26px;
+  cursor:pointer;
+}
+
+.title {
+  font-size:22px;
+  font-weight:bold;
+}
+
+.header-right {
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.header-right img {
+  width:32px;
+  height:32px;
+  border-radius:50%;
+}
+
+/* 📂 Sidebar */
+.sidebar {
+  position:fixed;
+  top:0;
+  left:-260px;
+  width:260px;
+  height:100%;
+  background:#111;
+  padding:20px;
+  transition:.3s;
+  z-index:20;
+}
+.sidebar.active { left:0; }
+.sidebar a {
+  display:block;
+  color:white;
+  text-decoration:none;
+  margin:15px 0;
+  font-size:18px;
+}
+.sidebar .close {
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* 🔍 Suche */
 .search {
-  margin: 20px auto;
-  padding: 10px;
-  width: 60%;
-  max-width: 400px;
-  border-radius: 8px;
-  border: 2px solid purple;
-  background: #000;
-  color: #fff;
+  padding:15px;
+  text-align:center;
+}
+.search input {
+  width:90%;
+  max-width:400px;
+  padding:10px;
+  border-radius:8px;
+  border:none;
 }
 
-/* PRODUCTS */
+/* 🏠 Überschrift */
+h2 {
+  text-align:center;
+  margin:20px 0;
+}
+
+/* 📦 Produkt Container */
 .products {
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  overflow-x: auto;
-  padding: 20px;
+  padding:20px;
+  gap:20px;
+  justify-content:center;
 }
+
+/* STARTSEITE */
+.start-mode {
+  display:flex;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+}
+.start-mode .product-card {
+  min-width:260px;
+  scroll-snap-align:center;
+}
+
+/* KATEGORIEN */
+.category-mode {
+  display:grid;
+}
+
+/* 📱 Handy */
+@media(max-width:768px){
+  .category-mode {
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+/* 🖥 Desktop */
+@media(min-width:769px){
+  .category-mode {
+    grid-template-columns:repeat(4,1fr);
+  }
+}
+
+/* 🧱 Produktkarte */
 .product-card {
-  background: #111;
-  border-radius: 15px;
-  width: 260px;
-  padding: 15px;
-  flex-shrink: 0;
-  transition: 0.3s, box-shadow 0.3s;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  position: relative;
+  background:var(--card);
+  border-radius:14px;
+  padding:15px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  transition:.3s;
+  position:relative;
 }
-.product-card:hover { transform: translateY(-10px); box-shadow: 0 0 20px 4px rgba(0,120,255,0.7); }
-.product-card img { width: 100%; border-radius: 12px; margin-bottom: 10px; }
-.product-name { margin: 10px 0 5px; font-weight: bold; }
-.price { color: #b084ff; margin-bottom: 10px; }
-.buy-btn { display: block; background: purple; color: white; padding: 10px; border-radius: 8px; text-decoration: none; margin-top: auto; text-align: center; }
+.product-card:hover {
+  transform:translateY(-8px);
+  box-shadow:0 0 25px rgba(59,130,246,.7);
+}
+
+.product-card img {
+  width:100%;
+  border-radius:10px;
+}
+
+.product-card h3 {
+  margin:10px 0 5px;
+  text-align:center;
+}
+.product-card p {
+  margin:0 0 10px;
+  color:#ccc;
+}
+
+.buy-btn {
+  margin-top:auto;
+  width:100%;
+  text-align:center;
+  padding:10px;
+  border-radius:10px;
+  background:linear-gradient(90deg,#4f46e5,#9333ea);
+  color:white;
+  text-decoration:none;
+  font-weight:bold;
+}
+
+/* ⬇ Mehr laden */
+.load-more {
+  text-align:center;
+  font-size:22px;
+  color:var(--purple);
+  cursor:pointer;
+  margin:30px;
+  display:none;
+}
 </style>
 </head>
-<body>
 
-<div class="glow" id="glow"></div>
+<body>
+<div id="mouse-glow"></div>
+
+<div class="banner">
+  <a href="https://www.acbuy.com/signup" target="_blank">
+    Sign up to ACBuy & get $510 coupon
+  </a>
+</div>
 
 <header>
   <div class="menu-btn" onclick="openMenu()">☰</div>
-  <div class="header-title">Biggest Spreadsheet</div>
+  <div class="title" onclick="goHome()">Biggest Spreadsheet</div>
   <div class="header-right">
     <img src="https://image2url.com/r2/bucket1/images/1766618106451-0c81d26c-b893-4839-bc66-6642677b99d6.jpg">
     <span>x</span>
@@ -137,80 +233,101 @@ main {
 
 <div class="sidebar" id="sidebar">
   <div class="close" onclick="closeMenu()">✖</div>
-  <a href="javascript:void(0)" onclick="filterCategory('all')">Alle</a>
+  <a href="javascript:void(0)" onclick="goHome()">Startseite</a>
   <a href="javascript:void(0)" onclick="filterCategory('schuhe')">Schuhe</a>
   <a href="javascript:void(0)" onclick="filterCategory('jacken')">Jacken</a>
 </div>
 
-<div class="banner" onclick="window.open('https://www.acbuy.com')">
-  <span>Sign up to ACBuy to get 510$ coupon — Sign up to ACBuy to get 510$ coupon</span>
+<div class="search">
+  <input type="text" placeholder="Suchen..." oninput="liveSearch(this.value)">
 </div>
 
-<main>
-  <h1>New Products</h1>
-  <input class="search" id="search" placeholder="Live Suche...">
-  <div class="products">
+<h2 id="sectionTitle">New Products</h2>
 
-    <div class="product-card" data-name="louis vuitton skates schuhe">
-      <img src="https://image2url.com/r2/bucket1/images/1766619319153-8ababce7-1501-45f8-b741-e08bf7f7692e.jpeg">
-      <div class="product-name">Louis Vuitton Skates Black & White</div>
-      <div class="price">62€</div>
-      <a class="buy-btn" href="https://link.acbuy.com/tU67omEL" target="_blank">Jetzt kaufen</a>
-    </div>
+<section id="products" class="products start-mode">
 
-    <div class="product-card" data-name="nike nocta jacke">
-      <img src="https://image2url.com/r2/bucket1/images/1766620890903-96ca5795-aee1-4ac9-9fe2-3eaca19ca021.jpeg">
-      <div class="product-name">Nike Nocta Jacke Schwarz</div>
-      <div class="price">35€</div>
-      <a class="buy-btn" href="https://link.acbuy.com/Dww561Km" target="_blank">Jetzt kaufen</a>
-    </div>
+<!-- PRODUKTE -->
+<div class="product-card" data-category="schuhe">
+<img src="https://image2url.com/r2/bucket1/images/1766623370318-1910e143-8130-4dad-94e2-fab7217e8b88.jpeg">
+<h3>Travis Scott x Jordan 1 Low White Blue</h3>
+<p>31€</p>
+<a class="buy-btn" href="https://link.acbuy.com/gtM6lI9u" target="_blank">Jetzt kaufen</a>
+</div>
 
-    <div class="product-card" data-name="travis scott jordan black samurai schuhe">
-      <img src="https://image2url.com/r2/bucket1/images/1766622832679-b09b3371-3b41-4829-a473-65bfb3c5f3cc.jpeg">
-      <div class="product-name">Travis Scott x Jordan Air Jordan 1 Low Black Samurai</div>
-      <div class="price">31€</div>
-      <a class="buy-btn" href="https://link.acbuy.com/KSyILyb3" target="_blank">Jetzt kaufen</a>
-    </div>
+<div class="product-card" data-category="schuhe">
+<img src="https://image2url.com/r2/bucket1/images/1766622832679-b09b3371-3b41-4829-a473-65bfb3c5f3cc.jpeg">
+<h3>Travis Scott x Jordan 1 Low Black Samurai</h3>
+<p>31€</p>
+<a class="buy-btn" href="https://link.acbuy.com/KSyILyb3" target="_blank">Jetzt kaufen</a>
+</div>
 
-    <div class="product-card" data-name="travis scott jordan white blue schuhe">
-      <img src="https://image2url.com/r2/bucket1/images/1766623370318-1910e143-8130-4dad-94e2-fab7217e8b88.jpeg">
-      <div class="product-name">Travis Scott x Jordan Air Jordan 1 Low White & Blue Barb</div>
-      <div class="price">31€</div>
-      <a class="buy-btn" href="https://link.acbuy.com/gtM6lI9u" target="_blank">Jetzt kaufen</a>
-    </div>
+<div class="product-card" data-category="jacken">
+<img src="https://image2url.com/r2/bucket1/images/1766620890903-96ca5795-aee1-4ac9-9fe2-3eaca19ca021.jpeg">
+<h3>Nike Nocta Jacket Black</h3>
+<p>35€</p>
+<a class="buy-btn" href="https://link.acbuy.com/Dww561Km" target="_blank">Jetzt kaufen</a>
+</div>
 
-  </div>
-</main>
+</section>
+
+<div class="load-more" id="loadMore" onclick="loadMore()">⬇ Mehr anzeigen</div>
 
 <script>
-/* Sidebar */
-function openMenu() { document.getElementById("sidebar").classList.add("open"); }
-function closeMenu() { document.getElementById("sidebar").classList.remove("open"); }
+/* Maus Glow */
+document.addEventListener("mousemove", e=>{
+  const g=document.getElementById("mouse-glow");
+  g.style.left=e.clientX+"px";
+  g.style.top=e.clientY+"px";
+});
 
-/* Filter nach Kategorie */
-function filterCategory(category) {
-  const products = document.querySelectorAll(".product-card");
-  products.forEach(card => {
-    if(category==='all') { card.style.display='block'; }
-    else { card.style.display = card.dataset.name.includes(category) ? 'block':'none'; }
+/* Sidebar */
+function openMenu(){sidebar.classList.add("active")}
+function closeMenu(){sidebar.classList.remove("active")}
+
+let currentCategory="";
+let visible=20;
+
+function filterCategory(cat){
+  currentCategory=cat;
+  visible=20;
+  products.className="products category-mode";
+  sectionTitle.innerText=cat.toUpperCase();
+  loadMoreBtn.style.display="block";
+
+  document.querySelectorAll(".product-card").forEach((c,i)=>{
+    c.style.display=(c.dataset.category===cat && i<visible)?"flex":"none";
   });
   closeMenu();
 }
 
-/* Live Search */
-document.getElementById("search").addEventListener("input", function () {
-  let value = this.value.toLowerCase();
-  document.querySelectorAll(".product-card").forEach(card => {
-    card.style.display = card.dataset.name.includes(value) ? "block":"none";
+function loadMore(){
+  visible+=20;
+  document.querySelectorAll(".product-card").forEach((c,i)=>{
+    if(c.dataset.category===currentCategory && i<visible)
+      c.style.display="flex";
   });
-});
+}
 
-/* Glow Follow Mouse */
-const glow = document.getElementById("glow");
-document.addEventListener("mousemove", e => {
-  glow.style.left = e.clientX + "px";
-  glow.style.top = e.clientY + "px";
-});
+function goHome(){
+  products.className="products start-mode";
+  sectionTitle.innerText="New Products";
+  loadMoreBtn.style.display="none";
+  document.querySelectorAll(".product-card").forEach(c=>c.style.display="flex");
+  closeMenu();
+}
+
+/* Live Suche */
+function liveSearch(val){
+  val=val.toLowerCase();
+  document.querySelectorAll(".product-card").forEach(c=>{
+    c.style.display=c.innerText.toLowerCase().includes(val)?"flex":"none";
+  });
+}
+
+const products=document.getElementById("products");
+const sectionTitle=document.getElementById("sectionTitle");
+const loadMoreBtn=document.getElementById("loadMore");
 </script>
+
 </body>
 </html>
