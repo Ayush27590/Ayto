@@ -6,7 +6,7 @@
 <title>Biggest Spreadsheet</title>
 
 <style>
-:root {
+:root{
   --bg:#000;
   --card:#111;
   --white:#fff;
@@ -14,55 +14,51 @@
   --blue:#3b82f6;
 }
 
-* { box-sizing:border-box; }
+*{box-sizing:border-box}
 
-body {
+body{
   margin:0;
   background:var(--bg);
   color:var(--white);
-  font-family:Arial, sans-serif;
+  font-family:Arial,sans-serif;
   overflow-x:hidden;
 }
 
 /* 🔵 Maus Glow */
-#mouse-glow {
+#mouse-glow{
   position:fixed;
-  width:300px;
-  height:300px;
+  width:320px;
+  height:320px;
   background:radial-gradient(circle, rgba(59,130,246,.35), transparent 70%);
   pointer-events:none;
   transform:translate(-50%,-50%);
   z-index:0;
 }
 
-/* 🔝 Banner */
-.banner {
+/* 🔁 Laufender Banner */
+.banner{
   width:100%;
   overflow:hidden;
   background:linear-gradient(90deg,#4f46e5,#9333ea);
   white-space:nowrap;
 }
-
-.banner-track {
+.banner-track{
   display:inline-block;
   padding-left:100%;
-  animation: bannerMove 18s linear infinite;
+  animation:bannerMove 18s linear infinite;
 }
-
-.banner a {
-  color:white;
-  font-weight:bold;
+.banner a{
+  color:#fff;
   text-decoration:none;
-  font-size:15px;
+  font-weight:bold;
 }
-
-@keyframes bannerMove {
-  0% { transform:translateX(0); }
-  100% { transform:translateX(-100%); }
+@keyframes bannerMove{
+  0%{transform:translateX(0)}
+  100%{transform:translateX(-100%)}
 }
 
 /* 🔝 Header */
-header {
+header{
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -72,30 +68,13 @@ header {
   background:#000;
   z-index:10;
 }
-
-.menu-btn {
-  font-size:26px;
-  cursor:pointer;
-}
-
-.title {
-  font-size:22px;
-  font-weight:bold;
-}
-
-.header-right {
-  display:flex;
-  align-items:center;
-  gap:8px;
-}
-.header-right img {
-  width:32px;
-  height:32px;
-  border-radius:50%;
-}
+.menu-btn{font-size:26px;cursor:pointer}
+.title{font-size:22px;font-weight:bold;cursor:pointer}
+.header-right{display:flex;align-items:center;gap:8px}
+.header-right img{width:32px;height:32px;border-radius:50%}
 
 /* 📂 Sidebar */
-.sidebar {
+.sidebar{
   position:fixed;
   top:0;
   left:-260px;
@@ -106,25 +85,19 @@ header {
   transition:.3s;
   z-index:20;
 }
-.sidebar.active { left:0; }
-.sidebar a {
+.sidebar.active{left:0}
+.sidebar a{
   display:block;
-  color:white;
+  color:#fff;
   text-decoration:none;
   margin:15px 0;
   font-size:18px;
 }
-.sidebar .close {
-  font-size:22px;
-  cursor:pointer;
-}
+.sidebar .close{font-size:22px;cursor:pointer}
 
 /* 🔍 Suche */
-.search {
-  padding:15px;
-  text-align:center;
-}
-.search input {
+.search{text-align:center;padding:15px}
+.search input{
   width:90%;
   max-width:400px;
   padding:10px;
@@ -132,51 +105,34 @@ header {
   border:none;
 }
 
-/* 🏠 Überschrift */
-h2 {
-  text-align:center;
-  margin:20px 0;
-}
+/* 🏠 Titel */
+h2{text-align:center;margin:20px 0}
 
-/* 📦 Produkt Container */
-.products {
-  padding:20px;
-  gap:20px;
-  justify-content:center;
-}
+/* 📦 Produkte */
+.products{padding:20px;gap:20px;justify-content:center}
 
-/* STARTSEITE */
-.start-mode {
+/* Startseite */
+.start-mode{
   display:flex;
   overflow-x:auto;
   scroll-snap-type:x mandatory;
 }
-.start-mode .product-card {
+.start-mode .product-card{
   min-width:260px;
   scroll-snap-align:center;
 }
 
-/* KATEGORIEN */
-.category-mode {
-  display:grid;
-}
-
-/* 📱 Handy */
+/* Kategorien */
+.category-mode{display:grid}
 @media(max-width:768px){
-  .category-mode {
-    grid-template-columns:repeat(2,1fr);
-  }
+  .category-mode{grid-template-columns:repeat(2,1fr)}
 }
-
-/* 🖥 Desktop */
 @media(min-width:769px){
-  .category-mode {
-    grid-template-columns:repeat(4,1fr);
-  }
+  .category-mode{grid-template-columns:repeat(4,1fr)}
 }
 
 /* 🧱 Produktkarte */
-.product-card {
+.product-card{
   background:var(--card);
   border-radius:14px;
   padding:15px;
@@ -184,47 +140,48 @@ h2 {
   flex-direction:column;
   align-items:center;
   transition:.3s;
-  position:relative;
 }
-
-.product-card:hover {
+.product-card:hover{
   transform:translateY(-8px);
-  box-shadow:0 0 25px rgba(59,130,246,.7);
+  box-shadow:0 0 28px rgba(59,130,246,.8);
 }
 
-.product-card img {
+/* 🖼 Bilder gleiche Höhe */
+.product-card img{
   width:100%;
-  height:220px;          /* gleiche Bildhöhe */
-  object-fit:contain;    /* Produkt bleibt ganz sichtbar */
+  height:220px;
+  object-fit:contain;
+  background:#000;
   border-radius:10px;
-  background:#000;       /* sauberer Hintergrund */
 }
 
-.product-card h3 {
-  min-height:48px;   /* alle Namen gleiche Höhe */
+/* Texte gleiche Höhe */
+.product-card h3{
+  min-height:48px;
+  margin:10px 0 5px;
   text-align:center;
 }
-
-.product-card p {
-  min-height:24px;   /* alle Preise gleiche Höhe */
-  margin-bottom:12px;
+.product-card p{
+  min-height:24px;
+  margin:0 0 12px;
+  color:#ccc;
 }
 
-
-.buy-btn {
+/* Button immer unten */
+.buy-btn{
   margin-top:auto;
   width:100%;
   text-align:center;
   padding:10px;
   border-radius:10px;
   background:linear-gradient(90deg,#4f46e5,#9333ea);
-  color:white;
+  color:#fff;
   text-decoration:none;
   font-weight:bold;
 }
 
 /* ⬇ Mehr laden */
-.load-more {
+.load-more{
   text-align:center;
   font-size:22px;
   color:var(--purple);
@@ -236,6 +193,7 @@ h2 {
 </head>
 
 <body>
+
 <div id="mouse-glow"></div>
 
 <div class="banner">
@@ -245,7 +203,6 @@ h2 {
     </a>
   </div>
 </div>
-
 
 <header>
   <div class="menu-btn" onclick="openMenu()">☰</div>
@@ -270,89 +227,95 @@ h2 {
 
 <h2 id="sectionTitle">New Products</h2>
 
-<section id="products" class="products start-mode">
-
-<!-- PRODUKTE -->
-<div class="product-card" data-category="schuhe">
-<img src="https://image2url.com/r2/bucket1/images/1766623370318-1910e143-8130-4dad-94e2-fab7217e8b88.jpeg">
-<h3>Travis Scott x Jordan 1 Low White Blue</h3>
-<p>31€</p>
-<a class="buy-btn" href="https://link.acbuy.com/gtM6lI9u" target="_blank">Jetzt kaufen</a>
-</div>
-
-<div class="product-card" data-category="schuhe">
-<img src="https://image2url.com/r2/bucket1/images/1766622832679-b09b3371-3b41-4829-a473-65bfb3c5f3cc.jpeg">
-<h3>Travis Scott x Jordan 1 Low Black Samurai</h3>
-<p>31€</p>
-<a class="buy-btn" href="https://link.acbuy.com/KSyILyb3" target="_blank">Jetzt kaufen</a>
-</div>
-
-<div class="product-card" data-category="jacken">
-<img src="https://image2url.com/r2/bucket1/images/1766620890903-96ca5795-aee1-4ac9-9fe2-3eaca19ca021.jpeg">
-<h3>Nike Nocta Jacket Black</h3>
-<p>35€</p>
-<a class="buy-btn" href="https://link.acbuy.com/Dww561Km" target="_blank">Jetzt kaufen</a>
-</div>
-
-</section>
-
+<section id="products" class="products start-mode"></section>
 <div class="load-more" id="loadMore" onclick="loadMore()">⬇ Mehr anzeigen</div>
 
 <script>
-/* Maus Glow */
-document.addEventListener("mousemove", e=>{
-  const g=document.getElementById("mouse-glow");
-  g.style.left=e.clientX+"px";
-  g.style.top=e.clientY+"px";
+/* 🔵 Maus Glow */
+document.addEventListener("mousemove",e=>{
+  mouseGlow.style.left=e.clientX+"px";
+  mouseGlow.style.top=e.clientY+"px";
 });
 
-/* Sidebar */
+/* 📂 Sidebar */
 function openMenu(){sidebar.classList.add("active")}
 function closeMenu(){sidebar.classList.remove("active")}
 
+/* 🔗 GOOGLE SHEETS CSV LINK */
+const SHEET_URL = "HIER_DEIN_CSV_LINK_EINFÜGEN";
+
+let allProducts=[];
 let currentCategory="";
 let visible=20;
 
+/* 📥 Produkte laden */
+fetch(SHEET_URL)
+  .then(res=>res.text())
+  .then(csv=>{
+    const rows=csv.split("\n").slice(1);
+    rows.forEach(r=>{
+      const [name,price,image,link,category]=r.split(",");
+      if(!name)return;
+      allProducts.push({name,price,image,link,category});
+    });
+    renderProducts(allProducts);
+  });
+
+function renderProducts(list){
+  products.innerHTML="";
+  list.forEach(p=>{
+    products.innerHTML+=`
+      <div class="product-card" data-category="${p.category}">
+        <img src="${p.image}">
+        <h3>${p.name}</h3>
+        <p>${p.price}€</p>
+        <a class="buy-btn" href="${p.link}" target="_blank">Jetzt kaufen</a>
+      </div>`;
+  });
+}
+
+/* Kategorien */
 function filterCategory(cat){
   currentCategory=cat;
   visible=20;
   products.className="products category-mode";
   sectionTitle.innerText=cat.toUpperCase();
-  loadMoreBtn.style.display="block";
 
-  document.querySelectorAll(".product-card").forEach((c,i)=>{
-    c.style.display=(c.dataset.category===cat && i<visible)?"flex":"none";
-  });
+  const filtered=allProducts.filter(p=>p.category===cat);
+  renderProducts(filtered.slice(0,visible));
+  loadMoreBtn.style.display=filtered.length>visible?"block":"none";
   closeMenu();
 }
 
 function loadMore(){
   visible+=20;
-  document.querySelectorAll(".product-card").forEach((c,i)=>{
-    if(c.dataset.category===currentCategory && i<visible)
-      c.style.display="flex";
-  });
+  const filtered=allProducts.filter(p=>p.category===currentCategory);
+  renderProducts(filtered.slice(0,visible));
 }
 
+/* Startseite */
 function goHome(){
   products.className="products start-mode";
   sectionTitle.innerText="New Products";
+  renderProducts(allProducts);
   loadMoreBtn.style.display="none";
-  document.querySelectorAll(".product-card").forEach(c=>c.style.display="flex");
   closeMenu();
 }
 
 /* Live Suche */
-function liveSearch(val){
-  val=val.toLowerCase();
+function liveSearch(v){
+  v=v.toLowerCase();
   document.querySelectorAll(".product-card").forEach(c=>{
-    c.style.display=c.innerText.toLowerCase().includes(val)?"flex":"none";
+    c.style.display=c.innerText.toLowerCase().includes(v)?"flex":"none";
   });
 }
 
+/* DOM */
+const sidebar=document.getElementById("sidebar");
 const products=document.getElementById("products");
 const sectionTitle=document.getElementById("sectionTitle");
 const loadMoreBtn=document.getElementById("loadMore");
+const mouseGlow=document.getElementById("mouse-glow");
 </script>
 
 </body>
