@@ -127,79 +127,68 @@
       font-size: 1.5em;
     }
 
-    /* Horizontales Scrollen für Startseite */
-    .products-horizontal {
-      display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
-      padding: 20px 0;
-    }
+   .products {
+  display: flex;
+  justify-content: center; /* horizontal zentriert */
+  flex-wrap: wrap;         /* mehrere Produkte in Zeilen */
+  gap: 20px;               /* Abstand zwischen Karten */
+  padding: 20px 0;
+}
 
-    .products-horizontal::-webkit-scrollbar {
-      height: 8px;
-    }
+.product-card {
+  background: #111;
+  border: 2px solid #9b59b6;
+  border-radius: 10px;
+  width: 220px;
+  padding: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* Button immer unten */
+  height: 380px;                  /* gleiche Höhe für alle Karten */
+  transition: transform 0.3s, box-shadow 0.3s;
+}
 
-    .products-horizontal::-webkit-scrollbar-thumb {
-      background: #9b59b6;
-      border-radius: 4px;
-    }
+.product-card img {
+  width: 100%;
+  border-radius: 10px;
+}
 
-    .product-card {
-      flex: 0 0 auto;
-      scroll-snap-align: start;
-      background: #111;
-      border: 2px solid #9b59b6;
-      border-radius: 10px;
-      margin: 0 10px;
-      width: 220px;
-      padding: 10px;
-      text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
+.product-name {
+  margin-top: 10px;
+  font-weight: bold;
+  font-size: 1em;
+}
 
-    .product-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 0 20px rgba(0,123,255,0.7);
-    }
+.product-price {
+  margin-top: 5px;
+  color: #fff;
+  font-size: 1em;
+}
 
-    .product-card img {
-      width: 100%;
-      border-radius: 10px;
-    }
+.buy-button {
+  margin-top: 10px;
+  padding: 8px 15px;
+  background: #9b59b6;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  width: 100%;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+  transition: background 0.3s;
+}
 
-    .product-name {
-      margin-top: 10px;
-      font-weight: bold;
-      font-size: 1em;
-    }
+.buy-button:hover {
+  background: #7d3fbf;
+}
 
-    .product-price {
-      margin-top: 5px;
-      color: #fff;
-      font-size: 1em;
-    }
-
-    .buy-button {
-      margin-top: 10px; /* direkt unter Preis */
-      padding: 8px 15px;
-      background: #9b59b6;
-      color: #fff;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      width: 100%;
-      text-decoration: none;
-      display: inline-block;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    .buy-button:hover {
-      background: #7d3fbf;
-    }
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 20px rgba(0,123,255,0.7);
+}
 
     /* Blauer Maus-Glow */
     #cursor-light {
@@ -248,21 +237,28 @@
   <!-- Titel New Products -->
   <h2 class="new-products-title">New Products</h2>
 
-  <!-- Horizontale Produkte -->
-  <div class="products-horizontal" id="products">
-    <div class="product-card" data-category="Schuhe">
-      <img src="https://image2url.com/r2/bucket1/images/1766619319153-8ababce7-1501-45f8-b741-e08bf7f7692e.jpeg" alt="Louis Vuitton Skates">
-      <div class="product-name">Louis Vuitton Skates Black and White</div>
-      <div class="product-price">62€</div>
-      <a class="buy-button" href="https://link.acbuy.com/tU67omEL" target="_blank">Jetzt kaufen</a>
-    </div>
+  <h2 class="new-products-title">New Products</h2>
 
-    <div class="product-card" data-category="Jacke">
-      <img src="https://image2url.com/r2/bucket1/images/1766620890903-96ca5795-aee1-4ac9-9fe2-3eaca19ca021.jpeg" alt="Nike Nocta Jacke Schwarz">
-      <div class="product-name">Nike Nocta Jacke Schwarz</div>
-      <div class="product-price">35€</div>
-      <a class="buy-button" href="https://link.acbuy.com/Dww561Km" target="_blank">Jetzt kaufen</a>
-    </div>
+<!-- Container für zentrierte Produkte -->
+<div class="products" id="products">
+  <div class="product-card" data-category="Schuhe">
+    <img src="https://image2url.com/r2/bucket1/images/1766619319153-8ababce7-1501-45f8-b741-e08bf7f7692e.jpeg" 
+         alt="Louis Vuitton Skates">
+    <div class="product-name">Louis Vuitton Skates Black and White</div>
+    <div class="product-price">62€</div>
+    <a class="buy-button" href="https://link.acbuy.com/tU67omEL" target="_blank">Jetzt kaufen</a>
+  </div>
+
+  <div class="product-card" data-category="Jacke">
+    <img src="https://image2url.com/r2/bucket1/images/1766620890903-96ca5795-aee1-4ac9-9fe2-3eaca19ca021.jpeg" 
+         alt="Nike Nocta Jacke Schwarz">
+    <div class="product-name">Nike Nocta Jacke Schwarz</div>
+    <div class="product-price">35€</div>
+    <a class="buy-button" href="https://link.acbuy.com/Dww561Km" target="_blank">Jetzt kaufen</a>
+  </div>
+  platz für neue
+</div>
+
   </div>
 
   <!-- Blauer Maus-Glow -->
