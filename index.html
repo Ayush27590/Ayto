@@ -54,16 +54,21 @@ h2{padding:0 20px 10px;}
 .products.horizontal .product{scroll-snap-align:center;}
 .products.grid{display:grid;gap:20px;}
 
-/* Responsive grid */
-@media(max-width:768px){.products.grid{grid-template-columns:repeat(2,1fr);}}
+/* Responsive grid - Handy */
+@media(max-width:768px){
+  .products.grid{grid-template-columns:repeat(2,1fr);}
+  .product{width:100%;}
+}
+
+/* Desktop grid (unchanged) */
 @media(min-width:769px){.products.grid{grid-template-columns:repeat(4,1fr);}}
 
 /* Product card */
 .product{
   background:var(--card);border-radius:14px;padding:15px;display:flex;flex-direction:column;align-items:center;
-  transition:.3s;position:relative;width:260px;
+  transition:.3s;position:relative;width:100%;
 }
-.product:hover{transform:translateY(-8px);box-shadow:0 0 25px rgba(59,130,246,.8);}
+.product:hover, .product:active{transform:translateY(-8px);box-shadow:0 0 25px rgba(59,130,246,.6);}
 .product img{width:100%;height:200px;object-fit:contain;background:#000;border-radius:10px;}
 .product h3{margin:10px 0;text-align:center;min-height:44px;}
 .product .price{margin-bottom:10px;color:#ccc;min-height:24px;}
@@ -124,14 +129,12 @@ h2{padding:0 20px 10px;}
 <div class="load-more" id="loadMore" onclick="loadMoreProducts()">⬇ Mehr anzeigen</div>
 
 <script>
-/* Mouse Glow */
 const mouseGlow = document.getElementById("mouse-glow");
 document.addEventListener("mousemove", e=>{
   mouseGlow.style.left=e.clientX+"px";
   mouseGlow.style.top=e.clientY+"px";
 });
 
-/* Sidebar open/close */
 const sidebar = document.getElementById("sidebar");
 function openMenu(){sidebar.classList.add("active");}
 function closeMenu(){sidebar.classList.remove("active");}
@@ -139,11 +142,9 @@ document.addEventListener("click", e=>{
   if(!sidebar.contains(e.target) && !e.target.classList.contains('menu-btn')){closeMenu();}
 });
 
-/* Google Sheet */
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTKFDHf1iWbs3eMXQCWfu-DxXu8cKa-3k907m4M83DVJ3b3hMHt7co3z_w3LKwcRBkgOigcWRKZGgvC/pub?output=csv";
 let allProducts=[],currentCat="",visibleCount=20;
 
-/* Fetch CSV */
 fetch(SHEET_URL)
 .then(res=>res.text())
 .then(csv=>{
@@ -156,14 +157,10 @@ fetch(SHEET_URL)
   showHome();
 });
 
-/* Render */
 const container = document.getElementById("products");
+
 function renderList(list,mode){
-  if(mode==="horizontal"){
-    container.className="products horizontal";
-  } else {
-    container.className="products grid";
-  }
+  container.className = mode==="horizontal"?"products horizontal":"products grid";
   container.innerHTML="";
   list.forEach(p=>{
     const isNew = Date.now()-p.added<72*60*60*1000;
@@ -178,11 +175,8 @@ function renderList(list,mode){
   });
 }
 
-/* Home & Category */
-/* --- Home & Category --- */
 function showHome(){
   document.getElementById("sectionTitle").innerText="New Products";
-  // 10 neuesten Produkte aus allen Kategorien
   const newest = allProducts.sort((a,b)=>b.added-a.added).slice(0,10);
   renderList(newest,"horizontal");
   loadMore.style.display="none";
@@ -194,29 +188,26 @@ function showCategory(cat){
   document.getElementById("sectionTitle").innerText=cat;
   currentCat=cat;
   visibleCount=20;
-  // Filter nach Kategorie
-  const filtered = allProducts.filter(p=>p.category.trim().toLowerCase() === cat.trim().toLowerCase());
+  const filtered = allProducts.filter(p=>p.category.trim().toLowerCase()===cat.trim().toLowerCase());
   renderList(filtered.slice(0,visibleCount),"grid");
   loadMore.style.display = filtered.length>visibleCount?"block":"none";
   closeMenu();
 }
 
-/* Load More für Kategorien */
+const loadMore = document.getElementById("loadMore");
 function loadMoreProducts(){
   visibleCount += 20;
-  const filtered = allProducts.filter(p=>p.category.trim().toLowerCase() === currentCat.trim().toLowerCase());
+  const filtered = allProducts.filter(p=>p.category.trim().toLowerCase()===currentCat.trim().toLowerCase());
   renderList(filtered.slice(0,visibleCount),"grid");
   loadMore.style.display = filtered.length>visibleCount?"none":"block";
 }
 
-/* Live Search */
 function liveSearch(){
   const q = document.getElementById("search").value.toLowerCase();
   const filtered = allProducts.filter(p=>p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
   renderList(filtered,"grid");
 }
 
-/* Header click */
 function goHome(){showHome();}
 </script>
 </body>
