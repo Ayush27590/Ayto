@@ -14,28 +14,26 @@
   --blue:#3b82f6;
 }
 
-*{box-sizing:border-box}
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif}
 
 body{
-  margin:0;
   background:var(--bg);
   color:var(--white);
-  font-family:Arial,sans-serif;
   overflow-x:hidden;
 }
 
-/* 🔵 Maus Glow */
+/* Maus Glow */
 #mouse-glow{
   position:fixed;
-  width:320px;
-  height:320px;
+  width:300px;
+  height:300px;
   background:radial-gradient(circle, rgba(59,130,246,.35), transparent 70%);
   pointer-events:none;
   transform:translate(-50%,-50%);
   z-index:0;
 }
 
-/* 🔁 Laufender Banner */
+/* Banner */
 .banner{
   width:100%;
   overflow:hidden;
@@ -48,91 +46,69 @@ body{
   animation:bannerMove 18s linear infinite;
 }
 .banner a{
-  color:#fff;
-  text-decoration:none;
-  font-weight:bold;
+  color:#fff; text-decoration:none; font-weight:bold;
 }
 @keyframes bannerMove{
-  0%{transform:translateX(0)}
-  100%{transform:translateX(-100%)}
+  0% { transform:translateX(0); }
+  100% { transform:translateX(-100%); }
 }
 
-/* 🔝 Header */
+/* Header */
 header{
   display:flex;
-  align-items:center;
   justify-content:space-between;
+  align-items:center;
   padding:15px 20px;
+  background:#000;
   position:sticky;
   top:0;
-  background:#000;
   z-index:10;
 }
 .menu-btn{font-size:26px;cursor:pointer}
 .title{font-size:22px;font-weight:bold;cursor:pointer}
 .header-right{display:flex;align-items:center;gap:8px}
-.header-right img{width:32px;height:32px;border-radius:50%}
+.header-right img{height:32px;border-radius:50%}
 
-/* 📂 Sidebar */
+/* Sidebar */
 .sidebar{
-  position:fixed;
-  top:0;
-  left:-260px;
-  width:260px;
-  height:100%;
-  background:#111;
-  padding:20px;
-  transition:.3s;
-  z-index:20;
+  position:fixed;left:-260px;top:0;
+  width:260px;height:100%;
+  background:#111;padding:20px;
+  transition:.3s;z-index:20;
 }
 .sidebar.active{left:0}
+.sidebar .close{font-size:22px;cursor:pointer;margin-bottom:20px}
 .sidebar a{
-  display:block;
-  color:#fff;
-  text-decoration:none;
-  margin:15px 0;
-  font-size:18px;
+  display:block;color:#fff;text-decoration:none;font-size:18px;
+  margin:10px 0;
 }
-.sidebar .close{font-size:22px;cursor:pointer}
 
-/* 🔍 Suche */
-.search{text-align:center;padding:15px}
+/* Search */
+.search{padding:20px;text-align:center}
 .search input{
-  width:90%;
-  max-width:400px;
-  padding:10px;
-  border-radius:8px;
-  border:none;
+  width:90%;max-width:400px;
+  padding:10px;border-radius:8px;border:none;
 }
 
-/* 🏠 Titel */
-h2{text-align:center;margin:20px 0}
+/* Titles */
+h2{padding:0 20px 10px;}
 
-/* 📦 Produkte */
+/* Products */
 .products{padding:20px;gap:20px;justify-content:center}
+.products.horizontal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory}
+.products.horizontal .product{scroll-snap-align:center}
+.products.grid{display:grid;gap:20px}
 
-/* Startseite */
-.start-mode{
-  display:flex;
-  overflow-x:auto;
-  scroll-snap-type:x mandatory;
-}
-.start-mode .product-card{
-  min-width:260px;
-  scroll-snap-align:center;
-}
-
-/* Kategorien */
-.category-mode{display:grid}
+/* Responsive grid */
 @media(max-width:768px){
-  .category-mode{grid-template-columns:repeat(2,1fr)}
+  .products.grid{grid-template-columns:repeat(2,1fr)}
 }
 @media(min-width:769px){
-  .category-mode{grid-template-columns:repeat(4,1fr)}
+  .products.grid{grid-template-columns:repeat(4,1fr)}
 }
 
-/* 🧱 Produktkarte */
-.product-card{
+/* Product card */
+.product{
   background:var(--card);
   border-radius:14px;
   padding:15px;
@@ -140,66 +116,44 @@ h2{text-align:center;margin:20px 0}
   flex-direction:column;
   align-items:center;
   transition:.3s;
+  position:relative;
 }
-.product-card:hover{
+.product:hover{
   transform:translateY(-8px);
-  box-shadow:0 0 28px rgba(59,130,246,.8);
+  box-shadow:0 0 25px rgba(59,130,246,.8);
 }
-
-/* 🖼 Bilder gleiche Höhe */
-.product-card img{
-  width:100%;
-  height:220px;
-  object-fit:contain;
-  background:#000;
-  border-radius:10px;
+.product img{
+  width:100%;height:200px;
+  object-fit:contain;background:#000;border-radius:10px;
 }
-
-/* Texte gleiche Höhe */
-.product-card h3{
-  min-height:48px;
-  margin:10px 0 5px;
-  text-align:center;
-}
-.product-card p{
-  min-height:24px;
-  margin:0 0 12px;
-  color:#ccc;
-}
-
-/* Button immer unten */
+.product h3{margin:10px 0; text-align:center;min-height:44px;}
+.product .price{margin-bottom:10px;color:#ccc;}
 .buy-btn{
-  margin-top:auto;
-  width:100%;
-  text-align:center;
-  padding:10px;
-  border-radius:10px;
+  margin-top:auto;width:100%;text-align:center;
+  padding:10px;border-radius:10px;
   background:linear-gradient(90deg,#4f46e5,#9333ea);
-  color:#fff;
-  text-decoration:none;
-  font-weight:bold;
+  color:#fff;text-decoration:none;font-weight:bold;
 }
 
-/* ⬇ Mehr laden */
+/* Load more */
 .load-more{
   text-align:center;
-  font-size:22px;
   color:var(--purple);
+  font-size:20px;
   cursor:pointer;
   margin:30px;
   display:none;
 }
 </style>
 </head>
-
 <body>
 
 <div id="mouse-glow"></div>
 
 <div class="banner">
   <div class="banner-track">
-    <a href="https://www.acbuy.com/login?loginStatus=register&code=UDEZQN" target="_blank">
-      Sign up to ACBuy & get $510 coupon • Sign up to ACBuy & get $510 coupon • Sign up to ACBuy & get $510 coupon •
+    <a href="https://www.acbuy.com/signup" target="_blank">
+      Sign up to ACBuy & get $510 coupon • Sign up to ACBuy & get $510 coupon •
     </a>
   </div>
 </div>
@@ -209,113 +163,111 @@ h2{text-align:center;margin:20px 0}
   <div class="title" onclick="goHome()">Biggest Spreadsheet</div>
   <div class="header-right">
     <img src="https://image2url.com/r2/bucket1/images/1766618106451-0c81d26c-b893-4839-bc66-6642677b99d6.jpg">
-    <span>x</span>
+    <span>X</span>
     <img src="https://image2url.com/r2/bucket1/images/1766618736532-eaf2466a-02d4-42f9-974e-09096fe25b67.jpg">
   </div>
 </header>
 
 <div class="sidebar" id="sidebar">
   <div class="close" onclick="closeMenu()">✖</div>
-  <a href="javascript:void(0)" onclick="goHome()">Startseite</a>
-  <a href="javascript:void(0)" onclick="filterCategory('schuhe')">Schuhe</a>
-  <a href="javascript:void(0)" onclick="filterCategory('jacken')">Jacken</a>
+  <a onclick="goHome()">Startseite</a>
+  <a onclick="showCategory('shoes')">Schuhe</a>
+  <a onclick="showCategory('jackets')">Jacken</a>
 </div>
 
 <div class="search">
-  <input type="text" placeholder="Suchen..." oninput="liveSearch(this.value)">
+  <input id="search" placeholder="Live Suche..." oninput="liveSearch()">
 </div>
 
 <h2 id="sectionTitle">New Products</h2>
 
-<section id="products" class="products start-mode"></section>
-<div class="load-more" id="loadMore" onclick="loadMore()">⬇ Mehr anzeigen</div>
+<div class="products horizontal" id="products"></div>
+
+<div class="load-more" id="loadMore" onclick="loadMoreProducts()">⬇ Mehr anzeigen</div>
 
 <script>
-/* 🔵 Maus Glow */
+/* Mouse Glow */
 document.addEventListener("mousemove",e=>{
-  mouseGlow.style.left=e.clientX+"px";
-  mouseGlow.style.top=e.clientY+"px";
+  const glow=document.getElementById("mouse-glow");
+  glow.style.left=e.clientX+"px";
+  glow.style.top=e.clientY+"px";
 });
 
-/* 📂 Sidebar */
+/* Sidebar */
 function openMenu(){sidebar.classList.add("active")}
 function closeMenu(){sidebar.classList.remove("active")}
 
-/* 🔗 GOOGLE SHEETS CSV LINK */
+/* Google Sheet CSV URL */
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTKFDHf1iWbs3eMXQCWfu-DxXu8cKa-3k907m4M83DVJ3b3hMHt7co3z_w3LKwcRBkgOigcWRKZGgvC/pub?output=csv";
 
-let allProducts=[];
-let currentCategory="";
-let visible=20;
+let allProducts = [];
+let currentCat = "";
+let visibleCount = 20;
 
-/* 📥 Produkte laden */
+/* Load CSV */
 fetch(SHEET_URL)
-  .then(res=>res.text())
-  .then(csv=>{
-    const rows=csv.split("\n").slice(1);
-    rows.forEach(r=>{
-      const [name,price,image,link,category]=r.split(",");
-      if(!name)return;
-      allProducts.push({name,price,image,link,category});
-    });
-    renderProducts(allProducts);
+.then(res=>res.text())
+.then(csv=>{
+  const rows = csv.trim().split("\n").slice(1);
+  rows.forEach(row=>{
+    const [name,price,image,link,category] = row.split(",");
+    if(!name) return;
+    allProducts.push({name,price,image,link,category});
   });
+  showHome();
+});
 
-function renderProducts(list){
-  products.innerHTML="";
+/* Render */
+function renderList(list, mode){
+  const c=document.getElementById("products");
+  c.className="products "+mode;
+  c.innerHTML="";
   list.forEach(p=>{
-    products.innerHTML+=`
-      <div class="product-card" data-category="${p.category}">
+    c.innerHTML+=`
+      <div class="product">
         <img src="${p.image}">
         <h3>${p.name}</h3>
-        <p>${p.price}€</p>
+        <div class="price">${p.price}€</div>
         <a class="buy-btn" href="${p.link}" target="_blank">Jetzt kaufen</a>
       </div>`;
   });
 }
 
-/* Kategorien */
-function filterCategory(cat){
-  currentCategory=cat;
-  visible=20;
-  products.className="products category-mode";
-  sectionTitle.innerText=cat.toUpperCase();
+/* Show Start */
+function showHome(){
+  document.getElementById("sectionTitle").innerText="New Products";
+  renderList(allProducts,"horizontal");
+  loadMore.style.display="none";
+  currentCat="";
+  closeMenu();
+}
 
+/* Show Category */
+function showCategory(cat){
+  document.getElementById("sectionTitle").innerText=cat.toUpperCase();
+  currentCat=cat;
+  visibleCount=20;
   const filtered=allProducts.filter(p=>p.category===cat);
-  renderProducts(filtered.slice(0,visible));
-  loadMoreBtn.style.display=filtered.length>visible?"block":"none";
+  renderList(filtered.slice(0,visibleCount),"grid");
+  loadMore.style.display=filtered.length>visibleCount?"block":"none";
   closeMenu();
 }
 
-function loadMore(){
-  visible+=20;
-  const filtered=allProducts.filter(p=>p.category===currentCategory);
-  renderProducts(filtered.slice(0,visible));
+/* Load More */
+function loadMoreProducts(){
+  visibleCount+=20;
+  const filtered=allProducts.filter(p=>p.category===currentCat);
+  renderList(filtered.slice(0,visibleCount),"grid");
+  loadMore.style.display=filtered.length>visibleCount?"block":"none";
 }
 
-/* Startseite */
-function goHome(){
-  products.className="products start-mode";
-  sectionTitle.innerText="New Products";
-  renderProducts(allProducts);
-  loadMoreBtn.style.display="none";
-  closeMenu();
+/* Live Search */
+function liveSearch(){
+  const q=document.getElementById("search").value.toLowerCase();
+  const filtered=allProducts.filter(p=>p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+  renderList(filtered,"grid");
 }
 
-/* Live Suche */
-function liveSearch(v){
-  v=v.toLowerCase();
-  document.querySelectorAll(".product-card").forEach(c=>{
-    c.style.display=c.innerText.toLowerCase().includes(v)?"flex":"none";
-  });
-}
-
-/* DOM */
-const sidebar=document.getElementById("sidebar");
-const products=document.getElementById("products");
-const sectionTitle=document.getElementById("sectionTitle");
-const loadMoreBtn=document.getElementById("loadMore");
-const mouseGlow=document.getElementById("mouse-glow");
 </script>
 
 </body>
