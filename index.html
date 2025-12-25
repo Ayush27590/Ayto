@@ -1,152 +1,149 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8">
-  <title>ACBuy Startseite</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #000;
-      color: #fff;
-      overflow-x: hidden;
-      position: relative;
-    }
+<meta charset="UTF-8">
+<title>Biggest Spreadsheet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-    /* Scrollende Top-Bar */
-    .top-bar {
-      width: 100%;
-      background: #111;
-      color: #fff;
-      font-size: 1em;
-      white-space: nowrap;
-      overflow: hidden;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.5);
-      position: fixed;
-      top: 0;
-      z-index: 1002;
-      cursor: pointer;
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
 
-    .top-bar span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: marquee 15s linear infinite;
-    }
+/* TOP BAR */
+.top-bar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: #111;
+  color: white;
+  overflow: hidden;
+  white-space: nowrap;
+  z-index: 1000;
+  cursor: pointer;
+}
 
-    @keyframes marquee {
-      0% { transform: translateX(0%); }
-      100% { transform: translateX(-100%); }
-    }
+.top-bar span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: marquee 14s linear infinite;
+}
 
-    /* Header rechts oben */
-    header {
-      width: 100%;
-      display: flex;
-      justify-content: flex-end;
-      align-items: center;
-      padding: 10px 20px;
-      position: fixed;
-      top: 30px;
-      right: 0;
-      z-index: 1003;
-    }
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
+}
 
-    header img {
-      height: 40px;
-      border-radius: 50%;
-      margin-right: 10px;
-    }
-
-    header span {
-      font-size: 1.2em;
-      color: #9b59b6;
-      font-weight: bold;
-      margin-right: 10px;
-    }
-
-    /* Hamburger Button */
-    #hamburger div {
-      width: 30px;
-      height: 4px;
-      background: #9b59b6;
-      margin: 6px 0;
-    }
-
-    #hamburger {
-      position: fixed;
-      top: 60px;
-      left: 20px;
-      cursor: pointer;
-      z-index: 1004;
-    }
-
-    /* Sidebar */
-    #sidebar {
-      height: 100%;
-      width: 0;
-      position: fixed;
-      top: 0;
-      left: 0;
-      background: #111;
-      overflow-x: hidden;
-      transition: 0.3s;
-      padding-top: 80px;
-      z-index: 1003;
-    }
-
-    #sidebar button {
-      display: block;
-      width: 80%;
-      margin: 10px 20px;
-      padding: 10px;
-      border-radius: 6px;
-      border: 2px solid #9b59b6;
-      background: #000;
-      color: #fff;
-      cursor: pointer;
-      text-align: left;
-      font-size: 1em;
-    }
-
-    #sidebar a.closebtn {
-      position: absolute;
-      top: 20px;
-      right: 25px;
-      font-size: 36px;
-      color: #9b59b6;
-      text-decoration: none;
-    }
-
-    /* Titel New Products */
-    .new-products-title {
-      text-align: center;
-      color: #9b59b6;
-      margin-top: 160px; /* unter Top-Bar + Header */
-      font-size: 1.5em;
-    }
-
-   .products {
+/* HEADER */
+header {
+  position: fixed;
+  top: 30px;
+  right: 20px;
   display: flex;
-  justify-content: center; /* horizontal zentriert */
-  flex-wrap: wrap;         /* mehrere Produkte in Zeilen */
-  gap: 20px;               /* Abstand zwischen Karten */
-  padding: 20px 0;
+  align-items: center;
+  z-index: 1001;
+}
+
+header img {
+  height: 36px;
+  border-radius: 50%;
+}
+
+header span {
+  margin: 0 8px;
+  color: #9b59b6;
+  font-weight: bold;
+}
+
+/* TITLE */
+.main-title {
+  margin-top: 120px;
+  text-align: center;
+  font-size: 2em;
+  color: #9b59b6;
+}
+
+/* HAMBURGER */
+#hamburger {
+  position: fixed;
+  top: 60px;
+  left: 20px;
+  cursor: pointer;
+  z-index: 1002;
+}
+
+#hamburger div {
+  width: 30px;
+  height: 4px;
+  background: #9b59b6;
+  margin: 6px 0;
+}
+
+/* SIDEBAR */
+#sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 100%;
+  background: #111;
+  overflow: hidden;
+  transition: 0.3s;
+  z-index: 1003;
+  padding-top: 80px;
+}
+
+#sidebar button {
+  display: block;
+  margin: 10px 20px;
+  width: 80%;
+  padding: 10px;
+  background: black;
+  border: 2px solid #9b59b6;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* PRODUCTS */
+.new-products-title {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 1.5em;
+  color: #9b59b6;
+}
+
+.products {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding: 30px;
 }
 
 .product-card {
+  width: 230px;
+  height: 390px;
   background: #111;
   border: 2px solid #9b59b6;
   border-radius: 10px;
-  width: 220px;
   padding: 10px;
-  text-align: center;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* Button immer unten */
-  height: 380px;                  /* gleiche Höhe für alle Karten */
-  transition: transform 0.3s, box-shadow 0.3s;
+  justify-content: space-between;
+  text-align: center;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 25px rgba(0,123,255,0.7);
 }
 
 .product-card img {
@@ -155,173 +152,143 @@
 }
 
 .product-name {
-  margin-top: 10px;
   font-weight: bold;
-  font-size: 1em;
+  margin-top: 10px;
 }
 
 .product-price {
   margin-top: 5px;
-  color: #fff;
-  font-size: 1em;
 }
 
 .buy-button {
   margin-top: 10px;
-  padding: 8px 15px;
+  padding: 10px;
+  width: 100%;
   background: #9b59b6;
-  color: #fff;
-  border: none;
+  color: white;
   border-radius: 6px;
-  cursor: pointer;
-  width: 89%;
   text-decoration: none;
-  display: inline-block;
   font-weight: bold;
-  transition: background 0.3s;
 }
 
 .buy-button:hover {
   background: #7d3fbf;
 }
 
-.product-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 0 20px rgba(0,123,255,0.7);
+/* CURSOR GLOW */
+#cursor {
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(0,123,255,0.25), transparent 70%);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 0;
 }
-
-    /* Blauer Maus-Glow */
-    #cursor-light {
-      position: fixed;
-      width: 250px;
-      height: 250px;
-      background: radial-gradient(circle, rgba(0,123,255,0.3) 0%, rgba(0,123,255,0) 70%);
-      border-radius: 50%;
-      pointer-events: none;
-      transform: translate(-50%, -50%);
-      z-index: 0;
-      transition: left 0.05s, top 0.05s;
-    }
-  </style>
+</style>
 </head>
+
 <body>
 
-  <!-- Scrollende Top-Bar -->
-  <div class="top-bar" onclick="window.location.href='https://www.acbuy.com/login?loginStatus=register&code=UDEZQN';">
-    <span>Sign up to acbuy to get 510 dollar coupon → Click here!</span>
-  </div>
+<div class="top-bar" onclick="window.open('https://www.acbuy.com/register','_blank')">
+  <span>Sign up to acbuy to get 510 dollar coupon — Click here!</span>
+</div>
 
-  <!-- Header rechts oben: Profilbild + x + Logo -->
-  <header>
-    <img src="https://image2url.com/r2/bucket1/images/1766618106451-0c81d26c-b893-4839-bc66-6642677b99d6.jpg" alt="Profilbild">
-    <span>x</span>
-    <img src="https://image2url.com/r2/bucket1/images/1766618736532-eaf2466a-02d4-42f9-974e-09096fe25b67.jpg" alt="ACBuy Logo">
-  </header>
+<header>
+  <img src="https://image2url.com/r2/bucket1/images/1766618106451-0c81d26c-b893-4839-bc66-6642677b99d6.jpg">
+  <span>x</span>
+  <img src="https://image2url.com/r2/bucket1/images/1766618736532-eaf2466a-02d4-42f9-974e-09096fe25b67.jpg">
+</header>
 
-  <!-- Hamburger Button -->
-  <div id="hamburger" onclick="toggleSidebar()">
-    <div></div>
-    <div></div>
-    <div></div>
-  </div>
+<div id="hamburger" onclick="toggleSidebar()">
+  <div></div><div></div><div></div>
+</div>
 
-  <!-- Sidebar -->
-  <div id="sidebar">
-    <a href="javascript:void(0)" class="closebtn" onclick="toggleSidebar()">&times;</a>
-    <button onclick="filterCategory('Alle')">Alle</button>
-    <button onclick="filterCategory('Jacke')">Jacke</button>
-    <button onclick="filterCategory('Hose')">Hose</button>
-    <button onclick="filterCategory('Schuhe')">Schuhe</button>
-  </div>
+<div id="sidebar">
+  <button onclick="filterCategory('Alle')">Alle</button>
+  <button onclick="filterCategory('Schuhe')">Schuhe</button>
+  <button onclick="filterCategory('Jacke')">Jacken</button>
+</div>
 
-  <!-- Titel New Products -->
-  <h2 class="new-products-title">New Products</h2>
+<h1 class="main-title">Biggest Spreadsheet</h1>
+<h2 class="new-products-title">New Products</h2>
 
-  <h2 class="new-products-title">New Products</h2>
-
-<!-- Container für zentrierte Produkte -->
 <div class="products" id="products">
-  <div class="product-card" data-category="Schuhe">
-    <img src="https://image2url.com/r2/bucket1/images/1766619319153-8ababce7-1501-45f8-b741-e08bf7f7692e.jpeg" 
-         alt="Louis Vuitton Skates">
-    <div class="product-name">Louis Vuitton Skates Black and White</div>
+
+  <!-- LV Skates -->
+  <div class="product-card" data-category="Schuhe" data-date="2025-01-01" data-link="https://link.acbuy.com/tU67omEL">
+    <img src="https://image2url.com/r2/bucket1/images/1766619319153-8ababce7-1501-45f8-b741-e08bf7f7692e.jpeg">
+    <div class="product-name">Louis Vuitton Skates Black & White</div>
     <div class="product-price">62€</div>
     <a class="buy-button" href="https://link.acbuy.com/tU67omEL" target="_blank">Jetzt kaufen</a>
   </div>
 
-  <div class="product-card" data-category="Jacke">
-    <img src="https://image2url.com/r2/bucket1/images/1766620890903-96ca5795-aee1-4ac9-9fe2-3eaca19ca021.jpeg" 
-         alt="Nike Nocta Jacke Schwarz">
+  <!-- Nike Nocta -->
+  <div class="product-card" data-category="Jacke" data-date="2025-01-02" data-link="https://link.acbuy.com/Dww561Km">
+    <img src="https://image2url.com/r2/bucket1/images/1766620890903-96ca5795-aee1-4ac9-9fe2-3eaca19ca021.jpeg">
     <div class="product-name">Nike Nocta Jacke Schwarz</div>
     <div class="product-price">35€</div>
     <a class="buy-button" href="https://link.acbuy.com/Dww561Km" target="_blank">Jetzt kaufen</a>
   </div>
- <div class="product-card" data-category="Schuhe">
-  <img src="https://image2url.com/r2/bucket1/images/1766622832679-b09b3371-3b41-4829-a473-65bfb3c5f3cc.jpeg" 
-       alt="Travis Scott x Jordan Air Jordan 1 Low Black Samurai">
 
-  <div class="product-name">
-    Travis Scott x Jordan Air Jordan 1 Low Black Samurai
+  <!-- Travis Black -->
+  <div class="product-card" data-category="Schuhe" data-date="2025-01-03" data-link="https://link.acbuy.com/KSyILyb3">
+    <img src="https://image2url.com/r2/bucket1/images/1766622832679-b09b3371-3b41-4829-a473-65bfb3c5f3cc.jpeg">
+    <div class="product-name">Travis Scott Jordan 1 Low Black Samurai</div>
+    <div class="product-price">31€</div>
+    <a class="buy-button" href="https://link.acbuy.com/KSyILyb3" target="_blank">Jetzt kaufen</a>
   </div>
 
-  <div class="product-price">31€</div>
-
-  <a class="buy-button" 
-     href="https://link.acbuy.com/KSyILyb3" 
-     target="_blank" 
-     rel="noopener">
-    Jetzt kaufen
-  </a>
-</div>
-<div class="product-card" data-category="Schuhe">
-  <img src="https://image2url.com/r2/bucket1/images/1766623370318-1910e143-8130-4dad-94e2-fab7217e8b88.jpeg" 
-       alt="Travis Scott x Jordan Air Jordan 1 Low White and Blue Barb">
-
-  <div class="product-name">
-    Travis Scott x Jordan Air Jordan 1 Low White and Blue Barb
+  <!-- Travis Blue -->
+  <div class="product-card" data-category="Schuhe" data-date="2025-01-04" data-link="https://link.acbuy.com/gtM6lI9u">
+    <img src="https://image2url.com/r2/bucket1/images/1766623370318-1910e143-8130-4dad-94e2-fab7217e8b88.jpeg">
+    <div class="product-name">Travis Scott Jordan 1 Low White & Blue</div>
+    <div class="product-price">31€</div>
+    <a class="buy-button" href="https://link.acbuy.com/gtM6lI9u" target="_blank">Jetzt kaufen</a>
   </div>
 
-  <div class="product-price">31€</div>
-
-  <a class="buy-button" 
-     href="https://link.acbuy.com/gtM6lI9u" 
-     target="_blank" 
-     rel="noopener">
-    Jetzt kaufen
-  </a>
 </div>
 
-  Bald mehr
-</div>
+<div id="cursor"></div>
 
-  </div>
+<script>
+document.addEventListener("mousemove", e => {
+  cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
+});
 
-  <!-- Blauer Maus-Glow -->
-  <div id="cursor-light"></div>
+function toggleSidebar() {
+  sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
+}
 
-  <!-- JavaScript -->
-  <script>
-    // Maus-Licht Effekt
-    document.addEventListener('mousemove', function(e){
-      const light = document.getElementById('cursor-light');
-      light.style.left = e.clientX + 'px';
-      light.style.top = e.clientY + 'px';
-    });
-
-    // Sidebar öffnen/schließen
-    function toggleSidebar() {
-      let sidebar = document.getElementById("sidebar");
-      sidebar.style.width = (sidebar.style.width === "250px") ? "0" : "250px";
+function filterCategory(cat) {
+  document.querySelectorAll(".product-card").forEach(c => {
+    if (cat === "Alle" || c.dataset.category === cat) {
+      c.style.display = "flex";
+      setTimeout(() => c.style.opacity = 1, 10);
+    } else {
+      c.style.opacity = 0;
+      setTimeout(() => c.style.display = "none", 300);
     }
+  });
+}
 
-    // Kategorienfilter
-    function filterCategory(category) {
-      let cards = document.querySelectorAll('.product-card');
-      cards.forEach(card => {
-        card.style.display = (category === 'Alle' || card.getAttribute('data-category') === category) ? 'flex' : 'none';
-      });
+// Sort newest first & max 10
+const container = document.getElementById("products");
+[...container.children]
+  .sort((a,b)=>new Date(b.dataset.date)-new Date(a.dataset.date))
+  .slice(0,10)
+  .forEach(c=>container.appendChild(c));
+
+// Card click
+document.querySelectorAll(".product-card").forEach(card=>{
+  card.addEventListener("click",e=>{
+    if(e.target.tagName!=="A"){
+      window.open(card.dataset.link,"_blank");
     }
-  </script>
+  });
+});
+</script>
 
 </body>
 </html>
