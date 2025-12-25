@@ -261,17 +261,38 @@ function toggleSidebar() {
   sidebar.style.width = sidebar.style.width === "250px" ? "0" : "250px";
 }
 
-function filterCategory(cat) {
-  document.querySelectorAll(".product-card").forEach(c => {
-    if (cat === "Alle" || c.dataset.category === cat) {
-      c.style.display = "flex";
-      setTimeout(() => c.style.opacity = 1, 10);
+<script>
+function filterCategory(category) {
+  document.querySelectorAll(".product-card").forEach(card => {
+    if (category === "Alle" || card.dataset.category === category) {
+      card.style.display = "flex";
+      setTimeout(() => card.style.opacity = "1", 10);
     } else {
-      c.style.opacity = 0;
-      setTimeout(() => c.style.display = "none", 300);
+      card.style.opacity = "0";
+      setTimeout(() => card.style.display = "none", 300);
     }
   });
+
+  // Sidebar schließen nach Klick
+  document.getElementById("sidebar").style.width = "0";
 }
+</script>
+<script>
+let startX = 0;
+
+document.addEventListener("touchstart", e => {
+  startX = e.touches[0].clientX;
+});
+
+document.addEventListener("touchend", e => {
+  const endX = e.changedTouches[0].clientX;
+  const sidebar = document.getElementById("sidebar");
+
+  if (startX - endX > 80 && sidebar.style.width === "250px") {
+    sidebar.style.width = "0";
+  }
+});
+</script>
 
 // Sort newest first & max 10
 const container = document.getElementById("products");
@@ -287,6 +308,20 @@ document.querySelectorAll(".product-card").forEach(card=>{
       window.open(card.dataset.link,"_blank");
     }
   });
+});
+</script>
+<script>
+document.addEventListener("click", function (e) {
+  const sidebar = document.getElementById("sidebar");
+  const hamburger = document.getElementById("hamburger");
+
+  if (
+    sidebar.style.width === "250px" &&
+    !sidebar.contains(e.target) &&
+    !hamburger.contains(e.target)
+  ) {
+    sidebar.style.width = "0";
+  }
 });
 </script>
 
