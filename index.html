@@ -104,6 +104,15 @@ h2{padding:0 20px 10px;}
 <div class="sidebar" id="sidebar">
   <div class="close" onclick="closeMenu()">✖</div>
   <a onclick="goHome()">Startseite</a>
+  <a onclick="showCategory('Schuhe')">Schuhe</a>
+  <a onclick="showCategory('Jacke')">Jacke</a>
+  <a onclick="showCategory('Sweater')">Sweater</a>
+  <a onclick="showCategory('Pullover')">Pullover</a>
+  <a onclick="showCategory('Hose')">Hose</a>
+  <a onclick="showCategory('Jeans')">Jeans</a>
+  <a onclick="showCategory('T-Shirts')">T-Shirts</a>
+  <a onclick="showCategory('Shirts')">Shirts</a>
+  <a onclick="showCategory('Accessoires')">Accessoires</a>
 </div>
 
 <div class="search">
@@ -143,13 +152,6 @@ fetch(SHEET_URL)
     const [name,price,image,link,category] = row.split(",");
     if(!name) return;
     allProducts.push({name,price,image,link,category,added:Date.now()});
-    if(!document.querySelector(`.sidebar a[data-cat='${category}']`)){
-      const a = document.createElement("a");
-      a.textContent = category.charAt(0).toUpperCase()+category.slice(1);
-      a.setAttribute("onclick",`showCategory('${category}')`);
-      a.setAttribute("data-cat",category);
-      sidebar.appendChild(a);
-    }
   });
   showHome();
 });
@@ -157,7 +159,11 @@ fetch(SHEET_URL)
 /* Render */
 const container = document.getElementById("products");
 function renderList(list,mode){
-  container.className="products "+mode;
+  if(mode==="horizontal"){
+    container.className="products horizontal";
+  } else {
+    container.className="products grid";
+  }
   container.innerHTML="";
   list.forEach(p=>{
     const isNew = Date.now()-p.added<72*60*60*1000;
@@ -183,7 +189,7 @@ function showHome(){
 }
 
 function showCategory(cat){
-  document.getElementById("sectionTitle").innerText=cat.charAt(0).toUpperCase()+cat.slice(1);
+  document.getElementById("sectionTitle").innerText=cat;
   currentCat=cat;
   visibleCount=20;
   const filtered = allProducts.filter(p=>p.category===cat);
@@ -207,6 +213,9 @@ function liveSearch(){
   const filtered = allProducts.filter(p=>p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
   renderList(filtered,"grid");
 }
+
+/* Header click */
+function goHome(){showHome();}
 </script>
 </body>
 </html>
