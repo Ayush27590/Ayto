@@ -58,19 +58,20 @@ h2{padding:0 20px 10px;}
 @media(max-width:768px){
   .products.grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* genau 2 Karten pro Reihe */
-    gap:10px; /* kleiner Abstand */
-    padding:10px; 
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* min 160px pro Karte */
+    gap:12px;
+    padding:10px;
   }
   .product {
     width:100%; /* volle Breite der Grid-Spalte */
-    max-width:100%; /* vorherige feste Breite entfernen */
+    max-width:100%;
   }
   .product img {
-    height:150px; /* proportional kleiner */
+    height:140px; /* etwas kleiner für Handy */
     object-fit:contain;
   }
 }
+
 
 
 
