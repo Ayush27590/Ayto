@@ -13,33 +13,41 @@
   --blue:#3b82f6;
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif;}
-body{background:var(--bg);color:var(--white);overflow-x:hidden;position:relative;}
+body{background:var(--bg);color:var(--white);overflow-x:hidden;position:relative;scroll-behavior:smooth;}
 
 /* Mouse Glow */
 #mouse-glow{
   position:fixed;width:300px;height:300px;
-  background:radial-gradient(circle, rgba(59,130,246,.35), transparent 70%);
-  pointer-events:none;transform:translate(-50%,-50%);z-index:0;
+  background:radial-gradient(circle, rgba(59,130,246,0.35), transparent 70%);
+  pointer-events:none;transform:translate(-50%,-50%);
+  z-index:0;transition:transform 0.1s ease-out, opacity 0.3s ease-out;
+  animation:glowPulse 2s infinite alternate;
+}
+@keyframes glowPulse{
+  0%{opacity:0.3;}
+  50%{opacity:0.6;}
+  100%{opacity:0.3;}
 }
 
 /* Banner */
 .banner{width:100%;overflow:hidden;background:linear-gradient(90deg,#4f46e5,#9333ea);white-space:nowrap;}
 .banner-track{display:inline-block;padding-left:100%;animation:bannerMove 18s linear infinite;}
-.banner a{color:#fff;text-decoration:none;font-weight:bold;}
+.banner a{color:#fff;text-decoration:none;font-weight:bold;font-size:16px;}
 @keyframes bannerMove{0%{transform:translateX(0);}100%{transform:translateX(-100%);}}
 
 /* Header */
-header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:#000;position:sticky;top:0;z-index:10;}
+header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:#000;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.5);}
 .menu-btn{font-size:26px;cursor:pointer;}
 .title{font-size:22px;font-weight:bold;cursor:pointer;}
 .header-right{display:flex;align-items:center;gap:8px;}
 .header-right img{height:32px;border-radius:50%;}
 
 /* Sidebar */
-.sidebar{position:fixed;left:-260px;top:0;width:260px;height:100%;background:#111;padding:20px;transition:.3s;z-index:20;}
+.sidebar{position:fixed;left:-260px;top:0;width:260px;height:100%;background:#111;padding:20px;transition:.3s;z-index:20;overflow-y:auto;}
 .sidebar.active{left:0;}
 .sidebar .close{font-size:22px;cursor:pointer;margin-bottom:20px;}
-.sidebar a{display:block;color:#fff;text-decoration:none;font-size:18px;margin:10px 0;cursor:pointer;}
+.sidebar a{display:block;color:#fff;text-decoration:none;font-size:18px;margin:10px 0;cursor:pointer;transition:.2s;}
+.sidebar a:hover{color:var(--blue);}
 
 /* Search */
 .search{padding:20px;text-align:center;}
@@ -49,55 +57,65 @@ header{display:flex;justify-content:space-between;align-items:center;padding:15p
 h2{padding:0 20px 10px;}
 
 /* Products */
-.products{padding:20px;gap:20px;justify-content:center;display:flex;flex-wrap:wrap;}
-.products.horizontal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;}
+.products{padding:20px;gap:20px;justify-content:center;display:flex;flex-wrap:wrap;transition:all 0.3s ease;}
+.products.horizontal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:20px;padding-left:20px;scroll-behavior:smooth;}
 .products.horizontal .product{scroll-snap-align:center;}
-.products.grid{display:grid;gap:20px;}
+.products.grid{display:grid;gap:20px;transition:all 0.3s ease;}
 
 /* Responsive grid - Handy */
 @media(max-width:768px){
-  .products.grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); /* min 160px pro Karte */
-    gap:12px;
-    padding:10px;
+  .products.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
+    gap:12px;padding:10px;
   }
-  .product {
-    width:100%; /* volle Breite der Grid-Spalte */
-    max-width:100%;
-  }
-  .product img {
-    height:140px; /* etwas kleiner für Handy */
-    object-fit:contain;
-  }
+  .products.horizontal{gap:12px;padding-left:10px;}
+  .product{width:100%;max-width:100%;}
+  .product img{height:140px;object-fit:contain;}
 }
-
-
-
-
-/* Desktop grid (unchanged) */
-@media(min-width:769px){.products.grid{grid-template-columns:repeat(4,1fr);}}
 
 /* Product card */
 .product{
   background:var(--card);border-radius:14px;padding:15px;display:flex;flex-direction:column;align-items:center;
-  transition:.3s;position:relative;width:260px;
+  transition:transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease, transform 0.3s;
+  position:relative;width:260px;opacity:0;animation:fadeInUp 0.6s forwards;
 }
-.product:hover, .product:active{transform:translateY(-8px);box-shadow:0 0 25px rgba(59,130,246,.6);}
-.product img{width:100%;height:200px;object-fit:contain;background:#000;border-radius:10px;}
+.product:hover, .product:active{
+  transform:translateY(-8px);box-shadow:0 0 25px rgba(59,130,246,.6);
+}
+.product img{width:100%;height:200px;object-fit:contain;background:#000;border-radius:10px;transition:transform 0.3s;}
+.product:hover img{transform:scale(1.05);}
 .product h3{margin:10px 0;text-align:center;min-height:44px;}
 .product .price{margin-bottom:10px;color:#ccc;min-height:24px;}
-.buy-btn{margin-top:auto;width:100%;text-align:center;padding:10px;border-radius:10px;background:linear-gradient(90deg,#4f46e5,#9333ea);color:#fff;text-decoration:none;font-weight:bold;}
+.buy-btn{
+  margin-top:auto;width:100%;text-align:center;padding:10px;border-radius:10px;
+  background:linear-gradient(90deg,#4f46e5,#9333ea);
+  color:#fff;text-decoration:none;font-weight:bold;
+  transition:all 0.3s ease;
+}
+.buy-btn:hover{background:linear-gradient(90deg,#9333ea,#4f46e5);transform:scale(1.05);}
 
 /* NEW Ribbon */
 .new-ribbon{
   position:absolute;top:10px;right:10px;
   background:red;color:#fff;font-size:12px;font-weight:bold;padding:3px 7px;
-  border-radius:5px;
+  border-radius:5px;animation:pulseNew 1.5s infinite;
+}
+@keyframes pulseNew{
+  0%{transform:scale(1);opacity:1;}
+  50%{transform:scale(1.1);opacity:0.8;}
+  100%{transform:scale(1);opacity:1;}
 }
 
 /* Load more */
-.load-more{text-align:center;color:var(--purple);font-size:20px;cursor:pointer;margin:30px;display:none;}
+.load-more{text-align:center;color:var(--purple);font-size:20px;cursor:pointer;margin:30px;display:none;transition:all 0.3s;}
+.load-more:hover{color:var(--blue);}
+
+/* Animations */
+@keyframes fadeInUp{
+  0%{opacity:0;transform:translateY(20px);}
+  100%{opacity:1;transform:translateY(0);}
+}
 </style>
 </head>
 <body>
