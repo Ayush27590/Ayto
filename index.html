@@ -179,8 +179,10 @@ function renderList(list,mode){
 }
 
 /* Home & Category */
+/* --- Home & Category --- */
 function showHome(){
   document.getElementById("sectionTitle").innerText="New Products";
+  // 10 neuesten Produkte aus allen Kategorien
   const newest = allProducts.sort((a,b)=>b.added-a.added).slice(0,10);
   renderList(newest,"horizontal");
   loadMore.style.display="none";
@@ -192,19 +194,19 @@ function showCategory(cat){
   document.getElementById("sectionTitle").innerText=cat;
   currentCat=cat;
   visibleCount=20;
-  const filtered = allProducts.filter(p=>p.category===cat);
+  // Filter nach Kategorie
+  const filtered = allProducts.filter(p=>p.category.trim().toLowerCase() === cat.trim().toLowerCase());
   renderList(filtered.slice(0,visibleCount),"grid");
   loadMore.style.display = filtered.length>visibleCount?"block":"none";
   closeMenu();
 }
 
-/* Load More */
-const loadMore = document.getElementById("loadMore");
+/* Load More für Kategorien */
 function loadMoreProducts(){
   visibleCount += 20;
-  const filtered = allProducts.filter(p=>p.category===currentCat);
+  const filtered = allProducts.filter(p=>p.category.trim().toLowerCase() === currentCat.trim().toLowerCase());
   renderList(filtered.slice(0,visibleCount),"grid");
-  loadMore.style.display = filtered.length>visibleCount?"block":"none";
+  loadMore.style.display = filtered.length>visibleCount?"none":"block";
 }
 
 /* Live Search */
