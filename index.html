@@ -104,8 +104,6 @@ h2{padding:0 20px 10px;}
 <div class="sidebar" id="sidebar">
   <div class="close" onclick="closeMenu()">✖</div>
   <a onclick="goHome()">Startseite</a>
-  <a onclick="showCategory('shoes')">Schuhe</a>
-  <a onclick="showCategory('jackets')">Jacken</a>
 </div>
 
 <div class="search">
@@ -117,6 +115,7 @@ h2{padding:0 20px 10px;}
 <div class="load-more" id="loadMore" onclick="loadMoreProducts()">⬇ Mehr anzeigen</div>
 
 <script>
+/* Mouse Glow */
 const mouseGlow = document.getElementById("mouse-glow");
 document.addEventListener("mousemove", e=>{
   mouseGlow.style.left=e.clientX+"px";
@@ -127,8 +126,8 @@ document.addEventListener("mousemove", e=>{
 const sidebar = document.getElementById("sidebar");
 function openMenu(){sidebar.classList.add("active");}
 function closeMenu(){sidebar.classList.remove("active");}
-document.addEventListener("click",e=>{
-  if(!sidebar.contains(e.target)&&!e.target.classList.contains('menu-btn')){closeMenu();}
+document.addEventListener("click", e=>{
+  if(!sidebar.contains(e.target) && !e.target.classList.contains('menu-btn')){closeMenu();}
 });
 
 /* Google Sheet */
@@ -144,6 +143,13 @@ fetch(SHEET_URL)
     const [name,price,image,link,category] = row.split(",");
     if(!name) return;
     allProducts.push({name,price,image,link,category,added:Date.now()});
+    if(!document.querySelector(`.sidebar a[data-cat='${category}']`)){
+      const a = document.createElement("a");
+      a.textContent = category.charAt(0).toUpperCase()+category.slice(1);
+      a.setAttribute("onclick",`showCategory('${category}')`);
+      a.setAttribute("data-cat",category);
+      sidebar.appendChild(a);
+    }
   });
   showHome();
 });
@@ -154,13 +160,13 @@ function renderList(list,mode){
   container.className="products "+mode;
   container.innerHTML="";
   list.forEach(p=>{
-    const isNew = Date.now()-p.added<72*60*60*1000; // 72h
+    const isNew = Date.now()-p.added<72*60*60*1000;
     container.innerHTML+=`
       <div class="product">
         ${isNew?'<div class="new-ribbon">NEW</div>':''}
         <img src="${p.image}">
         <h3>${p.name}</h3>
-        <div class="price">${p.price}</div>
+        <div class="price">${p.price}€</div>
         <a class="buy-btn" href="${p.link}" target="_blank">Jetzt kaufen</a>
       </div>`;
   });
@@ -175,29 +181,30 @@ function showHome(){
   currentCat="";
   closeMenu();
 }
+
 function showCategory(cat){
-  document.getElementById("sectionTitle").innerText=cat.toUpperCase();
+  document.getElementById("sectionTitle").innerText=cat.charAt(0).toUpperCase()+cat.slice(1);
   currentCat=cat;
   visibleCount=20;
-  const filtered=allProducts.filter(p=>p.category===cat);
+  const filtered = allProducts.filter(p=>p.category===cat);
   renderList(filtered.slice(0,visibleCount),"grid");
-  loadMore.style.display=filtered.length>visibleCount?"block":"none";
+  loadMore.style.display = filtered.length>visibleCount?"block":"none";
   closeMenu();
 }
 
 /* Load More */
-const loadMore=document.getElementById("loadMore");
+const loadMore = document.getElementById("loadMore");
 function loadMoreProducts(){
-  visibleCount+=20;
-  const filtered=allProducts.filter(p=>p.category===currentCat);
+  visibleCount += 20;
+  const filtered = allProducts.filter(p=>p.category===currentCat);
   renderList(filtered.slice(0,visibleCount),"grid");
-  loadMore.style.display=filtered.length>visibleCount?"block":"none";
+  loadMore.style.display = filtered.length>visibleCount?"block":"none";
 }
 
 /* Live Search */
 function liveSearch(){
-  const q=document.getElementById("search").value.toLowerCase();
-  const filtered=allProducts.filter(p=>p.name.toLowerCase().includes(q)||p.category.toLowerCase().includes(q));
+  const q = document.getElementById("search").value.toLowerCase();
+  const filtered = allProducts.filter(p=>p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
   renderList(filtered,"grid");
 }
 </script>
