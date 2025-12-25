@@ -155,17 +155,22 @@ main {
   width: 260px;
   padding: 15px;
   flex-shrink: 0;
-  transition: 0.3s;
+  transition: 0.3s, box-shadow 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* sorgt dafür, dass Button unten bleibt */
   position: relative;
 }
 
 .product-card:hover {
   transform: translateY(-10px);
+  box-shadow: 0 0 20px 4px rgba(0, 120, 255, 0.7); /* außenrum blauer Glow */
 }
 
 .product-card img {
   width: 100%;
   border-radius: 12px;
+  margin-bottom: 10px;
 }
 
 .product-name {
@@ -185,7 +190,10 @@ main {
   padding: 10px;
   border-radius: 8px;
   text-decoration: none;
+  margin-top: auto; /* immer ganz unten im Produkt */
+  text-align: center;
 }
+
 </style>
 </head>
 
