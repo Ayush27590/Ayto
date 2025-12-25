@@ -56,8 +56,19 @@ h2{padding:0 20px 10px;}
 
 /* Responsive grid - Handy */
 @media(max-width:768px){
-  .products.grid{grid-template-columns:repeat(2,1fr);}
-  .product{width:100%;}
+  .products.grid{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 Karten pro Reihe */
+    gap:15px; /* kleiner Abstand */
+    padding:10px;
+  }
+  .product{
+    width:100%; /* volle Breite der Grid-Spalte */
+    max-width:none; /* vorherige feste Breite entfernen */
+  }
+  .product img{
+    height:150px; /* kleiner für Handy */
+  }
 }
 
 /* Desktop grid (unchanged) */
