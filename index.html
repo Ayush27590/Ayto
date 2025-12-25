@@ -4,19 +4,11 @@
 <meta charset="UTF-8">
 <title>Biggest Spreadsheet</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
 * { box-sizing: border-box; }
+body { margin: 0; font-family: Arial, sans-serif; background: #000; color: #fff; overflow-x: hidden; }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #000;
-  color: #fff;
-  overflow-x: hidden;
-}
-
-/* GLOW EFFECT */
+/* Glow-Effekt um Maus */
 .glow {
   position: fixed;
   top: 0;
@@ -25,9 +17,9 @@ body {
   height: 600px;
   pointer-events: none;
   background: radial-gradient(circle at center,
-    rgba(120, 0, 255, 0.25),
-    rgba(120, 0, 255, 0.15),
-    rgba(120, 0, 255, 0.05),
+    rgba(0, 120, 255, 0.25),
+    rgba(0, 120, 255, 0.15),
+    rgba(0, 120, 255, 0.05),
     transparent 70%);
   transform: translate(-50%, -50%);
   z-index: 1;
@@ -48,27 +40,10 @@ header {
   z-index: 3000;
   border-bottom: 1px solid #222;
 }
-
-.menu-btn {
-  font-size: 30px;
-  cursor: pointer;
-  color: white;
-}
-
-.header-title {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.header-right img {
-  height: 28px;
-}
+.menu-btn { font-size: 30px; cursor: pointer; color: white; }
+.header-title { font-size: 20px; font-weight: bold; }
+.header-right { display: flex; align-items: center; gap: 8px; }
+.header-right img { height: 28px; }
 
 /* SIDEBAR */
 .sidebar {
@@ -82,21 +57,9 @@ header {
   transition: 0.3s;
   z-index: 4000;
 }
-
 .sidebar.open { left: 0; }
-
-.sidebar .close {
-  font-size: 24px;
-  cursor: pointer;
-  margin-bottom: 20px;
-}
-
-.sidebar a {
-  display: block;
-  color: white;
-  text-decoration: none;
-  padding: 10px 0;
-}
+.sidebar .close { font-size: 24px; cursor: pointer; margin-bottom: 20px; }
+.sidebar a { display: block; color: white; text-decoration: none; padding: 10px 0; }
 
 /* BANNER */
 .banner {
@@ -110,16 +73,8 @@ header {
   z-index: 2;
   position: relative;
 }
-
-.banner span {
-  display: inline-block;
-  animation: scroll 15s linear infinite;
-}
-
-@keyframes scroll {
-  from { transform: translateX(100%); }
-  to { transform: translateX(-100%); }
-}
+.banner span { display: inline-block; animation: scroll 15s linear infinite; }
+@keyframes scroll { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
 
 /* MAIN */
 main {
@@ -128,7 +83,6 @@ main {
   position: relative;
   z-index: 2;
 }
-
 .search {
   margin: 20px auto;
   padding: 10px;
@@ -148,7 +102,6 @@ main {
   overflow-x: auto;
   padding: 20px;
 }
-
 .product-card {
   background: #111;
   border-radius: 15px;
@@ -158,45 +111,16 @@ main {
   transition: 0.3s, box-shadow 0.3s;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* sorgt dafür, dass Button unten bleibt */
+  justify-content: space-between;
   position: relative;
 }
-
-.product-card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 0 20px 4px rgba(0, 120, 255, 0.7); /* außenrum blauer Glow */
-}
-
-.product-card img {
-  width: 100%;
-  border-radius: 12px;
-  margin-bottom: 10px;
-}
-
-.product-name {
-  margin: 10px 0 5px;
-  font-weight: bold;
-}
-
-.price {
-  color: #b084ff;
-  margin-bottom: 10px;
-}
-
-.buy-btn {
-  display: block;
-  background: purple;
-  color: white;
-  padding: 10px;
-  border-radius: 8px;
-  text-decoration: none;
-  margin-top: auto; /* immer ganz unten im Produkt */
-  text-align: center;
-}
-
+.product-card:hover { transform: translateY(-10px); box-shadow: 0 0 20px 4px rgba(0,120,255,0.7); }
+.product-card img { width: 100%; border-radius: 12px; margin-bottom: 10px; }
+.product-name { margin: 10px 0 5px; font-weight: bold; }
+.price { color: #b084ff; margin-bottom: 10px; }
+.buy-btn { display: block; background: purple; color: white; padding: 10px; border-radius: 8px; text-decoration: none; margin-top: auto; text-align: center; }
 </style>
 </head>
-
 <body>
 
 <div class="glow" id="glow"></div>
@@ -213,8 +137,9 @@ main {
 
 <div class="sidebar" id="sidebar">
   <div class="close" onclick="closeMenu()">✖</div>
-  <a href="#" onclick="closeMenu()">Schuhe</a>
-  <a href="#" onclick="closeMenu()">Jacken</a>
+  <a href="javascript:void(0)" onclick="filterCategory('all')">Alle</a>
+  <a href="javascript:void(0)" onclick="filterCategory('schuhe')">Schuhe</a>
+  <a href="javascript:void(0)" onclick="filterCategory('jacken')">Jacken</a>
 </div>
 
 <div class="banner" onclick="window.open('https://www.acbuy.com')">
@@ -224,7 +149,6 @@ main {
 <main>
   <h1>New Products</h1>
   <input class="search" id="search" placeholder="Live Suche...">
-
   <div class="products">
 
     <div class="product-card" data-name="louis vuitton skates schuhe">
@@ -260,18 +184,24 @@ main {
 
 <script>
 /* Sidebar */
-function openMenu() {
-  document.getElementById("sidebar").classList.add("open");
-}
-function closeMenu() {
-  document.getElementById("sidebar").classList.remove("open");
+function openMenu() { document.getElementById("sidebar").classList.add("open"); }
+function closeMenu() { document.getElementById("sidebar").classList.remove("open"); }
+
+/* Filter nach Kategorie */
+function filterCategory(category) {
+  const products = document.querySelectorAll(".product-card");
+  products.forEach(card => {
+    if(category==='all') { card.style.display='block'; }
+    else { card.style.display = card.dataset.name.includes(category) ? 'block':'none'; }
+  });
+  closeMenu();
 }
 
 /* Live Search */
 document.getElementById("search").addEventListener("input", function () {
   let value = this.value.toLowerCase();
   document.querySelectorAll(".product-card").forEach(card => {
-    card.style.display = card.dataset.name.includes(value) ? "block" : "none";
+    card.style.display = card.dataset.name.includes(value) ? "block":"none";
   });
 });
 
@@ -282,6 +212,5 @@ document.addEventListener("mousemove", e => {
   glow.style.top = e.clientY + "px";
 });
 </script>
-
 </body>
 </html>
