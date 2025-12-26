@@ -268,13 +268,42 @@ function showCategory(cat){
   closeMenu();
 }
 
+// ⬇ Hier neuen Load-More-Code einfügen
 const loadMore = document.getElementById("loadMore");
+
 function loadMoreProducts(){
+  if(!currentCat) return; // nur für Kategorien
+
+  const filtered = allProducts.filter(p =>
+    p.category.trim().toLowerCase() === currentCat.trim().toLowerCase()
+  );
+
   visibleCount += 20;
-  const filtered = allProducts.filter(p=>p.category.trim().toLowerCase()===currentCat.trim().toLowerCase());
-  renderList(filtered.slice(0,visibleCount),"grid");
-  loadMore.style.display = filtered.length>visibleCount?"none":"block";
+  renderList(filtered.slice(0, visibleCount), "grid");
+
+  // Zeige Load-More nur wenn noch mehr Produkte übrig sind
+  loadMore.style.display = filtered.length > visibleCount ? "block" : "none";
 }
+
+function showCategory(cat){
+  document.getElementById("sectionTitle").innerText = cat;
+  currentCat = cat;
+  visibleCount = 20;
+
+  const filtered = allProducts.filter(p =>
+    p.category.trim().toLowerCase() === cat.trim().toLowerCase()
+  );
+
+  renderList(filtered.slice(0, visibleCount), "grid");
+
+  // Load More Button anzeigen nur wenn mehr als 20 Produkte vorhanden sind
+  loadMore.style.display = filtered.length > visibleCount ? "block" : "none";
+
+  highlightCategory(cat);
+  document.getElementById("sortContainer").style.display = "block";
+  closeMenu();
+}
+
 
 function liveSearch(){
   const q = document.getElementById("search").value.toLowerCase();
