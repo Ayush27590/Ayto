@@ -76,22 +76,23 @@ h2{padding:0 20px 10px;}
 }
 
   /* Kategorie-Seiten Handy Hochformat */
+/* Kategorie-Seiten Handy Hochformat (gleich wie Startseite) */
 @media(max-width:480px){
   .products.grid {
-    grid-template-columns:repeat(2, 1fr);
-    gap:16px; /* Abstand zwischen den Karten */
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:12px; /* wie auf Startseite */
   }
   .product {
-    width:100%;
-    max-width:calc(50% - 16px); /* macht die Karten breiter */
-    min-height:300px; /* sorgt dafür, dass die Karten groß bleiben */
+    width:calc(50% - 12px); /* 2 Karten pro Reihe */
+    min-height:250px; /* gleiche Höhe wie Startseite */
   }
   .product img {
-    height:180px; /* Bild proportional größer */
+    height:140px; /* gleiche Bildgröße wie Startseite */
+    object-fit:contain;
   }
 }
-
-
 
 /* Responsive grid - Desktop categories */
 @media(min-width:769px){
