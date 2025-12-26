@@ -2,217 +2,357 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Biggest Spreadsheet</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial}
+:root{
+  --blue:#4da3ff;
+  --bg1:#060b1a;
+  --bg2:#0b1230;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;font-family:Inter,system-ui}
+
 body{
-  background:#050915;
-  color:#fff;
+  background:radial-gradient(circle at top,var(--bg2),var(--bg1));
+  color:white;
   overflow-x:hidden;
 }
 
-/* === SIDE LIGHT EFFECT === */
-body::before,body::after{
-  content:"";
-  position:fixed;
-  top:0;bottom:0;
-  width:90px;
-  background:linear-gradient(180deg,transparent,#2f7cff,transparent);
-  animation:flow 6s linear infinite;
-  pointer-events:none;
+/* SIGNUP BANNER */
+.banner{
+  background:linear-gradient(90deg,#1a4fff,#00b3ff);
+  white-space:nowrap;
+  overflow:hidden;
 }
-body::after{right:0}
-body::before{left:0}
-@keyframes flow{0%{opacity:.2}50%{opacity:.9}100%{opacity:.2}}
+.banner a{
+  display:inline-block;
+  padding:10px 0;
+  animation:scroll 12s linear infinite;
+  color:white;
+  text-decoration:none;
+  font-weight:600;
+}
+@keyframes scroll{
+  from{transform:translateX(100%)}
+  to{transform:translateX(-100%)}
+}
 
-/* === HEADER === */
+/* HEADER */
 header{
-  padding:20px;
-  text-align:center;
-  font-size:26px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:14px 20px;
+  position:sticky;
+  top:0;
+  background:rgba(5,10,25,.8);
+  backdrop-filter:blur(10px);
+  z-index:10;
+}
+.menu-btn{
+  font-size:24px;
+  cursor:pointer;
+}
+.logo{
   font-weight:800;
   cursor:pointer;
 }
-
-/* === CATEGORIES === */
-#categories{
-  display:flex;
-  flex-wrap:wrap;
-  justify-content:center;
-  gap:10px;
-  padding:10px;
-}
-.cat-btn{
-  padding:10px 20px;
-  border-radius:25px;
-  background:linear-gradient(90deg,#2f7cff,#6a5cff);
-  box-shadow:0 0 15px #2f7cff;
-  cursor:pointer;
-}
-
-/* === SORT === */
-#sortBox{
-  display:none;
-  text-align:right;
-  padding:10px 20px;
-}
-select{
-  background:#0d1a3a;
-  color:#fff;
-  padding:8px;
-  border:none;
-  border-radius:10px;
-}
-
-/* === GRIDS === */
-.grid{display:grid;gap:20px;padding:20px}
-.start-grid{grid-template-columns:repeat(5,1fr)}
-.cat-grid{grid-template-columns:repeat(4,1fr)}
-
-/* === CARD === */
-.card{
-  background:#0d1a3a;
-  border-radius:18px;
-  padding:14px;
-  display:flex;
-  flex-direction:column;
-  height:100%;
-  box-shadow:0 0 20px rgba(47,124,255,.3);
-}
-.card:hover{box-shadow:0 0 40px #2f7cff}
-.img{
-  height:200px;
+.profile{
   display:flex;
   align-items:center;
-  justify-content:center;
-  position:relative;
+  gap:6px;
 }
-.img img{max-height:100%;max-width:100%;object-fit:contain}
+.profile img{width:28px;height:28px;border-radius:50%}
+
+/* SIDEBAR */
+.sidebar{
+  position:fixed;
+  left:-260px;
+  top:0;
+  width:260px;
+  height:100%;
+  background:#0b1230;
+  padding:20px;
+  transition:.3s;
+  z-index:20;
+}
+.sidebar.open{left:0}
+.sidebar h3{margin-bottom:10px}
+.sidebar a{
+  display:block;
+  padding:10px 0;
+  color:white;
+  text-decoration:none;
+}
+.overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.4);
+  display:none;
+  z-index:15;
+}
+.overlay.show{display:block}
+
+/* SEARCH */
+.search{
+  margin:20px;
+}
+.search input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+}
+
+/* PRODUCTS */
+.section-title{
+  padding:0 20px;
+  font-size:22px;
+  font-weight:700;
+}
+
+/* START SWIPE */
+.swipe{
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  padding:20px;
+}
+.swipe::-webkit-scrollbar{display:none}
+
+/* GRID */
+.grid{
+  display:grid;
+  gap:20px;
+  padding:20px;
+}
+@media(min-width:768px){
+  .grid{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:767px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+}
+
+/* CARD */
+.card{
+  background:#0e1738;
+  border-radius:16px;
+  padding:14px;
+  position:relative;
+  transition:.3s;
+}
+.card:hover{
+  transform:translateY(-8px);
+  box-shadow:0 0 30px rgba(77,163,255,.5);
+}
+.card img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:contain;
+}
 .new{
   position:absolute;
-  top:8px;left:8px;
-  background:#2f7cff;
+  top:10px;
+  right:10px;
+  background:#4da3ff;
   padding:4px 8px;
-  border-radius:6px;
   font-size:12px;
+  border-radius:6px;
+  animation:pulse 1.5s infinite;
 }
-.name{min-height:36px;margin-top:8px}
-.price{margin-top:auto;font-weight:700}
+@keyframes pulse{
+  0%{opacity:.6}
+  50%{opacity:1}
+  100%{opacity:.6}
+}
+.name{margin:10px 0;font-size:14px}
+.price{font-weight:700;margin-bottom:10px}
 .buy{
-  margin-top:12px;
-  padding:10px;
-  border-radius:10px;
-  background:linear-gradient(90deg,#2f7cff,#6a5cff);
+  display:block;
   text-align:center;
+  padding:10px;
+  background:linear-gradient(90deg,#4da3ff,#00c6ff);
+  border-radius:8px;
   text-decoration:none;
-  color:#fff;
+  color:white;
+  box-shadow:0 0 15px rgba(77,163,255,.6);
 }
 
-/* === LOAD MORE === */
-#loadMore{
-  display:none;
-  margin:30px auto;
-  padding:12px 30px;
-  border-radius:30px;
-  background:#2f7cff;
+/* SORT */
+.sort{
+  text-align:right;
+  padding:0 20px;
+}
+.sort select{
+  padding:8px;
+  border-radius:8px;
+}
+
+/* LOAD MORE */
+.load-more{
+  text-align:center;
+  padding:20px;
+}
+.load-more button{
+  padding:12px 20px;
   border:none;
-  color:#fff;
+  border-radius:10px;
+  background:#4da3ff;
+  color:white;
 }
 
-/* === MOBILE === */
-@media(max-width:900px){
-  .start-grid{grid-template-columns:repeat(2,1fr)}
-  .cat-grid{grid-template-columns:repeat(2,1fr)}
+/* MOUSE GLOW */
+.glow{
+  position:fixed;
+  width:300px;
+  height:300px;
+  background:radial-gradient(circle,rgba(77,163,255,.25),transparent 70%);
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  z-index:1;
+}
+
+/* BACKGROUND FLASH */
+.flash{
+  position:fixed;
+  inset:0;
+  background:radial-gradient(circle,rgba(77,163,255,.15),transparent 70%);
+  opacity:0;
+  animation:flash 5s infinite;
+  pointer-events:none;
+}
+@keyframes flash{
+  0%,90%,100%{opacity:0}
+  92%{opacity:1}
 }
 </style>
 </head>
 
 <body>
 
-<header onclick="goHome()">Biggest Spreadsheet</header>
+<div class="flash"></div>
+<div class="glow" id="glow"></div>
 
-<div id="categories"></div>
-
-<div id="home">
-  <div class="grid start-grid" id="homeGrid"></div>
+<div class="banner">
+  <a href="https://www.acbuy.com/register">Sign up to ACBuy & get $510 coupon — Sign up to ACBuy & get $510 coupon</a>
 </div>
 
-<div id="category" style="display:none">
-  <div id="sortBox">
-    <select onchange="setSort(this.value)">
-      <option value="new">Neueste</option>
-      <option value="up">Preis ↑</option>
-      <option value="down">Preis ↓</option>
-    </select>
+<header>
+  <div class="menu-btn" onclick="openMenu()">☰</div>
+  <div class="logo" onclick="goHome()">Biggest Spreadsheet</div>
+  <div class="profile">
+    <img src="https://image2url.com/r2/bucket1/images/1766618106451-0c81d26c-b893-4839-bc66-6642677b99d6.jpg">
+    ✕
+    <img src="https://image2url.com/r2/bucket1/images/1766618736532-eaf2466a-02d4-42f9-974e-09096fe25b67.jpg">
   </div>
-  <div class="grid cat-grid" id="catGrid"></div>
-  <button id="loadMore" onclick="loadMore()">Mehr laden</button>
+</header>
+
+<div class="sidebar" id="sidebar">
+  <h3>Kategorien</h3>
+  <a onclick="showCategory('Schuhe')">Schuhe</a>
+  <a onclick="showCategory('Jacke')">Jacke</a>
+  <a onclick="showCategory('Sweater')">Sweater</a>
+  <a onclick="showCategory('Pullover')">Pullover</a>
+  <a onclick="showCategory('Hose')">Hose</a>
+  <a onclick="showCategory('Jeans')">Jeans</a>
+  <a onclick="showCategory('T-Shirts')">T-Shirts</a>
+  <a onclick="showCategory('Shirts')">Shirts</a>
+  <a onclick="showCategory('Accessoires')">Accessoires</a>
+</div>
+<div class="overlay" id="overlay" onclick="closeMenu()"></div>
+
+<div class="search">
+  <input id="search" placeholder="Live Search...">
+</div>
+
+<h2 class="section-title" id="title">New Products</h2>
+
+<div class="sort" id="sort" style="display:none">
+  <select onchange="sortProducts(this.value)">
+    <option value="new">Neueste</option>
+    <option value="low">Preis ↑</option>
+    <option value="high">Preis ↓</option>
+  </select>
+</div>
+
+<div id="products"></div>
+
+<div class="load-more" id="loadMore" style="display:none">
+  <button onclick="loadMore()">Mehr laden ↓</button>
 </div>
 
 <script>
-const CSV="https://docs.google.com/spreadsheets/d/e/2PACX-1vTKFDHf1iWbs3eMXQCWfu-DxXu8cKa-3k907m4M83DVJ3b3hMHt7co3z_w3LKwcRBkgOigcWRKZGgvC/pub?output=csv";
-let products=[],currentCat="",offset=0,sort="new";
+const sheetURL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTKFDHf1iWbs3eMXQCWfu-DxXu8cKa-3k907m4M83DVJ3b3hMHt7co3z_w3LKwcRBkgOigcWRKZGgvC/pub?output=csv";
+let all=[],view=[],page=1,per=20,current=null;
 
-fetch(CSV).then(r=>r.text()).then(t=>{
- t.split("\n").slice(1).forEach(r=>{
-  const [name,price,image,link,category,date]=r.split(",");
-  products.push({name,price:+price,image,link,category,date:new Date(date)});
+fetch(sheetURL).then(r=>r.text()).then(t=>{
+ const rows=t.trim().split("\n").slice(1);
+ all=rows.map(r=>{
+  const[c,p,i,l,k]=r.split(",");
+  return{n:c,pr:+p,img:i,link:l,cat:k,time:Date.now()};
  });
- renderCategories();
- renderHome();
+ showHome();
 });
 
-function renderCategories(){
- const cats=[...new Set(products.map(p=>p.category))];
- document.getElementById("categories").innerHTML=
- cats.map(c=>`<div class="cat-btn" onclick="openCat('${c}')">${c}</div>`).join("");
+function showHome(){
+ current=null;page=1;
+ document.getElementById("title").innerText="New Products";
+ document.getElementById("sort").style.display="none";
+ view=[...all].slice(0,10);
+ renderSwipe();
 }
 
-function card(p){
- const isNew=(Date.now()-p.date)<72*3600000;
- return `
- <div class="card">
-  <div class="img">
-   <img src="${p.image}">
-   ${isNew?'<div class="new">NEW</div>':""}
-  </div>
-  <div class="name">${p.name}</div>
-  <div class="price">${p.price} €</div>
-  <a class="buy" href="${p.link}" target="_blank">Jetzt kaufen</a>
- </div>`;
+function showCategory(c){
+ closeMenu();
+ current=c;page=1;
+ document.getElementById("title").innerText=c;
+ document.getElementById("sort").style.display="block";
+ view=all.filter(p=>p.cat===c);
+ renderGrid();
 }
 
-function renderHome(){
- document.getElementById("home").style.display="block";
- document.getElementById("category").style.display="none";
- document.getElementById("homeGrid").innerHTML=
- products.sort((a,b)=>b.date-a.date).slice(0,10).map(card).join("");
+function renderSwipe(){
+ const p=document.getElementById("products");
+ p.className="swipe";p.innerHTML="";
+ view.forEach(addCard);
 }
 
-function openCat(c){
- currentCat=c;offset=0;
- document.getElementById("home").style.display="none";
- document.getElementById("category").style.display="block";
- document.getElementById("sortBox").style.display="block";
- document.getElementById("catGrid").innerHTML="";
- loadMore();
+function renderGrid(){
+ const p=document.getElementById("products");
+ p.className="grid";p.innerHTML="";
+ view.slice(0,page*per).forEach(addCard);
+ document.getElementById("loadMore").style.display=view.length>page*per?"block":"none";
 }
 
-function setSort(v){sort=v;offset=0;document.getElementById("catGrid").innerHTML="";loadMore()}
-
-function loadMore(){
- let list=products.filter(p=>p.category===currentCat);
- if(sort==="new")list.sort((a,b)=>b.date-a.date);
- if(sort==="up")list.sort((a,b)=>a.price-b.price);
- if(sort==="down")list.sort((a,b)=>b.price-a.price);
- list.slice(offset,offset+20).forEach(p=>catGrid.innerHTML+=card(p));
- offset+=20;
- loadMore.style.display=offset<list.length?"block":"none";
+function addCard(o){
+ const d=document.createElement("div");
+ d.className="card";
+ d.innerHTML=`
+ ${Date.now()-o.time<259200000?'<div class="new">NEW</div>':''}
+ <img src="${o.img}">
+ <div class="name">${o.n}</div>
+ <div class="price">${o.pr}€</div>
+ <a class="buy" href="${o.link}" target="_blank">Jetzt kaufen</a>`;
+ products.appendChild(d);
 }
 
-function goHome(){renderHome()}
+function loadMore(){page++;renderGrid()}
+function sortProducts(v){
+ if(v==="low")view.sort((a,b)=>a.pr-b.pr);
+ if(v==="high")view.sort((a,b)=>b.pr-a.pr);
+ renderGrid();
+}
+function openMenu(){sidebar.classList.add("open");overlay.classList.add("show")}
+function closeMenu(){sidebar.classList.remove("open");overlay.classList.remove("show")}
+function goHome(){showHome()}
+
+/* MOUSE GLOW */
+document.addEventListener("mousemove",e=>{
+ glow.style.left=e.clientX+"px";
+ glow.style.top=e.clientY+"px";
+});
 </script>
 
 </body>
