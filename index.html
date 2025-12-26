@@ -2,41 +2,32 @@
 <html lang="de">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Biggest Spreadsheet</title>
 
 <style>
-/* ===== RESET ===== */
 *{box-sizing:border-box;margin:0;padding:0;font-family:Inter,Arial}
-
-/* ===== BACKGROUND ===== */
 body{
-  background:radial-gradient(circle at left,#10245a,#050915);
+  background:#050915;
   color:#fff;
-  min-height:100vh;
   overflow-x:hidden;
 }
 
-/* Light trail sides */
-body:before,body:after{
+/* === SIDE LIGHT EFFECT === */
+body::before,body::after{
   content:"";
   position:fixed;
   top:0;bottom:0;
-  width:80px;
+  width:90px;
   background:linear-gradient(180deg,transparent,#2f7cff,transparent);
-  animation:trail 6s linear infinite;
+  animation:flow 6s linear infinite;
   pointer-events:none;
 }
-body:after{right:0}
-body:before{left:0}
+body::after{right:0}
+body::before{left:0}
+@keyframes flow{0%{opacity:.2}50%{opacity:.9}100%{opacity:.2}}
 
-@keyframes trail{
-  0%{opacity:.2}
-  50%{opacity:.8}
-  100%{opacity:.2}
-}
-
-/* ===== HEADER ===== */
+/* === HEADER === */
 header{
   padding:20px;
   text-align:center;
@@ -45,51 +36,42 @@ header{
   cursor:pointer;
 }
 
-/* ===== CATEGORY BUTTONS ===== */
+/* === CATEGORIES === */
 #categories{
   display:flex;
   flex-wrap:wrap;
-  gap:10px;
   justify-content:center;
+  gap:10px;
   padding:10px;
 }
 .cat-btn{
-  padding:10px 18px;
-  border-radius:30px;
-  background:linear-gradient(90deg,#2f7cff,#7b5cff);
+  padding:10px 20px;
+  border-radius:25px;
+  background:linear-gradient(90deg,#2f7cff,#6a5cff);
   box-shadow:0 0 15px #2f7cff;
   cursor:pointer;
-  transition:.3s;
 }
-.cat-btn:hover{transform:scale(1.05)}
 
-/* ===== SORT ===== */
-.sort{
+/* === SORT === */
+#sortBox{
+  display:none;
   text-align:right;
   padding:10px 20px;
 }
 select{
   background:#0d1a3a;
-  color:white;
+  color:#fff;
   padding:8px;
-  border-radius:10px;
   border:none;
+  border-radius:10px;
 }
 
-/* ===== GRIDS ===== */
-.grid{
-  display:grid;
-  gap:20px;
-  padding:20px;
-}
-.start-grid{
-  grid-template-columns:repeat(5,1fr);
-}
-.category-grid{
-  grid-template-columns:repeat(4,1fr);
-}
+/* === GRIDS === */
+.grid{display:grid;gap:20px;padding:20px}
+.start-grid{grid-template-columns:repeat(5,1fr)}
+.cat-grid{grid-template-columns:repeat(4,1fr)}
 
-/* ===== CARD ===== */
+/* === CARD === */
 .card{
   background:#0d1a3a;
   border-radius:18px;
@@ -98,23 +80,16 @@ select{
   flex-direction:column;
   height:100%;
   box-shadow:0 0 20px rgba(47,124,255,.3);
-  transition:.3s;
 }
-.card:hover{box-shadow:0 0 35px #2f7cff}
-
-.img-wrap{
+.card:hover{box-shadow:0 0 40px #2f7cff}
+.img{
   height:200px;
   display:flex;
   align-items:center;
   justify-content:center;
   position:relative;
 }
-.img-wrap img{
-  max-height:100%;
-  max-width:100%;
-  object-fit:contain;
-}
-
+.img img{max-height:100%;max-width:100%;object-fit:contain}
 .new{
   position:absolute;
   top:8px;left:8px;
@@ -123,101 +98,88 @@ select{
   border-radius:6px;
   font-size:12px;
 }
-
-.card-body{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  margin-top:8px;
-}
-.name{
-  min-height:36px;
-  font-size:14px;
-}
-.price{
-  margin-top:auto;
-  font-weight:700;
-}
-
+.name{min-height:36px;margin-top:8px}
+.price{margin-top:auto;font-weight:700}
 .buy{
   margin-top:12px;
   padding:10px;
   border-radius:10px;
-  background:linear-gradient(90deg,#2f7cff,#7b5cff);
+  background:linear-gradient(90deg,#2f7cff,#6a5cff);
   text-align:center;
-  color:white;
   text-decoration:none;
-  box-shadow:0 0 18px #2f7cff;
+  color:#fff;
 }
 
-/* ===== LOAD MORE ===== */
-.load{
+/* === LOAD MORE === */
+#loadMore{
+  display:none;
   margin:30px auto;
-  display:block;
   padding:12px 30px;
   border-radius:30px;
   background:#2f7cff;
   border:none;
-  color:white;
-  font-size:16px;
+  color:#fff;
 }
 
-/* ===== MOBILE ===== */
+/* === MOBILE === */
 @media(max-width:900px){
   .start-grid{grid-template-columns:repeat(2,1fr)}
-  .category-grid{grid-template-columns:repeat(2,1fr)}
+  .cat-grid{grid-template-columns:repeat(2,1fr)}
 }
 </style>
 </head>
 
 <body>
 
-<header onclick="showHome()">Biggest Spreadsheet</header>
+<header onclick="goHome()">Biggest Spreadsheet</header>
 
 <div id="categories"></div>
 
 <div id="home">
-  <div class="grid start-grid" id="startProducts"></div>
+  <div class="grid start-grid" id="homeGrid"></div>
 </div>
 
 <div id="category" style="display:none">
-  <div class="sort">
+  <div id="sortBox">
     <select onchange="setSort(this.value)">
       <option value="new">Neueste</option>
-      <option value="priceUp">Preis ↑</option>
-      <option value="priceDown">Preis ↓</option>
+      <option value="up">Preis ↑</option>
+      <option value="down">Preis ↓</option>
     </select>
   </div>
-  <div class="grid category-grid" id="categoryProducts"></div>
-  <button class="load" onclick="loadMore()">Mehr laden</button>
+  <div class="grid cat-grid" id="catGrid"></div>
+  <button id="loadMore" onclick="loadMore()">Mehr laden</button>
 </div>
 
 <script>
-const SHEET="DEIN_CSV_LINK_HIER";
-let all=[],currentCat="",offset=0,sortMode="new";
+const CSV="https://docs.google.com/spreadsheets/d/e/2PACX-1vTKFDHf1iWbs3eMXQCWfu-DxXu8cKa-3k907m4M83DVJ3b3hMHt7co3z_w3LKwcRBkgOigcWRKZGgvC/pub?output=csv";
+let products=[],currentCat="",offset=0,sort="new";
 
-fetch(SHEET).then(r=>r.text()).then(t=>{
- const rows=t.split("\n").slice(1);
- rows.forEach(r=>{
-  const [name,price,img,link,cat,date]=r.split(",");
-  all.push({name,price,img,link,cat:cat.trim(),date:new Date(date)});
+fetch(CSV).then(r=>r.text()).then(t=>{
+ t.split("\n").slice(1).forEach(r=>{
+  const [name,price,image,link,category,date]=r.split(",");
+  products.push({name,price:+price,image,link,category,date:new Date(date)});
  });
  renderCategories();
  renderHome();
 });
 
+function renderCategories(){
+ const cats=[...new Set(products.map(p=>p.category))];
+ document.getElementById("categories").innerHTML=
+ cats.map(c=>`<div class="cat-btn" onclick="openCat('${c}')">${c}</div>`).join("");
+}
+
 function card(p){
  const isNew=(Date.now()-p.date)<72*3600000;
  return `
  <div class="card">
-  <div class="img-wrap">
-   <img src="${p.img}">
-   ${isNew?'<span class="new">NEW</span>':""}
+  <div class="img">
+   <img src="${p.image}">
+   ${isNew?'<div class="new">NEW</div>':""}
   </div>
-  <div class="card-body">
-   <div class="name">${p.name}</div>
-   <div class="price">${p.price} €</div>
-  </div>
+  <div class="name">${p.name}</div>
+  <div class="price">${p.price} €</div>
   <a class="buy" href="${p.link}" target="_blank">Jetzt kaufen</a>
  </div>`;
 }
@@ -225,38 +187,32 @@ function card(p){
 function renderHome(){
  document.getElementById("home").style.display="block";
  document.getElementById("category").style.display="none";
- document.getElementById("startProducts").innerHTML=
- all.sort((a,b)=>b.date-a.date).slice(0,10).map(card).join("");
-}
-
-function renderCategories(){
- const cats=[...new Set(all.map(p=>p.cat))];
- document.getElementById("categories").innerHTML=
- cats.map(c=>`<div class="cat-btn" onclick="openCat('${c}')">${c}</div>`).join("");
+ document.getElementById("homeGrid").innerHTML=
+ products.sort((a,b)=>b.date-a.date).slice(0,10).map(card).join("");
 }
 
 function openCat(c){
  currentCat=c;offset=0;
  document.getElementById("home").style.display="none";
  document.getElementById("category").style.display="block";
- document.getElementById("categoryProducts").innerHTML="";
+ document.getElementById("sortBox").style.display="block";
+ document.getElementById("catGrid").innerHTML="";
  loadMore();
 }
 
-function setSort(v){sortMode=v;offset=0;document.getElementById("categoryProducts").innerHTML="";loadMore();}
+function setSort(v){sort=v;offset=0;document.getElementById("catGrid").innerHTML="";loadMore()}
 
 function loadMore(){
- let items=all.filter(p=>p.cat===currentCat);
- if(sortMode==="new")items.sort((a,b)=>b.date-a.date);
- if(sortMode==="priceUp")items.sort((a,b)=>a.price-b.price);
- if(sortMode==="priceDown")items.sort((a,b)=>b.price-a.price);
- items.slice(offset,offset+20).forEach(p=>{
-  document.getElementById("categoryProducts").innerHTML+=card(p);
- });
+ let list=products.filter(p=>p.category===currentCat);
+ if(sort==="new")list.sort((a,b)=>b.date-a.date);
+ if(sort==="up")list.sort((a,b)=>a.price-b.price);
+ if(sort==="down")list.sort((a,b)=>b.price-a.price);
+ list.slice(offset,offset+20).forEach(p=>catGrid.innerHTML+=card(p));
  offset+=20;
+ loadMore.style.display=offset<list.length?"block":"none";
 }
 
-function showHome(){renderHome()}
+function goHome(){renderHome()}
 </script>
 
 </body>
