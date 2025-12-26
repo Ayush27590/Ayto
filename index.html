@@ -6,17 +6,9 @@
 <title>Biggest Spreadsheet</title>
 
 <style>
-:root{
-  --bg:#0b0f1a;
-  --card:#111;
-  --white:#fff;
-  --blue:#3b82f6;
-  --purple:#9333ea;
-  --ribbon:#f43f5e;
-}
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif;}
 body{
-  background:radial-gradient(circle at center,#111827,#020617);
+  background:radial-gradient(circle at center,#0f172a,#020617);
   color:#fff;overflow-x:hidden;
 }
 
@@ -54,11 +46,8 @@ header{
   background:#020617;padding:20px;transition:.3s;z-index:20;
 }
 .sidebar.active{left:0;}
-.sidebar a{
-  display:block;margin:12px 0;color:#fff;
-  text-decoration:none;font-size:18px;cursor:pointer;
-}
-.sidebar a:hover{color:var(--blue);}
+.sidebar a{display:block;margin:12px 0;color:#fff;text-decoration:none;font-size:18px;}
+.sidebar a:hover{color:#3b82f6;}
 .close{font-size:22px;cursor:pointer;margin-bottom:20px;}
 
 /* Search */
@@ -71,75 +60,88 @@ header{
 #sortBox{text-align:right;padding:0 20px 10px;display:none;}
 #sortSelect{padding:8px;border-radius:8px;border:none;}
 
-/* Titles */
-h2{padding:0 20px 10px;}
-
 /* Products */
-.products{padding:20px;gap:20px;}
-.products.horizontal{
-  display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
-}
-.products.horizontal .product{scroll-snap-align:center;}
-.products.grid{
+.products{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  gap:20px;
+  padding:20px;
+}
+
+/* Desktop */
+@media(min-width:769px){
+  .products.start{grid-template-columns:repeat(5,1fr);}
+  .products.category{grid-template-columns:repeat(4,1fr);}
+}
+
+/* Mobile */
+@media(max-width:768px){
+  .products.start,
+  .products.category{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 
 /* Product Card */
 .product{
-  background:var(--card);border-radius:16px;padding:14px;
-  display:flex;flex-direction:column;align-items:center;
-  position:relative;transition:.3s;
+  background:#0b0f1a;
+  border-radius:16px;
+  padding:14px;
+  display:flex;
+  flex-direction:column;
+  transition:.3s;
 }
 .product:hover{
   transform:translateY(-6px);
-  box-shadow:0 0 28px rgba(59,130,246,.7);
+  box-shadow:0 0 30px rgba(59,130,246,.6);
 }
 .product img{
-  width:100%;height:190px;object-fit:contain;background:#000;border-radius:10px;
+  width:100%;
+  height:180px;
+  object-fit:contain;
+  background:#000;
+  border-radius:10px;
 }
-.product h3{margin:10px 0;text-align:center;min-height:44px;}
-.price{margin-bottom:10px;color:#ccc;}
+.product h3{
+  margin:10px 0;
+  text-align:center;
+  min-height:44px;
+}
+.price{
+  text-align:center;
+  color:#ccc;
+  margin-bottom:10px;
+}
 .buy-btn{
-  margin-top:auto;width:100%;padding:10px;
-  text-align:center;border-radius:10px;
+  margin-top:auto;
+  width:100%;
+  padding:10px;
+  border-radius:10px;
   background:linear-gradient(90deg,#4f46e5,#9333ea);
-  color:#fff;text-decoration:none;font-weight:bold;
+  color:#fff;
+  text-align:center;
+  text-decoration:none;
+  font-weight:bold;
 }
-.buy-btn:hover{filter:brightness(1.2);}
 
 /* NEW */
 .new{
   position:absolute;top:10px;right:10px;
-  background:var(--ribbon);padding:4px 8px;
-  font-size:12px;border-radius:6px;
+  background:#f43f5e;
+  padding:4px 8px;
+  font-size:12px;
+  border-radius:6px;
   animation:pulse 1.5s infinite;
 }
 @keyframes pulse{50%{transform:scale(1.1);}}
 
 /* Load more */
 .load-more{
-  text-align:center;font-size:20px;color:var(--purple);
-  cursor:pointer;margin:30px;display:none;
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:768px){
-  .products.grid{
-    grid-template-columns:repeat(2,1fr);
-    gap:14px;padding:14px;
-  }
-  .product img{height:150px;}
-}
-
-/* ===== MOBILE LANDSCAPE FIX ===== */
-@media(max-width:768px) and (orientation:landscape){
-  .products.grid{
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:12px;
-  }
-  .product{padding:10px;}
-  .product img{height:120px;}
+  text-align:center;
+  font-size:20px;
+  color:#9333ea;
+  cursor:pointer;
+  margin:30px;
+  display:none;
 }
 </style>
 </head>
@@ -184,7 +186,6 @@ h2{padding:0 20px 10px;}
 </div>
 
 <h2 id="sectionTitle">New Products</h2>
-
 <div id="sortBox">
   <select id="sortSelect" onchange="applySort()">
     <option value="new">Neueste zuerst</option>
@@ -193,7 +194,7 @@ h2{padding:0 20px 10px;}
   </select>
 </div>
 
-<div class="products horizontal" id="products"></div>
+<div class="products start" id="products"></div>
 <div class="load-more" id="loadMore" onclick="loadMore()">⬇ Mehr anzeigen</div>
 
 <script>
@@ -211,12 +212,16 @@ document.addEventListener("click",e=>{
 });
 
 const SHEET="https://docs.google.com/spreadsheets/d/e/2PACX-1vTKFDHf1iWbs3eMXQCWfu-DxXu8cKa-3k907m4M83DVJ3b3hMHt7co3z_w3LKwcRBkgOigcWRKZGgvC/pub?output=csv";
+
 let all=[],cat="",visible=20;
 
 fetch(SHEET).then(r=>r.text()).then(csv=>{
-  csv.trim().split("\n").slice(1).forEach((r,i)=>{
-    const [name,price,image,link,category]=r.split(",");
-    if(name)all.push({name,price:parseFloat(price),image,link,category,index:i});
+  const rows = csv.split("\n").slice(1);
+  rows.forEach((row,i)=>{
+    const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+    if(!cols) return;
+    const [name,price,image,link,category] = cols.map(c=>c.replace(/"/g,''));
+    if(name) all.push({name,price:parseFloat(price),image,link,category,index:i});
   });
   showHome();
 });
@@ -224,20 +229,18 @@ fetch(SHEET).then(r=>r.text()).then(csv=>{
 const box=document.getElementById("products");
 const loadMoreBtn=document.getElementById("loadMore");
 
-function render(list,mode){
-  box.className="products "+mode;
+function render(list,type){
+  box.className="products "+type;
   box.innerHTML="";
   list.forEach(p=>{
-    const d=document.createElement("div");
-    d.className="product";
-    d.innerHTML=`
+    box.innerHTML+=`
+    <div class="product">
       <div class="new">NEW</div>
       <img src="${p.image}">
       <h3>${p.name}</h3>
       <div class="price">${p.price}€</div>
       <a class="buy-btn" href="${p.link}" target="_blank">Jetzt kaufen</a>
-    `;
-    box.appendChild(d);
+    </div>`;
   });
 }
 
@@ -245,7 +248,7 @@ function showHome(){
   cat="";
   document.getElementById("sectionTitle").innerText="New Products";
   document.getElementById("sortBox").style.display="none";
-  render([...all].sort((a,b)=>b.index-a.index).slice(0,10),"horizontal");
+  render([...all].sort((a,b)=>b.index-a.index).slice(0,10),"start");
   loadMoreBtn.style.display="none";
 }
 
@@ -257,12 +260,12 @@ function showCategory(c){
 }
 
 function applySort(){
-  let list=all.filter(p=>p.category.toLowerCase()==cat.toLowerCase());
+  let list=all.filter(p=>p.category.toLowerCase()===cat.toLowerCase());
   const s=document.getElementById("sortSelect").value;
-  if(s=="new")list.sort((a,b)=>b.index-a.index);
-  if(s=="priceAsc")list.sort((a,b)=>a.price-b.price);
-  if(s=="priceDesc")list.sort((a,b)=>b.price-a.price);
-  render(list.slice(0,visible),"grid");
+  if(s==="new") list.sort((a,b)=>b.index-a.index);
+  if(s==="priceAsc") list.sort((a,b)=>a.price-b.price);
+  if(s==="priceDesc") list.sort((a,b)=>b.price-a.price);
+  render(list.slice(0,visible),"category");
   loadMoreBtn.style.display=list.length>visible?"block":"none";
 }
 
@@ -270,7 +273,7 @@ function loadMore(){visible+=20;applySort();}
 
 function liveSearch(){
   const q=document.getElementById("search").value.toLowerCase();
-  render(all.filter(p=>p.name.toLowerCase().includes(q)),"grid");
+  render(all.filter(p=>p.name.toLowerCase().includes(q)),"category");
 }
 </script>
 </body>
