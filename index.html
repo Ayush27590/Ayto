@@ -14,30 +14,20 @@
   --ribbon-red:#f43f5e;
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif;}
-body{
-  background: linear-gradient(135deg,#0c0f33,#1e0b1e);
-  color:var(--white);
-  overflow-x:hidden;
-  position:relative;
-  scroll-behavior:smooth;
-}
-
-/* Background Flash */
-#flash{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(59,130,246,0.3);opacity:0;pointer-events:none;z-index:0;transition:opacity 0.2s ease;}
-
-@keyframes flashAnim{
-  0%{opacity:0;}
-  10%{opacity:0.5;}
-  20%{opacity:0;}
-  100%{opacity:0;}
-}
+body{background:var(--bg);color:var(--white);overflow-x:hidden;position:relative;scroll-behavior:smooth;}
 
 /* Mouse Glow */
 #mouse-glow{
   position:fixed;width:300px;height:300px;
-  background:radial-gradient(circle, rgba(59,130,246,0.4), transparent 70%);
+  background:radial-gradient(circle, rgba(59,130,246,0.35), transparent 70%);
   pointer-events:none;transform:translate(-50%,-50%);
   z-index:0;transition:transform 0.1s ease-out, opacity 0.3s ease-out;
+  animation:glowPulse 2s infinite alternate;
+}
+@keyframes glowPulse{
+  0%{opacity:0.3;}
+  50%{opacity:0.6;}
+  100%{opacity:0.3;}
 }
 
 /* Banner */
@@ -66,10 +56,6 @@ header{display:flex;justify-content:space-between;align-items:center;padding:15p
 
 /* Titles */
 h2{padding:0 20px 10px;}
-
-/* Sort */
-.sort{padding:0 20px 10px;position:absolute;top:110px;right:20px;}
-.sort select{padding:8px;border-radius:6px;border:none;background:#222;color:#fff;font-weight:bold;}
 
 /* Products */
 .products{padding:20px;gap:20px;justify-content:center;display:flex;flex-wrap:wrap;transition:all 0.3s ease;}
@@ -101,7 +87,7 @@ h2{padding:0 20px 10px;}
   transition:transform 0.3s ease, box-shadow 0.3s ease;
 }
 .product.animate{animation:fadeInUp 0.6s forwards;}
-.product:hover, .product:active{transform:translateY(-8px);box-shadow:0 0 45px rgba(59,130,246,.8);}
+.product:hover, .product:active{transform:translateY(-8px);box-shadow:0 0 25px rgba(59,130,246,.6);}
 .product img{width:100%;height:200px;object-fit:contain;background:#000;border-radius:10px;transition:transform 0.3s;}
 .product:hover img{transform:scale(1.05);}
 .product h3{margin:10px 0;text-align:center;min-height:44px;}
@@ -110,9 +96,9 @@ h2{padding:0 20px 10px;}
   margin-top:auto;width:100%;text-align:center;padding:10px;border-radius:10px;
   background:linear-gradient(90deg,#4f46e5,#9333ea);
   color:#fff;text-decoration:none;font-weight:bold;
-  transition:all 0.3s ease, box-shadow 0.3s;
+  transition:all 0.3s ease;
 }
-.buy-btn:hover{background:linear-gradient(90deg,#9333ea,#4f46e5);transform:scale(1.05);box-shadow:0 0 25px var(--blue);}
+.buy-btn:hover{background:linear-gradient(90deg,#9333ea,#4f46e5);transform:scale(1.05);}
 
 /* NEW Ribbon */
 .new-ribbon{
@@ -138,7 +124,6 @@ h2{padding:0 20px 10px;}
 </style>
 </head>
 <body>
-<div id="flash"></div>
 <div id="mouse-glow"></div>
 
 <div class="banner">
@@ -177,14 +162,6 @@ h2{padding:0 20px 10px;}
   <input id="search" placeholder="Live Suche..." oninput="liveSearch()">
 </div>
 
-<div class="sort" id="sortDiv" style="display:none;">
-  <select onchange="sortCategory(this.value)">
-    <option value="newest">Neueste zuerst</option>
-    <option value="priceAsc">Preis ↑</option>
-    <option value="priceDesc">Preis ↓</option>
-  </select>
-</div>
-
 <h2 id="sectionTitle">New Products</h2>
 <div class="products horizontal" id="products"></div>
 <div class="load-more" id="loadMore" onclick="loadMoreProducts()">⬇ Mehr anzeigen</div>
@@ -195,12 +172,6 @@ document.addEventListener("mousemove", e=>{
   mouseGlow.style.left=e.clientX+"px";
   mouseGlow.style.top=e.clientY+"px";
 });
-
-const flash = document.getElementById("flash");
-setInterval(()=>{
-  flash.style.opacity="0.5";
-  setTimeout(()=>flash.style.opacity="0",200);
-},5000);
 
 const sidebar = document.getElementById("sidebar");
 function openMenu(){sidebar.classList.add("active");}
@@ -225,8 +196,6 @@ fetch(SHEET_URL)
 });
 
 const container = document.getElementById("products");
-const loadMore = document.getElementById("loadMore");
-const sortDiv = document.getElementById("sortDiv");
 
 function renderList(list,mode){
   container.className = mode==="horizontal"?"products horizontal":"products grid";
@@ -249,7 +218,6 @@ function showHome(){
   renderList(newest,"horizontal");
   loadMore.style.display="none";
   currentCat="";
-  sortDiv.style.display="none";
   highlightCategory('');
   closeMenu();
 }
@@ -258,33 +226,25 @@ function showCategory(cat){
   document.getElementById("sectionTitle").innerText=cat;
   currentCat=cat;
   visibleCount=20;
-  let filtered = allProducts.filter(p=>p.category.trim().toLowerCase()===cat.trim().toLowerCase());
+  const filtered = allProducts.filter(p=>p.category.trim().toLowerCase()===cat.trim().toLowerCase());
   renderList(filtered.slice(0,visibleCount),"grid");
   loadMore.style.display = filtered.length>visibleCount?"block":"none";
-  sortDiv.style.display="block";
   highlightCategory(cat);
   closeMenu();
 }
 
+const loadMore = document.getElementById("loadMore");
 function loadMoreProducts(){
   visibleCount += 20;
-  let filtered = allProducts.filter(p=>p.category.trim().toLowerCase()===currentCat.trim().toLowerCase());
+  const filtered = allProducts.filter(p=>p.category.trim().toLowerCase()===currentCat.trim().toLowerCase());
   renderList(filtered.slice(0,visibleCount),"grid");
-  loadMore.style.display = filtered.length>visibleCount?"block":"none";
+  loadMore.style.display = filtered.length>visibleCount?"none":"block";
 }
 
 function liveSearch(){
   const q = document.getElementById("search").value.toLowerCase();
   const filtered = allProducts.filter(p=>p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
   renderList(filtered,"grid");
-}
-
-function sortCategory(option){
-  let filtered = allProducts.filter(p=>p.category.trim().toLowerCase()===currentCat.trim().toLowerCase());
-  if(option==="priceAsc") filtered.sort((a,b)=>parseFloat(a.price)-parseFloat(b.price));
-  if(option==="priceDesc") filtered.sort((a,b)=>parseFloat(b.price)-parseFloat(a.price));
-  if(option==="newest") filtered.sort((a,b)=>b.added-a.added);
-  renderList(filtered.slice(0,visibleCount),"grid");
 }
 
 function goHome(){showHome();}
