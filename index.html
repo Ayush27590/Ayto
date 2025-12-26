@@ -4,125 +4,146 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Biggest Spreadsheet</title>
+
 <style>
 :root{
   --bg:#0b0f1a;
   --card:#111;
   --white:#fff;
-  --purple:#a855f7;
   --blue:#3b82f6;
-  --ribbon-red:#f43f5e;
+  --purple:#9333ea;
+  --ribbon:#f43f5e;
 }
 *{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif;}
-body{background:var(--bg);color:var(--white);overflow-x:hidden;position:relative;scroll-behavior:smooth;}
+body{
+  background:radial-gradient(circle at center,#111827,#020617);
+  color:#fff;overflow-x:hidden;
+}
 
 /* Mouse Glow */
 #mouse-glow{
-  position:fixed;width:300px;height:300px;
-  background:radial-gradient(circle, rgba(59,130,246,0.35), transparent 70%);
+  position:fixed;width:420px;height:420px;
+  background:radial-gradient(circle,rgba(59,130,246,.25),transparent 70%);
   pointer-events:none;transform:translate(-50%,-50%);
-  z-index:0;transition:transform 0.1s ease-out, opacity 0.3s ease-out;
-  animation:glowPulse 2s infinite alternate;
-}
-@keyframes glowPulse{
-  0%{opacity:0.3;}
-  50%{opacity:0.6;}
-  100%{opacity:0.3;}
+  z-index:0;
 }
 
 /* Banner */
-.banner{width:100%;overflow:hidden;background:linear-gradient(90deg,#4f46e5,#9333ea);white-space:nowrap;}
-.banner-track{display:inline-block;padding-left:100%;animation:bannerMove 18s linear infinite;}
-.banner a{color:#fff;text-decoration:none;font-weight:bold;font-size:16px;}
-@keyframes bannerMove{0%{transform:translateX(0);}100%{transform:translateX(-100%);}}
+.banner{background:linear-gradient(90deg,#4f46e5,#9333ea);overflow:hidden;}
+.banner-track{
+  padding-left:100%;
+  white-space:nowrap;
+  animation:scroll 18s linear infinite;
+}
+.banner a{color:#fff;font-weight:bold;text-decoration:none;}
+@keyframes scroll{to{transform:translateX(-100%);}}
 
 /* Header */
-header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:#000;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,0.5);}
+header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;background:#000;position:sticky;top:0;z-index:10;
+}
 .menu-btn{font-size:26px;cursor:pointer;}
 .title{font-size:22px;font-weight:bold;cursor:pointer;}
 .header-right{display:flex;align-items:center;gap:8px;}
 .header-right img{height:32px;border-radius:50%;}
 
 /* Sidebar */
-.sidebar{position:fixed;left:-260px;top:0;width:260px;height:100%;background:#111;padding:20px;transition:.3s;z-index:20;overflow-y:auto;}
+.sidebar{
+  position:fixed;left:-260px;top:0;width:260px;height:100%;
+  background:#020617;padding:20px;transition:.3s;z-index:20;
+}
 .sidebar.active{left:0;}
-.sidebar .close{font-size:22px;cursor:pointer;margin-bottom:20px;}
-.sidebar a{display:block;color:#fff;text-decoration:none;font-size:18px;margin:10px 0;cursor:pointer;transition:.2s;}
-.sidebar a:hover, .sidebar a.active{color:var(--blue);}
+.sidebar a{
+  display:block;margin:12px 0;color:#fff;
+  text-decoration:none;font-size:18px;cursor:pointer;
+}
+.sidebar a:hover{color:var(--blue);}
+.close{font-size:22px;cursor:pointer;margin-bottom:20px;}
 
 /* Search */
-.search{padding:20px;text-align:center;}
-.search input{width:90%;max-width:400px;padding:10px;border-radius:8px;border:none;}
+.search{text-align:center;padding:16px;}
+.search input{
+  width:90%;max-width:420px;padding:10px;border-radius:10px;border:none;
+}
+
+/* Sort */
+#sortBox{text-align:right;padding:0 20px 10px;display:none;}
+#sortSelect{padding:8px;border-radius:8px;border:none;}
 
 /* Titles */
 h2{padding:0 20px 10px;}
 
 /* Products */
-.products{padding:20px;gap:20px;justify-content:center;display:flex;flex-wrap:wrap;transition:all 0.3s ease;}
-.products.horizontal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:20px;padding-left:20px;scroll-behavior:smooth;}
+.products{padding:20px;gap:20px;}
+.products.horizontal{
+  display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+}
 .products.horizontal .product{scroll-snap-align:center;}
-.products.grid{display:grid;gap:20px;transition:all 0.3s ease;}
-
-/* Responsive grid - Handy */
-@media(max-width:768px){
-  .products.grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:12px;padding:10px;
-  }
-  .products.horizontal{gap:12px;padding-left:10px;}
-  .product{width:100%;max-width:100%;}
-  .product img{height:140px;object-fit:contain;}
+.products.grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
 }
 
-/* Responsive grid - Desktop categories */
-@media(min-width:769px){
-  .products.grid{grid-template-columns:repeat(4,1fr);}
-}
-
-/* Product card */
+/* Product Card */
 .product{
-  background:var(--card);border-radius:14px;padding:15px;display:flex;flex-direction:column;align-items:center;
-  position:relative;width:260px;opacity:0;
-  transition:transform 0.3s ease, box-shadow 0.3s ease;
+  background:var(--card);border-radius:16px;padding:14px;
+  display:flex;flex-direction:column;align-items:center;
+  position:relative;transition:.3s;
 }
-.product.animate{animation:fadeInUp 0.6s forwards;}
-.product:hover, .product:active{transform:translateY(-8px);box-shadow:0 0 25px rgba(59,130,246,.6);}
-.product img{width:100%;height:200px;object-fit:contain;background:#000;border-radius:10px;transition:transform 0.3s;}
-.product:hover img{transform:scale(1.05);}
+.product:hover{
+  transform:translateY(-6px);
+  box-shadow:0 0 28px rgba(59,130,246,.7);
+}
+.product img{
+  width:100%;height:190px;object-fit:contain;background:#000;border-radius:10px;
+}
 .product h3{margin:10px 0;text-align:center;min-height:44px;}
-.product .price{margin-bottom:10px;color:#ccc;min-height:24px;}
+.price{margin-bottom:10px;color:#ccc;}
 .buy-btn{
-  margin-top:auto;width:100%;text-align:center;padding:10px;border-radius:10px;
+  margin-top:auto;width:100%;padding:10px;
+  text-align:center;border-radius:10px;
   background:linear-gradient(90deg,#4f46e5,#9333ea);
   color:#fff;text-decoration:none;font-weight:bold;
-  transition:all 0.3s ease;
 }
-.buy-btn:hover{background:linear-gradient(90deg,#9333ea,#4f46e5);transform:scale(1.05);}
+.buy-btn:hover{filter:brightness(1.2);}
 
-/* NEW Ribbon */
-.new-ribbon{
+/* NEW */
+.new{
   position:absolute;top:10px;right:10px;
-  background:var(--ribbon-red);color:#fff;font-size:12px;font-weight:bold;padding:3px 7px;
-  border-radius:5px;animation:pulseNew 1.5s infinite;
+  background:var(--ribbon);padding:4px 8px;
+  font-size:12px;border-radius:6px;
+  animation:pulse 1.5s infinite;
 }
-@keyframes pulseNew{
-  0%{transform:scale(1);opacity:1;}
-  50%{transform:scale(1.1);opacity:0.8;}
-  100%{transform:scale(1);opacity:1;}
-}
+@keyframes pulse{50%{transform:scale(1.1);}}
 
 /* Load more */
-.load-more{text-align:center;color:var(--purple);font-size:20px;cursor:pointer;margin:30px;display:none;transition:all 0.3s;}
-.load-more:hover{color:var(--blue);}
+.load-more{
+  text-align:center;font-size:20px;color:var(--purple);
+  cursor:pointer;margin:30px;display:none;
+}
 
-/* Animations */
-@keyframes fadeInUp{
-  0%{opacity:0;transform:translateY(20px);}
-  100%{opacity:1;transform:translateY(0);}
+/* ===== MOBILE ===== */
+@media(max-width:768px){
+  .products.grid{
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;padding:14px;
+  }
+  .product img{height:150px;}
+}
+
+/* ===== MOBILE LANDSCAPE FIX ===== */
+@media(max-width:768px) and (orientation:landscape){
+  .products.grid{
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+  }
+  .product{padding:10px;}
+  .product img{height:120px;}
 }
 </style>
 </head>
+
 <body>
 <div id="mouse-glow"></div>
 
@@ -136,7 +157,7 @@ h2{padding:0 20px 10px;}
 
 <header>
   <div class="menu-btn" onclick="openMenu()">☰</div>
-  <div class="title" onclick="goHome()">Biggest Spreadsheet</div>
+  <div class="title" onclick="showHome()">Biggest Spreadsheet</div>
   <div class="header-right">
     <img src="https://image2url.com/r2/bucket1/images/1766618106451-0c81d26c-b893-4839-bc66-6642677b99d6.jpg">
     <span>X</span>
@@ -146,7 +167,7 @@ h2{padding:0 20px 10px;}
 
 <div class="sidebar" id="sidebar">
   <div class="close" onclick="closeMenu()">✖</div>
-  <a onclick="goHome()" id="cat-home">Startseite</a>
+  <a onclick="showHome()">Startseite</a>
   <a onclick="showCategory('Schuhe')">Schuhe</a>
   <a onclick="showCategory('Jacke')">Jacke</a>
   <a onclick="showCategory('Sweater')">Sweater</a>
@@ -163,97 +184,93 @@ h2{padding:0 20px 10px;}
 </div>
 
 <h2 id="sectionTitle">New Products</h2>
+
+<div id="sortBox">
+  <select id="sortSelect" onchange="applySort()">
+    <option value="new">Neueste zuerst</option>
+    <option value="priceAsc">Preis ↑</option>
+    <option value="priceDesc">Preis ↓</option>
+  </select>
+</div>
+
 <div class="products horizontal" id="products"></div>
-<div class="load-more" id="loadMore" onclick="loadMoreProducts()">⬇ Mehr anzeigen</div>
+<div class="load-more" id="loadMore" onclick="loadMore()">⬇ Mehr anzeigen</div>
 
 <script>
-const mouseGlow = document.getElementById("mouse-glow");
-document.addEventListener("mousemove", e=>{
-  mouseGlow.style.left=e.clientX+"px";
-  mouseGlow.style.top=e.clientY+"px";
+const glow=document.getElementById("mouse-glow");
+document.addEventListener("mousemove",e=>{
+  glow.style.left=e.clientX+"px";
+  glow.style.top=e.clientY+"px";
 });
 
-const sidebar = document.getElementById("sidebar");
+const sidebar=document.getElementById("sidebar");
 function openMenu(){sidebar.classList.add("active");}
 function closeMenu(){sidebar.classList.remove("active");}
-document.addEventListener("click", e=>{
-  if(!sidebar.contains(e.target) && !e.target.classList.contains('menu-btn')){closeMenu();}
+document.addEventListener("click",e=>{
+  if(!sidebar.contains(e.target)&&!e.target.classList.contains("menu-btn"))closeMenu();
 });
 
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTKFDHf1iWbs3eMXQCWfu-DxXu8cKa-3k907m4M83DVJ3b3hMHt7co3z_w3LKwcRBkgOigcWRKZGgvC/pub?output=csv";
-let allProducts=[],currentCat="",visibleCount=20;
+const SHEET="https://docs.google.com/spreadsheets/d/e/2PACX-1vTKFDHf1iWbs3eMXQCWfu-DxXu8cKa-3k907m4M83DVJ3b3hMHt7co3z_w3LKwcRBkgOigcWRKZGgvC/pub?output=csv";
+let all=[],cat="",visible=20;
 
-fetch(SHEET_URL)
-.then(res=>res.text())
-.then(csv=>{
-  const rows = csv.trim().split("\n").slice(1);
-  rows.forEach(row=>{
-    const [name,price,image,link,category] = row.split(",");
-    if(!name) return;
-    allProducts.push({name,price,image,link,category,added:Date.now()});
+fetch(SHEET).then(r=>r.text()).then(csv=>{
+  csv.trim().split("\n").slice(1).forEach((r,i)=>{
+    const [name,price,image,link,category]=r.split(",");
+    if(name)all.push({name,price:parseFloat(price),image,link,category,index:i});
   });
   showHome();
 });
 
-const container = document.getElementById("products");
+const box=document.getElementById("products");
+const loadMoreBtn=document.getElementById("loadMore");
 
-function renderList(list,mode){
-  container.className = mode==="horizontal"?"products horizontal":"products grid";
-  container.innerHTML="";
-  list.forEach((p,i)=>{
-    const isNew = Date.now()-p.added<72*60*60*1000;
-    const card = document.createElement('div');
-    card.className='product';
-    if(isNew) card.innerHTML+=`<div class="new-ribbon">NEW</div>`;
-    card.innerHTML+=`<img src="${p.image}"><h3>${p.name}</h3><div class="price">${p.price}€</div>
-    <a class="buy-btn" href="${p.link}" target="_blank">Jetzt kaufen</a>`;
-    container.appendChild(card);
-    setTimeout(()=>card.classList.add('animate'), i*100);
+function render(list,mode){
+  box.className="products "+mode;
+  box.innerHTML="";
+  list.forEach(p=>{
+    const d=document.createElement("div");
+    d.className="product";
+    d.innerHTML=`
+      <div class="new">NEW</div>
+      <img src="${p.image}">
+      <h3>${p.name}</h3>
+      <div class="price">${p.price}€</div>
+      <a class="buy-btn" href="${p.link}" target="_blank">Jetzt kaufen</a>
+    `;
+    box.appendChild(d);
   });
 }
 
 function showHome(){
+  cat="";
   document.getElementById("sectionTitle").innerText="New Products";
-  const newest = allProducts.sort((a,b)=>b.added-a.added).slice(0,10);
-  renderList(newest,"horizontal");
-  loadMore.style.display="none";
-  currentCat="";
-  highlightCategory('');
-  closeMenu();
+  document.getElementById("sortBox").style.display="none";
+  render([...all].sort((a,b)=>b.index-a.index).slice(0,10),"horizontal");
+  loadMoreBtn.style.display="none";
 }
 
-function showCategory(cat){
-  document.getElementById("sectionTitle").innerText=cat;
-  currentCat=cat;
-  visibleCount=20;
-  const filtered = allProducts.filter(p=>p.category.trim().toLowerCase()===cat.trim().toLowerCase());
-  renderList(filtered.slice(0,visibleCount),"grid");
-  loadMore.style.display = filtered.length>visibleCount?"block":"none";
-  highlightCategory(cat);
-  closeMenu();
+function showCategory(c){
+  cat=c;visible=20;
+  document.getElementById("sectionTitle").innerText=c;
+  document.getElementById("sortBox").style.display="block";
+  applySort();
 }
 
-const loadMore = document.getElementById("loadMore");
-function loadMoreProducts(){
-  visibleCount += 20;
-  const filtered = allProducts.filter(p=>p.category.trim().toLowerCase()===currentCat.trim().toLowerCase());
-  renderList(filtered.slice(0,visibleCount),"grid");
-  loadMore.style.display = filtered.length>visibleCount?"none":"block";
+function applySort(){
+  let list=all.filter(p=>p.category.toLowerCase()==cat.toLowerCase());
+  const s=document.getElementById("sortSelect").value;
+  if(s=="new")list.sort((a,b)=>b.index-a.index);
+  if(s=="priceAsc")list.sort((a,b)=>a.price-b.price);
+  if(s=="priceDesc")list.sort((a,b)=>b.price-a.price);
+  render(list.slice(0,visible),"grid");
+  loadMoreBtn.style.display=list.length>visible?"block":"none";
 }
+
+function loadMore(){visible+=20;applySort();}
 
 function liveSearch(){
-  const q = document.getElementById("search").value.toLowerCase();
-  const filtered = allProducts.filter(p=>p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
-  renderList(filtered,"grid");
-}
-
-function goHome(){showHome();}
-
-function highlightCategory(cat){
-  document.querySelectorAll('.sidebar a').forEach(a=>{
-    a.classList.remove('active');
-    if(a.innerText.toLowerCase()===cat.toLowerCase()) a.classList.add('active');
-  });
+  const q=document.getElementById("search").value.toLowerCase();
+  render(all.filter(p=>p.name.toLowerCase().includes(q)),"grid");
 }
 </script>
 </body>
