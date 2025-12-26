@@ -9,102 +9,114 @@
 :root{
   --bg:#0b0f1a;
   --card:#111;
-  --white:#fff;
-  --purple:#a855f7;
   --blue:#3b82f6;
-  --ribbon-red:#f43f5e;
 }
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif;}
-body{background:var(--bg);color:var(--white);overflow-x:hidden;}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
+body{background:var(--bg);color:#fff;overflow-x:hidden}
 
 /* Mouse Glow */
-#mouse-glow{
-  position:fixed;width:300px;height:300px;
-  background:radial-gradient(circle, rgba(59,130,246,0.35), transparent 70%);
+#mouse{
+  position:fixed;width:280px;height:280px;
+  background:radial-gradient(circle,rgba(59,130,246,.35),transparent 70%);
   pointer-events:none;transform:translate(-50%,-50%);
   z-index:0;
 }
 
-/* Header / Banner / Sidebar unverändert */
-header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:#000;position:sticky;top:0;z-index:10;}
-.menu-btn{font-size:26px;cursor:pointer;}
-.title{font-size:22px;font-weight:bold;cursor:pointer;}
+/* Header */
+header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:15px 20px;background:#000;position:sticky;top:0;z-index:10
+}
+.menu{font-size:26px;cursor:pointer}
+.title{font-size:22px;font-weight:bold;cursor:pointer}
 
-.sidebar{position:fixed;left:-260px;top:0;width:260px;height:100%;background:#111;padding:20px;transition:.3s;z-index:20;}
-.sidebar.active{left:0;}
-.sidebar a{display:block;color:#fff;text-decoration:none;font-size:18px;margin:10px 0;cursor:pointer;}
-.sidebar a.active{color:var(--blue);}
+/* Sidebar */
+.sidebar{
+  position:fixed;left:-260px;top:0;width:260px;height:100%;
+  background:#111;padding:20px;transition:.3s;z-index:20
+}
+.sidebar.active{left:0}
+.sidebar a{display:block;color:#fff;margin:10px 0;cursor:pointer}
+.sidebar a:hover{color:var(--blue)}
 
-/* Search */
-.search{text-align:center;padding:15px;}
-.search input{width:90%;max-width:400px;padding:10px;border-radius:8px;border:none}
+/* Sort */
+.sort{
+  display:none;
+  padding:10px 20px;
+  text-align:right
+}
+.sort select{padding:6px;border-radius:6px}
 
 /* Products */
-.products.horizontal{display:flex;gap:20px;overflow-x:auto;padding:20px}
-.products.grid{display:grid;gap:20px;padding:20px}
+.products{padding:20px;display:grid;gap:20px}
 
-@media(max-width:768px){
-  .products.grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(min-width:769px){
-  .products.grid{grid-template-columns:repeat(4,1fr)}
+/* STARTSEITE */
+.home.products{
+  grid-template-columns:repeat(5,1fr)
 }
 
-/* Product Card (NICHT VERÄNDERT) */
+/* KATEGORIE */
+.category.products{
+  grid-template-columns:repeat(5,1fr)
+}
+
+/* HANDY */
+@media(max-width:900px){
+  .home.products,
+  .category.products{
+    grid-template-columns:repeat(2,1fr)
+  }
+}
+
+/* Product Card */
 .product{
   background:var(--card);
   border-radius:14px;
   padding:15px;
   display:flex;
   flex-direction:column;
-  align-items:center;
-  position:relative;
+  height:100%;
+  transition:.3s
 }
-.product img{width:100%;height:200px;object-fit:contain}
-.product h3{text-align:center;margin:10px 0}
-.price{color:#ccc;margin-bottom:10px}
-.buy-btn{
+.product:hover{box-shadow:0 0 25px rgba(59,130,246,.6)}
+.product img{
+  width:100%;height:200px;
+  object-fit:contain;background:#000;border-radius:10px
+}
+.product h3{
+  margin:10px 0;
+  min-height:48px;
+  text-align:center
+}
+.price{margin-bottom:10px;color:#ccc}
+.buy{
   margin-top:auto;
-  width:100%;
   padding:10px;
-  border-radius:10px;
   background:linear-gradient(90deg,#4f46e5,#9333ea);
+  text-align:center;
+  border-radius:10px;
   color:#fff;
   text-decoration:none;
+  font-weight:bold
+}
+
+/* Load more */
+.load{
   text-align:center;
-  font-weight:bold;
-}
-
-/* NEW */
-.new{
-  position:absolute;
-  top:10px;
-  right:10px;
-  background:var(--ribbon-red);
-  font-size:12px;
-  padding:4px 7px;
-  border-radius:5px;
-}
-
-/* Sortierung */
-.sort-box{
-  display:none;
-  padding:0 20px;
-  text-align:right;
-}
-.sort-box select{
-  padding:6px;
-  border-radius:6px;
+  padding:30px;
+  cursor:pointer;
+  color:var(--blue);
+  display:none
 }
 </style>
 </head>
 
 <body>
 
-<div id="mouse-glow"></div>
+<div id="mouse"></div>
 
 <header>
-  <div class="menu-btn" onclick="openMenu()">☰</div>
+  <div class="menu" onclick="openMenu()">☰</div>
   <div class="title" onclick="showHome()">Biggest Spreadsheet</div>
 </header>
 
@@ -113,121 +125,109 @@ header{display:flex;justify-content:space-between;align-items:center;padding:15p
   <a onclick="showCategory('Schuhe')">Schuhe</a>
   <a onclick="showCategory('Jacke')">Jacke</a>
   <a onclick="showCategory('Sweater')">Sweater</a>
+  <a onclick="showCategory('Pullover')">Pullover</a>
+  <a onclick="showCategory('Hose')">Hose</a>
+  <a onclick="showCategory('Jeans')">Jeans</a>
+  <a onclick="showCategory('T-Shirts')">T-Shirts</a>
+  <a onclick="showCategory('Shirts')">Shirts</a>
+  <a onclick="showCategory('Accessoires')">Accessoires</a>
 </div>
 
-<div class="search">
-  <input placeholder="Live Suche..." oninput="liveSearch(this.value)">
-</div>
-
-<div class="sort-box" id="sortBox">
+<div class="sort" id="sort">
   <select onchange="sortCategory(this.value)">
-    <option value="new">Neueste zuerst</option>
-    <option value="priceUp">Preis ↑</option>
-    <option value="priceDown">Preis ↓</option>
+    <option value="new">Neueste</option>
+    <option value="up">Preis ↑</option>
+    <option value="down">Preis ↓</option>
   </select>
 </div>
 
-<h2 id="sectionTitle">New Products</h2>
-<div class="products horizontal" id="products"></div>
+<div id="products" class="products"></div>
+<div class="load" id="load" onclick="loadMore()">Mehr laden</div>
 
 <script>
-const SHEET_URL = "DEIN_SHEET_CSV_LINK";
-let allProducts = [];
-let currentCategory = "";
-
-/* Mouse glow */
+/* Mouse */
 document.addEventListener("mousemove",e=>{
-  document.getElementById("mouse-glow").style.left=e.clientX+"px";
-  document.getElementById("mouse-glow").style.top=e.clientY+"px";
-});
+  mouse.style.left=e.clientX+"px"
+  mouse.style.top=e.clientY+"px"
+})
 
-/* Sidebar */
-function openMenu(){document.getElementById("sidebar").classList.add("active");}
+const SHEET_URL="https://docs.google.com/spreadsheets/d/e/2PACX-1vTKFDHf1iWbs3eMXQCWfu-DxXu8cKa-3k907m4M83DVJ3b3hMHt7co3z_w3LKwcRBkgOigcWRKZGgvC/pub?output=csv"
 
-/* Google Sheets – HEADER SAFE */
+let all=[],view=[],cat="",shown=0
+
 fetch(SHEET_URL).then(r=>r.text()).then(csv=>{
-  const rows = csv.split("\n").filter(Boolean);
-  const headers = rows[0].split(",").map(h=>h.toLowerCase().replace(/"/g,""));
+  const rows=csv.split("\n").slice(1)
+  rows.forEach(r=>{
+    const c=r.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g)
+    if(!c) return
+    all.push({
+      name:c[0].replace(/"/g,""),
+      price:parseFloat(c[1]),
+      img:c[2].replace(/"/g,""),
+      url:c[3].replace(/"/g,""),
+      cat:c[4].replace(/"/g,"")
+    })
+  })
+  showHome()
+})
 
-  const idx = {
-    name:headers.indexOf("name"),
-    price:headers.indexOf("price"),
-    image:headers.indexOf("image"),
-    link:headers.indexOf("link"),
-    category:headers.indexOf("category"),
-    date:headers.indexOf("date")
-  };
-
-  rows.slice(1).forEach(r=>{
-    const c = r.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
-    if(!c) return;
-    allProducts.push({
-      name:c[idx.name]?.replace(/"/g,""),
-      price:parseFloat(c[idx.price]),
-      image:c[idx.image]?.replace(/"/g,""),
-      link:c[idx.link]?.replace(/"/g,""),
-      category:c[idx.category]?.replace(/"/g,""),
-      date:new Date(c[idx.date]?.replace(/"/g,""))
-    });
-  });
-
-  showHome();
-});
-
-/* Render */
 function render(list,type){
-  const box=document.getElementById("products");
-  box.className="products "+(type==="start"?"horizontal":"grid");
-  box.innerHTML="";
-
-  const now=Date.now();
+  const box=document.getElementById("products")
+  box.className=`products ${type}`
+  box.innerHTML=""
   list.forEach(p=>{
-    const isNew = type==="start" && (now-p.date)<=72*3600000;
     box.innerHTML+=`
-      <div class="product">
-        ${isNew?'<div class="new">NEW</div>':''}
-        <img src="${p.image}">
-        <h3>${p.name}</h3>
-        <div class="price">${p.price}€</div>
-        <a class="buy-btn" href="${p.link}" target="_blank">Jetzt kaufen</a>
-      </div>`;
-  });
+    <div class="product">
+      <img src="${p.img}">
+      <h3>${p.name}</h3>
+      <div class="price">${p.price}€</div>
+      <a class="buy" href="${p.url}" target="_blank">Jetzt kaufen</a>
+    </div>`
+  })
 }
 
-/* Startseite – 10 NEUESTE */
+/* STARTSEITE */
 function showHome(){
-  currentCategory="";
-  document.getElementById("sortBox").style.display="none";
-  document.getElementById("sectionTitle").innerText="New Products";
-
-  const newest=[...allProducts].sort((a,b)=>b.date-a.date).slice(0,10);
-  render(newest,"start");
+  cat=""
+  sort.style.display="none"
+  load.style.display="none"
+  const newest=[...all].slice(-10)
+  render(newest.reverse(),"home")
 }
 
-/* Kategorie – ALLE */
-function showCategory(cat){
-  currentCategory=cat;
-  document.getElementById("sortBox").style.display="block";
-  document.getElementById("sectionTitle").innerText=cat;
-
-  const list=allProducts.filter(p=>p.category.toLowerCase()===cat.toLowerCase());
-  render(list,"category");
+/* KATEGORIE */
+function showCategory(c){
+  cat=c
+  sort.style.display="block"
+  shown=20
+  view=all.filter(p=>p.cat.toLowerCase()===c.toLowerCase())
+  render(view.slice(0,shown),"category")
+  load.style.display=view.length>shown?"block":"none"
 }
 
-/* Sortieren */
-function sortCategory(type){
-  let list=[...allProducts].filter(p=>p.category.toLowerCase()===currentCategory.toLowerCase());
-  if(type==="priceUp") list.sort((a,b)=>a.price-b.price);
-  if(type==="priceDown") list.sort((a,b)=>b.price-a.price);
-  if(type==="new") list.sort((a,b)=>b.date-a.date);
-  render(list,"category");
+/* LOAD MORE */
+function loadMore(){
+  shown+=20
+  render(view.slice(0,shown),"category")
+  load.style.display=view.length>shown?"block":"none"
 }
 
-/* Search */
-function liveSearch(q){
-  q=q.toLowerCase();
-  render(allProducts.filter(p=>p.name.toLowerCase().includes(q)),"category");
+/* SORT */
+function sortCategory(t){
+  let arr=[...view]
+  if(t==="up") arr.sort((a,b)=>a.price-b.price)
+  if(t==="down") arr.sort((a,b)=>b.price-a.price)
+  if(t==="new") arr=arr
+  render(arr.slice(0,shown),"category")
 }
+
+/* MENU */
+function openMenu(){sidebar.classList.add("active")}
+document.addEventListener("click",e=>{
+  if(!sidebar.contains(e.target)&&!e.target.classList.contains("menu")){
+    sidebar.classList.remove("active")
+  }
+})
 </script>
 
 </body>
