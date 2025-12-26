@@ -75,6 +75,22 @@ h2{padding:0 20px 10px;}
   }
 }
 
+  /* Kategorie-Seiten Handy Hochformat */
+@media(max-width:480px){
+  .products.grid {
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px; /* Abstand zwischen den Karten */
+  }
+  .product {
+    width:100%;
+    max-width:calc(50% - 16px); /* macht die Karten breiter */
+    min-height:300px; /* sorgt dafür, dass die Karten groß bleiben */
+  }
+  .product img {
+    height:180px; /* Bild proportional größer */
+  }
+}
+
 
 
 /* Responsive grid - Desktop categories */
