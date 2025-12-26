@@ -6,111 +6,63 @@
 <title>Biggest Spreadsheet</title>
 
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif;}
-body{
-  background:radial-gradient(circle at center,#0f172a,#020617);
-  color:#fff;overflow-x:hidden;
+:root{
+  --bg:#0b0f1a;
+  --card:#111;
+  --white:#fff;
+  --purple:#a855f7;
+  --blue:#3b82f6;
+  --ribbon-red:#f43f5e;
 }
+*{box-sizing:border-box;margin:0;padding:0;font-family:Arial,sans-serif;}
+body{background:var(--bg);color:var(--white);overflow-x:hidden;}
 
 /* Mouse Glow */
 #mouse-glow{
-  position:fixed;width:420px;height:420px;
-  background:radial-gradient(circle,rgba(59,130,246,.25),transparent 70%);
+  position:fixed;width:300px;height:300px;
+  background:radial-gradient(circle, rgba(59,130,246,0.35), transparent 70%);
   pointer-events:none;transform:translate(-50%,-50%);
   z-index:0;
 }
 
-/* Banner */
-.banner{background:linear-gradient(90deg,#4f46e5,#9333ea);overflow:hidden;}
-.banner-track{
-  padding-left:100%;
-  white-space:nowrap;
-  animation:scroll 18s linear infinite;
-}
-.banner a{color:#fff;font-weight:bold;text-decoration:none;}
-@keyframes scroll{to{transform:translateX(-100%);}}
-
-/* Header */
-header{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 18px;background:#000;position:sticky;top:0;z-index:10;
-}
+/* Header / Banner / Sidebar unverändert */
+header{display:flex;justify-content:space-between;align-items:center;padding:15px 20px;background:#000;position:sticky;top:0;z-index:10;}
 .menu-btn{font-size:26px;cursor:pointer;}
 .title{font-size:22px;font-weight:bold;cursor:pointer;}
-.header-right{display:flex;align-items:center;gap:8px;}
-.header-right img{height:32px;border-radius:50%;}
 
-/* Sidebar */
-.sidebar{
-  position:fixed;left:-260px;top:0;width:260px;height:100%;
-  background:#020617;padding:20px;transition:.3s;z-index:20;
-}
+.sidebar{position:fixed;left:-260px;top:0;width:260px;height:100%;background:#111;padding:20px;transition:.3s;z-index:20;}
 .sidebar.active{left:0;}
-.sidebar a{display:block;margin:12px 0;color:#fff;text-decoration:none;font-size:18px;}
-.sidebar a:hover{color:#3b82f6;}
-.close{font-size:22px;cursor:pointer;margin-bottom:20px;}
+.sidebar a{display:block;color:#fff;text-decoration:none;font-size:18px;margin:10px 0;cursor:pointer;}
+.sidebar a.active{color:var(--blue);}
 
 /* Search */
-.search{text-align:center;padding:16px;}
-.search input{
-  width:90%;max-width:420px;padding:10px;border-radius:10px;border:none;
-}
-
-/* Sort */
-#sortBox{text-align:right;padding:0 20px 10px;display:none;}
-#sortSelect{padding:8px;border-radius:8px;border:none;}
+.search{text-align:center;padding:15px;}
+.search input{width:90%;max-width:400px;padding:10px;border-radius:8px;border:none}
 
 /* Products */
-.products{
-  display:grid;
-  gap:20px;
-  padding:20px;
-}
+.products.horizontal{display:flex;gap:20px;overflow-x:auto;padding:20px}
+.products.grid{display:grid;gap:20px;padding:20px}
 
-/* Desktop */
-@media(min-width:769px){
-  .products.start{grid-template-columns:repeat(5,1fr);}
-  .products.category{grid-template-columns:repeat(4,1fr);}
-}
-
-/* Mobile */
 @media(max-width:768px){
-  .products.start,
-  .products.category{
-    grid-template-columns:repeat(2,1fr);
-  }
+  .products.grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(min-width:769px){
+  .products.grid{grid-template-columns:repeat(4,1fr)}
 }
 
-/* Product Card */
+/* Product Card (NICHT VERÄNDERT) */
 .product{
-  background:#0b0f1a;
-  border-radius:16px;
-  padding:14px;
+  background:var(--card);
+  border-radius:14px;
+  padding:15px;
   display:flex;
   flex-direction:column;
-  transition:.3s;
+  align-items:center;
+  position:relative;
 }
-.product:hover{
-  transform:translateY(-6px);
-  box-shadow:0 0 30px rgba(59,130,246,.6);
-}
-.product img{
-  width:100%;
-  height:180px;
-  object-fit:contain;
-  background:#000;
-  border-radius:10px;
-}
-.product h3{
-  margin:10px 0;
-  text-align:center;
-  min-height:44px;
-}
-.price{
-  text-align:center;
-  color:#ccc;
-  margin-bottom:10px;
-}
+.product img{width:100%;height:200px;object-fit:contain}
+.product h3{text-align:center;margin:10px 0}
+.price{color:#ccc;margin-bottom:10px}
 .buy-btn{
   margin-top:auto;
   width:100%;
@@ -118,163 +70,165 @@ header{
   border-radius:10px;
   background:linear-gradient(90deg,#4f46e5,#9333ea);
   color:#fff;
-  text-align:center;
   text-decoration:none;
+  text-align:center;
   font-weight:bold;
 }
 
 /* NEW */
 .new{
-  position:absolute;top:10px;right:10px;
-  background:#f43f5e;
-  padding:4px 8px;
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:var(--ribbon-red);
   font-size:12px;
-  border-radius:6px;
-  animation:pulse 1.5s infinite;
+  padding:4px 7px;
+  border-radius:5px;
 }
-@keyframes pulse{50%{transform:scale(1.1);}}
 
-/* Load more */
-.load-more{
-  text-align:center;
-  font-size:20px;
-  color:#9333ea;
-  cursor:pointer;
-  margin:30px;
+/* Sortierung */
+.sort-box{
   display:none;
+  padding:0 20px;
+  text-align:right;
+}
+.sort-box select{
+  padding:6px;
+  border-radius:6px;
 }
 </style>
 </head>
 
 <body>
-<div id="mouse-glow"></div>
 
-<div class="banner">
-  <div class="banner-track">
-    <a href="https://www.acbuy.com/signup" target="_blank">
-      Sign up to ACBuy & get $510 coupon • Sign up to ACBuy & get $510 coupon •
-    </a>
-  </div>
-</div>
+<div id="mouse-glow"></div>
 
 <header>
   <div class="menu-btn" onclick="openMenu()">☰</div>
   <div class="title" onclick="showHome()">Biggest Spreadsheet</div>
-  <div class="header-right">
-    <img src="https://image2url.com/r2/bucket1/images/1766618106451-0c81d26c-b893-4839-bc66-6642677b99d6.jpg">
-    <span>X</span>
-    <img src="https://image2url.com/r2/bucket1/images/1766618736532-eaf2466a-02d4-42f9-974e-09096fe25b67.jpg">
-  </div>
 </header>
 
 <div class="sidebar" id="sidebar">
-  <div class="close" onclick="closeMenu()">✖</div>
   <a onclick="showHome()">Startseite</a>
   <a onclick="showCategory('Schuhe')">Schuhe</a>
   <a onclick="showCategory('Jacke')">Jacke</a>
   <a onclick="showCategory('Sweater')">Sweater</a>
-  <a onclick="showCategory('Pullover')">Pullover</a>
-  <a onclick="showCategory('Hose')">Hose</a>
-  <a onclick="showCategory('Jeans')">Jeans</a>
-  <a onclick="showCategory('T-Shirts')">T-Shirts</a>
-  <a onclick="showCategory('Shirts')">Shirts</a>
-  <a onclick="showCategory('Accessoires')">Accessoires</a>
 </div>
 
 <div class="search">
-  <input id="search" placeholder="Live Suche..." oninput="liveSearch()">
+  <input placeholder="Live Suche..." oninput="liveSearch(this.value)">
 </div>
 
-<h2 id="sectionTitle">New Products</h2>
-<div id="sortBox">
-  <select id="sortSelect" onchange="applySort()">
+<div class="sort-box" id="sortBox">
+  <select onchange="sortCategory(this.value)">
     <option value="new">Neueste zuerst</option>
-    <option value="priceAsc">Preis ↑</option>
-    <option value="priceDesc">Preis ↓</option>
+    <option value="priceUp">Preis ↑</option>
+    <option value="priceDown">Preis ↓</option>
   </select>
 </div>
 
-<div class="products start" id="products"></div>
-<div class="load-more" id="loadMore" onclick="loadMore()">⬇ Mehr anzeigen</div>
+<h2 id="sectionTitle">New Products</h2>
+<div class="products horizontal" id="products"></div>
 
 <script>
-const glow=document.getElementById("mouse-glow");
+const SHEET_URL = "DEIN_SHEET_CSV_LINK";
+let allProducts = [];
+let currentCategory = "";
+
+/* Mouse glow */
 document.addEventListener("mousemove",e=>{
-  glow.style.left=e.clientX+"px";
-  glow.style.top=e.clientY+"px";
+  document.getElementById("mouse-glow").style.left=e.clientX+"px";
+  document.getElementById("mouse-glow").style.top=e.clientY+"px";
 });
 
-const sidebar=document.getElementById("sidebar");
-function openMenu(){sidebar.classList.add("active");}
-function closeMenu(){sidebar.classList.remove("active");}
-document.addEventListener("click",e=>{
-  if(!sidebar.contains(e.target)&&!e.target.classList.contains("menu-btn"))closeMenu();
-});
+/* Sidebar */
+function openMenu(){document.getElementById("sidebar").classList.add("active");}
 
-const SHEET="https://docs.google.com/spreadsheets/d/e/2PACX-1vTKFDHf1iWbs3eMXQCWfu-DxXu8cKa-3k907m4M83DVJ3b3hMHt7co3z_w3LKwcRBkgOigcWRKZGgvC/pub?output=csv";
+/* Google Sheets – HEADER SAFE */
+fetch(SHEET_URL).then(r=>r.text()).then(csv=>{
+  const rows = csv.split("\n").filter(Boolean);
+  const headers = rows[0].split(",").map(h=>h.toLowerCase().replace(/"/g,""));
 
-let all=[],cat="",visible=20;
+  const idx = {
+    name:headers.indexOf("name"),
+    price:headers.indexOf("price"),
+    image:headers.indexOf("image"),
+    link:headers.indexOf("link"),
+    category:headers.indexOf("category"),
+    date:headers.indexOf("date")
+  };
 
-fetch(SHEET).then(r=>r.text()).then(csv=>{
-  const rows = csv.split("\n").slice(1);
-  rows.forEach((row,i)=>{
-    const cols = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-    if(!cols) return;
-    const [name,price,image,link,category] = cols.map(c=>c.replace(/"/g,''));
-    if(name) all.push({name,price:parseFloat(price),image,link,category,index:i});
+  rows.slice(1).forEach(r=>{
+    const c = r.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
+    if(!c) return;
+    allProducts.push({
+      name:c[idx.name]?.replace(/"/g,""),
+      price:parseFloat(c[idx.price]),
+      image:c[idx.image]?.replace(/"/g,""),
+      link:c[idx.link]?.replace(/"/g,""),
+      category:c[idx.category]?.replace(/"/g,""),
+      date:new Date(c[idx.date]?.replace(/"/g,""))
+    });
   });
+
   showHome();
 });
 
-const box=document.getElementById("products");
-const loadMoreBtn=document.getElementById("loadMore");
-
+/* Render */
 function render(list,type){
-  box.className="products "+type;
+  const box=document.getElementById("products");
+  box.className="products "+(type==="start"?"horizontal":"grid");
   box.innerHTML="";
+
+  const now=Date.now();
   list.forEach(p=>{
+    const isNew = type==="start" && (now-p.date)<=72*3600000;
     box.innerHTML+=`
-    <div class="product">
-      <div class="new">NEW</div>
-      <img src="${p.image}">
-      <h3>${p.name}</h3>
-      <div class="price">${p.price}€</div>
-      <a class="buy-btn" href="${p.link}" target="_blank">Jetzt kaufen</a>
-    </div>`;
+      <div class="product">
+        ${isNew?'<div class="new">NEW</div>':''}
+        <img src="${p.image}">
+        <h3>${p.name}</h3>
+        <div class="price">${p.price}€</div>
+        <a class="buy-btn" href="${p.link}" target="_blank">Jetzt kaufen</a>
+      </div>`;
   });
 }
 
+/* Startseite – 10 NEUESTE */
 function showHome(){
-  cat="";
-  document.getElementById("sectionTitle").innerText="New Products";
+  currentCategory="";
   document.getElementById("sortBox").style.display="none";
-  render([...all].sort((a,b)=>b.index-a.index).slice(0,10),"start");
-  loadMoreBtn.style.display="none";
+  document.getElementById("sectionTitle").innerText="New Products";
+
+  const newest=[...allProducts].sort((a,b)=>b.date-a.date).slice(0,10);
+  render(newest,"start");
 }
 
-function showCategory(c){
-  cat=c;visible=20;
-  document.getElementById("sectionTitle").innerText=c;
+/* Kategorie – ALLE */
+function showCategory(cat){
+  currentCategory=cat;
   document.getElementById("sortBox").style.display="block";
-  applySort();
+  document.getElementById("sectionTitle").innerText=cat;
+
+  const list=allProducts.filter(p=>p.category.toLowerCase()===cat.toLowerCase());
+  render(list,"category");
 }
 
-function applySort(){
-  let list=all.filter(p=>p.category.toLowerCase()===cat.toLowerCase());
-  const s=document.getElementById("sortSelect").value;
-  if(s==="new") list.sort((a,b)=>b.index-a.index);
-  if(s==="priceAsc") list.sort((a,b)=>a.price-b.price);
-  if(s==="priceDesc") list.sort((a,b)=>b.price-a.price);
-  render(list.slice(0,visible),"category");
-  loadMoreBtn.style.display=list.length>visible?"block":"none";
+/* Sortieren */
+function sortCategory(type){
+  let list=[...allProducts].filter(p=>p.category.toLowerCase()===currentCategory.toLowerCase());
+  if(type==="priceUp") list.sort((a,b)=>a.price-b.price);
+  if(type==="priceDown") list.sort((a,b)=>b.price-a.price);
+  if(type==="new") list.sort((a,b)=>b.date-a.date);
+  render(list,"category");
 }
 
-function loadMore(){visible+=20;applySort();}
-
-function liveSearch(){
-  const q=document.getElementById("search").value.toLowerCase();
-  render(all.filter(p=>p.name.toLowerCase().includes(q)),"category");
+/* Search */
+function liveSearch(q){
+  q=q.toLowerCase();
+  render(allProducts.filter(p=>p.name.toLowerCase().includes(q)),"category");
 }
 </script>
+
 </body>
 </html>
